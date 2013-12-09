@@ -1,9 +1,10 @@
 package Animaux;
 
+import java.util.ArrayList;
+import java.util.List;
 import Vegetaux.Vegetal;
 import Animaux.interfaces.Omnivorable;
-import Carte.Cordonnee;
-import Enumeration.EnumSexe;
+import Carte.Coordonnee;
 
 public class Renard extends Animal implements Omnivorable {
 
@@ -57,33 +58,28 @@ public class Renard extends Animal implements Omnivorable {
 
 
 	@Override
-	protected void deplacement(Cordonnee nouveauPosition) {
+	protected void deplacement(Coordonnee nouveauPosition) {
 		// TODO Auto-generated method stub
 		// Distance entre deux points
-		double distance = this.cordonee.distance(nouveauPosition);
+		double distance = this.coordonee.distance(nouveauPosition);
 		// Augmente la fatigue
 		this.fatigue = (int) (this.fatigue + distance);
-		this.cordonee = nouveauPosition;
+		this.coordonee = nouveauPosition;
 		
 	}
 
 
 	@Override
-	protected void reproduction() {
+	protected List<Animal> reproduction() {
 		// TODO Auto-generated method stub
-		//valeur de parameter par le nouveau animaux
-		EnumSexe sexe;
-		double x = Math.random();
-		if (x > 0.5) //sexe male
-			sexe = EnumSexe.male;
-		else
-			//sexe femelle
-			sexe = EnumSexe.femelle;
-		//il manc definir tous le parameter
-		//et apeler le methode newAnimaux(tous les parameters)
-		portee = Math.random()
-				
-				
+		//Nombre des enfants
+		int nombreEnfants = (int) (Math.random()*(portee));
+		//Créer des enfans
+		List<Animal> enfants = new ArrayList <Animal>();
+		for (int i= 0; i<nombreEnfants;i++){
+			enfants.add(new Renard());
+		}
+		return enfants;				
 	}
 
 

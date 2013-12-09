@@ -1,10 +1,14 @@
 package Animaux;
 
-import Carte.Cordonnee;
+import Carte.Coordonnee;
 import Carte.Entite;
+import Carte.Map;
 import Enumeration.EnumModeDeVie;
 import Enumeration.EnumSexe;
 import Enumeration.EnumStade;
+
+import java.util.List;
+
 
 public abstract class Animal extends Entite {
 
@@ -15,12 +19,12 @@ public abstract class Animal extends Entite {
 	protected EnumSexe sexe;
 
 	protected int portee;
-
-	protected int faim;
+	
+	protected int faim;//Faim de 0 a 100, 0 il n'a pas faim, 100 il a trop faim;
 
 	protected int rayon;
 
-	protected int fatigue;
+	protected int fatigue;//Fatigue de  0 a 100, parei faim;
 
 	protected EnumStade stade;
 	
@@ -34,7 +38,7 @@ public abstract class Animal extends Entite {
 		//sexe random
 		this.sexe = (Math.random()>0.5)?EnumSexe.male:EnumSexe.femelle;
 		
-		this.portee = 5 ; //qu'est-ce que c'est?
+		this.portee = 5 ; //Nombre des enfants
 		
 		this.faim = 0;
 		
@@ -67,9 +71,9 @@ public abstract class Animal extends Entite {
 		this.valeurEnergetique = 15; //Il faut corriger cet valeur et creer la scale de valeurs posibles.
 	}
 
-	protected abstract void deplacement(Cordonnee nouveauPosition);
+	protected abstract void deplacement(Coordonnee nouveauPosition);
 
-	protected abstract void reproduction();
+	protected abstract List<Animal> reproduction();
 
 	protected void grandir() {
 		/* Augmenter l'age */
@@ -85,10 +89,23 @@ public abstract class Animal extends Entite {
 				this.stade = EnumStade.vieux;
 	}
 
-	public abstract void live();
+	public void live(){
+		//pour connaitre s'il y a repas dans la liste de Entites
+		boolean repas; 
+		
+		//recu tout les entites prochaines (animaux ou vegetal)
+		List<Entite> entitesProchaines = perception(this.coordonee, this.rayon);
+		//L'animal a faim quand faim > = 80;
+		if (this.faim >= 80 ) 
+		{
+			//recherche de repas...
+		}
+	}
 
-	protected void perception() {
-
+	protected List<Entite> perception(Coordonnee coord, int ray) {
+		Map map = new Map(); //le map doit etre donne 
+		List <Entite> entitesProchaine = map.perception(coord, ray); //Reviser quand utilise cet List
+		return entitesProchaine;
 	}
 
 	protected void reposer(int temp) {

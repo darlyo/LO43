@@ -1,7 +1,9 @@
 package Animaux;
 
+import java.util.ArrayList;
+import java.util.List;
 import Animaux.interfaces.Vegetarienable;
-import Carte.Cordonnee;
+import Carte.Coordonnee;
 import Vegetaux.Vegetal;
 
 
@@ -31,21 +33,27 @@ public class Chamois extends Animal implements Vegetarienable {
 	}
 
 	@Override
-	protected void deplacement(Cordonnee nouveauPosition) {
+	protected void deplacement(Coordonnee nouveauPosition) {
 		// TODO Auto-generated method stub
 		// Distance entre deux points
-		double distance = this.cordonee.distance(nouveauPosition);
+		double distance = this.coordonee.distance(nouveauPosition);
 		// Augmente la fatigue
 		this.fatigue = (int) (this.fatigue + distance);
-		this.cordonee = nouveauPosition;
+		this.coordonee = nouveauPosition;
 		
 	}
 
 	@Override
-	protected void reproduction() {
+	protected List<Animal> reproduction() {
 		// TODO Auto-generated method stub
-		
-		
+		//Nombre des enfants
+		int nombreEnfants = (int) (Math.random()*(portee));
+		//Créer des enfans
+		List<Animal> enfants = new ArrayList <Animal>();
+		for (int i= 0; i<nombreEnfants;i++){
+			enfants.add(new Chamois());
+		}
+		return enfants;				
 	}
 
 	@Override
