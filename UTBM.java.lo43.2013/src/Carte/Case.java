@@ -6,7 +6,7 @@ public class Case {
 
 	private EnumEnvironement environement;
 
-	public Cordonnee getCordonnee() {
+	public Coordonnee getCordonnee() {
 		return null;
 	}
 

@@ -10,6 +10,6 @@ public abstract class Entite {
 
 	}
 
-	public Cordonnee cordonee = new Cordonnee();
+	public Coordonnee coordonee = new Coordonnee();
 	
 }

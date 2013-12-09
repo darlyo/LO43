@@ -1,5 +1,7 @@
 package Carte;
 
+import java.util.List;
+
 public class Map {
 
 	private int taille;
@@ -12,7 +14,8 @@ public class Map {
 
 	}
 
-	public void perception(Cordonnee co, int rayon) {
+	public List<Entite> perception(Coordonnee co, int rayon) {
+		return null;//il faut creer cet methode
 
 	}
 
