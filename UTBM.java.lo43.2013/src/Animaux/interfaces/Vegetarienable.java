@@ -1,4 +1,5 @@
-package Animaux.interface;
+package Animaux.interfaces;
+import Vegetaux.Vegetal;
 
 public interface Vegetarienable {
 

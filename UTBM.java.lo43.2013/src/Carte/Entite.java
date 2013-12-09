@@ -2,7 +2,7 @@ package Carte;
 
 public abstract class Entite {
 
-	protected int valeurEnergetique;
+	public int valeurEnergetique;
 
 	protected int age;
 
@@ -10,4 +10,6 @@ public abstract class Entite {
 
 	}
 
+	public Cordonnee cordonee = new Cordonnee();
+	
 }

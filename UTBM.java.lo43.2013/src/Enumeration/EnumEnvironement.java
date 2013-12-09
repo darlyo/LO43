@@ -1,6 +1,6 @@
 package Enumeration;
 
-public final enum EnumEnvironement {
+public enum EnumEnvironement {
 
 	eau,
 

@@ -1,5 +1,5 @@
 package Vegetaux;
 
-public class Herbe extends Vegetal {
+public class Herbe extends Vegetal{
 
 }

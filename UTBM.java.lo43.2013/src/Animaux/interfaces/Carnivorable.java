@@ -1,4 +1,4 @@
-package Animaux.interface;
+package Animaux.interfaces;
 
 import Animaux.Animal;
 

@@ -1,10 +1,10 @@
 package Carte;
 
-import Enumeration.EnumNourriture;
+import Enumeration.EnumNourriture;;
 
 public class Nourriture {
 
-	private int quantité;
+	private int quantite;
 
 	private EnumNourriture type;
 

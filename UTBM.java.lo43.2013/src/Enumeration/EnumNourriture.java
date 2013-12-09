@@ -1,6 +1,6 @@
 package Enumeration;
 
-public final enum EnumNourriture {
+public enum EnumNourriture {
 
 	Fruit,
 

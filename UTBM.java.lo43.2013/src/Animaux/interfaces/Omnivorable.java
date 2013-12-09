@@ -1,5 +1,6 @@
-package Animaux.interface;
+package Animaux.interfaces;
 
+import Vegetaux.Vegetal;
 import Animaux.Animal;
 
 public interface Omnivorable {

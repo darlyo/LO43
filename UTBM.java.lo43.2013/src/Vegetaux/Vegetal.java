@@ -1,3 +1,5 @@
+package Vegetaux;
+
 import Carte.Entite;
 
 public abstract class Vegetal extends Entite {
@@ -8,6 +10,14 @@ public abstract class Vegetal extends Entite {
 
 	protected void produire() {
 
+	}
+	
+	public void setQuantite(int x){
+		this.quantite = x;
+	}
+	
+	public int getQuantite(){
+		return this.quantite;
 	}
 
 }

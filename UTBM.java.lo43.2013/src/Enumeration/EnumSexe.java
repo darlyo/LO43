@@ -1,6 +1,6 @@
 package Enumeration;
 
-public final enum EnumSexe {
+public enum EnumSexe {
 
 	male,
 

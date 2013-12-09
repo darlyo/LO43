@@ -1,6 +1,6 @@
 package Enumeration;
 
-public final enum EnumStade {
+public enum EnumStade {
 
 	jeune,
 

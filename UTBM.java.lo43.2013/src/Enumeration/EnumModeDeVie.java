@@ -1,6 +1,6 @@
 package Enumeration;
 
-public final enum EnumModeDeVie {
+public enum EnumModeDeVie {
 
 	aquatique,
 
