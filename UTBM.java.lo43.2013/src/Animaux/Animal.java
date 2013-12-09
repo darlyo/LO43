@@ -90,7 +90,7 @@ public abstract class Animal extends Entite {
 	}
 
 	public void live(){
-		//pour connaitre s'il y a repas dans la liste de Entites
+		/*pour connaitre s'il y a repas dans la liste de Entites*/
 		boolean repas; 
 		
 		//recu tout les entites prochaines (animaux ou vegetal)
