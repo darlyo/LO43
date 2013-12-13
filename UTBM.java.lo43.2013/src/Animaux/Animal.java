@@ -9,6 +9,8 @@ import Enumeration.EnumStade;
 
 import java.util.List;
 
+import Vegetaux.Vegetal;
+
 
 public abstract class Animal extends Entite {
 
@@ -29,29 +31,40 @@ public abstract class Animal extends Entite {
 	protected EnumStade stade;
 	
 	public Animal(){
-		//this.cordonee(int x,int y,int z);
-	
-		this.age = 0;
-		//80 <= Duree de Vie <= 100: random()*(N-M)+M
+		super();
+
 		this.dureeVie = (int) (Math.random()*20+80);
 	
 		//sexe random
 		this.sexe = (Math.random()>0.5)?EnumSexe.male:EnumSexe.femelle;
 		
-		this.portee = 5 ; //Nombre des enfants
+		//Nombre max des enfants
+		this.portee = 5 ; 
 		
 		this.faim = 0;
 		
-		this.rayon = 5; //Definir les rayon (max, min) scale.
+		//Definir les rayon (max, min) scale.
+		this.rayon = 5; 
 		
 		this.fatigue = 0;
 		
 		this.stade = EnumStade.jeune;
 	}
 	
-	Animal(int dureeVie,EnumModeDeVie modedevie, EnumSexe sexe, int portee, int faim, int rayon, int fatigue){
-		this.age = 0;
-		//this.cordonee();
+	Animal(int dureeVie
+			,EnumModeDeVie modedevie
+			,EnumSexe sexe
+			,int portee
+			,int faim
+			,int rayon
+			,int fatigue
+			,int age
+			,int valeurEnergetic
+			,int x
+			,int y){
+		
+		super(valeurEnergetic, age, x, y);
+		
 		this.dureeVie = dureeVie;
 		
 		this.faim = faim;
@@ -67,9 +80,37 @@ public abstract class Animal extends Entite {
 		this.sexe = sexe;
 		
 		this.stade = EnumStade.jeune;
+		}//fin contructeur
+	
+	Animal(int dureeVie
+			,EnumModeDeVie modedevie
+			,EnumSexe sexe
+			,int portee
+			,int faim
+			,int rayon
+			,int fatigue
+			,int age
+			,int valeurEnergetic
+			,Coordonnee coordonnee){
 		
-		this.valeurEnergetique = 15; //Il faut corriger cet valeur et creer la scale de valeurs posibles.
-	}
+		super(valeurEnergetic, age, coordonnee);
+		
+		this.dureeVie = dureeVie;
+		
+		this.faim = faim;
+		
+		this.fatigue = fatigue;
+		
+		this.modeDeVie = modedevie;
+		
+		this.portee = portee;
+		
+		this.rayon = rayon;
+		
+		this.sexe = sexe;
+		
+		this.stade = EnumStade.jeune;
+		}//fin contructeur
 
 	protected abstract void deplacement(Coordonnee nouveauPosition);
 
@@ -90,17 +131,49 @@ public abstract class Animal extends Entite {
 	}
 
 	public void live(){
-		/*pour connaitre s'il y a repas dans la liste de Entites*/
-		boolean repas; 
-		
-		//recu tout les entites prochaines (animaux ou vegetal)
+		//recuperer tout les entites prochaines (animaux ou vegetal)
 		List<Entite> entitesProchaines = perception(this.coordonee, this.rayon);
+		
+		Coordonnee nouveauPosition = new Coordonnee();
+		
 		//L'animal a faim quand faim > = 80;
 		if (this.faim >= 80 ) 
-		{
-			//recherche de repas...
+		{		
+			//recherche le repas;
+			for (int i = 0; i < entitesProchaines.size(); i++)
+			{
+				//si on veut manger un Vegetal
+				if(entitesProchaines.get(i) instanceof Vegetal)
+				{
+					//recupere les coordonnee du Vegetal
+					nouveauPosition.setX(entitesProchaines.get(i).getCoordonnee().getX());
+					nouveauPosition.setY(entitesProchaines.get(i).getCoordonnee().getY());
+					this.deplacement(nouveauPosition);
+				}
+					//il n'y a pas de repas, mouvement a l'hazard
+					else 
+					{
+						nouveauPosition.setX((int)Math.random()*5);
+						nouveauPosition.setY((int)Math.random()*5);	
+					}
+						
+		
+			}
 		}
-	}
+			else
+			{
+				if (this.fatigue > 80)
+				{
+					this.reposer(this.fatigue);//comme ca, fatigue arrive a 0 après de reposer
+				}
+				else //s'el n'a pas faim et il n'est pas fatigue => mouvement a l'hazard
+				{
+					nouveauPosition.setX((int)Math.random()*5);
+					nouveauPosition.setY((int)Math.random()*5);	
+				}
+			}
+		}
+
 
 	protected List<Entite> perception(Coordonnee coord, int ray) {
 		Map map = new Map(); //le map doit etre donne 
