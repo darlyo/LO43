@@ -1,5 +1,10 @@
 package Vivarium.Test;
 
+import Entite.Entite;
+import Enumeration.EnumEnvironnement;
+import GUI.InterfaceGraphique;
+import GUI.Vue;
+
 public class TestGraphique {
 
 	/**
@@ -7,7 +12,10 @@ public class TestGraphique {
 	 */
 	public static void main(String[] args) {
 
-		System.out.println("test1");
+		Vue vue = new InterfaceGraphique();
+		vue.fenetre();
+		
+		System.out.println("" + Entite.class.getSimpleName());
 	}
 
 }
