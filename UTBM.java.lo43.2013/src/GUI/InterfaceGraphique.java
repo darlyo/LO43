@@ -3,7 +3,10 @@ package GUI;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -94,15 +97,13 @@ public class InterfaceGraphique implements Vue, Controle {
 	}
 
 	private void buildMenuConfigue() {
-		menuConfigue = new JPanel();
-		BoxLayout layout = new BoxLayout(menuConfigue, BoxLayout.Y_AXIS);
-		menuConfigue.setLayout(layout);
+		menuConfigue = new JPanel(new FlowLayout(FlowLayout.CENTER, 100, 20));
 		menuConfigue.setBackground(Color.red);	
 		
 		//definit des boutons radio
-		JRadioButton r1 = new JRadioButton("Modifier l'environnement");
-		JRadioButton r2 = new JRadioButton("Ajouter une entité");
-		JRadioButton r3 = new JRadioButton("Supprimer une entité");
+		final JRadioButton r1 = new JRadioButton("Modifier l'environnement");
+		final JRadioButton r2 = new JRadioButton("Ajouter une entité");
+		final JRadioButton r3 = new JRadioButton("Supprimer une entité");
 		
 		ButtonGroup btgr = new ButtonGroup();
 		btgr.add(r1);
@@ -110,31 +111,63 @@ public class InterfaceGraphique implements Vue, Controle {
 		btgr.add(r3);
 		
 		//definition des listes déroulantes
-		JComboBox<String> ListEnv = new JComboBox<String>();
+		final JComboBox<String> ListEnv = new JComboBox<String>();
 		EnumEnvironnement[] env = EnumEnvironnement.values();
 		for(int i =0; i < env.length; i++)
 		{
 			ListEnv.addItem(env[i].name());
 		}
+		ListEnv.disable();
 		
-		JComboBox<String> ListEntite = new JComboBox<String>();
-		ListEntite.setSize(100, 30);
+		final JComboBox<String> ListEntite = new JComboBox<String>();
+		ListEntite.setPreferredSize(new Dimension(100,30));
 		EnumEntite[] entite = EnumEntite.values();
 		for(int i =0; i < entite.length; i++)
 		{
 			ListEntite.addItem(entite[i].name());
 		}
+		ListEntite.disable();
 		
 		//définition des bouttons
-		JButton BtStart = new JButton("Start");
-		JButton BtCharge = new JButton("Charger une map");
-		BtStart.addActionListener(new ActionListener() {
+		final JButton BtStart = new JButton("Start");
+		final JButton BtCharge = new JButton("Charger une map");
+		
+		//défintion des action sur les bouttons
+		ActionListener listener = new ActionListener() {
 			
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				cardMenu.next(content);
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource() == r1)
+				{
+					ListEnv.setEnabled(true);
+					ListEntite.setEnabled(false);
+				}
+				else if(e.getSource() == r2)
+				{
+					ListEnv.setEnabled(false);
+					ListEntite.setEnabled(true);
+				}
+				else if(e.getSource() == r3)
+				{
+					ListEnv.setEnabled(false);
+					ListEntite.setEnabled(false);
+				}
+				else if(e.getSource() == BtStart)
+				{
+					cardMenu.next(content);
+				}
+				else if(e.getSource() == BtCharge)
+				{
+					;
+				}
 			}
-		});
+		};
+		
+		r1.addActionListener(listener);
+		r2.addActionListener(listener);
+		r3.addActionListener(listener);
+		BtStart.addActionListener(listener);
+		BtCharge.addActionListener(listener);
 		
 		//ajout des éléments au menu
 		menuConfigue.add(r1);
