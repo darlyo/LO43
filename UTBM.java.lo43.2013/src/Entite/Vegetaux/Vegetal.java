@@ -11,12 +11,12 @@ public abstract class Vegetal extends Entite {
 	protected void produire() {
 
 	}
-	
-	public void setQuantite(int x){
+
+	public void setQuantite(int x) {
 		this.quantite = x;
 	}
-	
-	public int getQuantite(){
+
+	public int getQuantite() {
 		return this.quantite;
 	}
 

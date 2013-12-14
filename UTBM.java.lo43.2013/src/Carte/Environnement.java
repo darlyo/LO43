@@ -1,11 +1,11 @@
 package Carte;
 
-import Enumeration.EnumEnvironement;
+import Enumeration.EnumEnvironnement;
 
 public enum Environnement {
 
 	;
 
-	private EnumEnvironement type;
+	private EnumEnvironnement type;
 
 }

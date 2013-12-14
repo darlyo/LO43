@@ -1,4 +1,5 @@
 package Entite.Animaux.interfaces;
+
 import Entite.Vegetaux.Vegetal;
 
 public interface Vegetarienable {

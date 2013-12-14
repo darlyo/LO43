@@ -1,60 +1,65 @@
 package Carte;
+
+import java.util.List;
+
 import javax.xml.parsers.*;
 
+import Entite.Entite;
+
 public class Map {
-	//TODO Dom n'est pas reconnue, Il s'agit peut etre plutot de Doc
-	private Dom doc;  
+	// TODO Dom n'est pas reconnue, Il s'agit peut etre plutot de Doc
+	private Dom doc;
 	private int taille;
-	private int [][] grilleDeJeu;
+	private int[][] grilleDeJeu;
 	private Nourriture nourriture;
 
 	/**
 	 * Constructeurs
 	 */
-	public Map(){
-		
+	public Map() {
+
 	}
-	
+
 	/**
-	 * Permet de lire le XML et de créer la map 
+	 * Permet de lire le XML et de créer la map
 	 */
 	public void lireXML() {
 		/**
 		 * Ouvrir un fichier XML avec DOM et vérifier les exceptions
 		 */
-		try{
+		try {
 			// création d'une fabrique de documents
-			DocumentBuilderFactory fabrique = DocumentBuilderFactory.newInstance();
-			
+			DocumentBuilderFactory fabrique = DocumentBuilderFactory
+					.newInstance();
+
 			// création d'un constructeur de documents
 			DocumentBuilder constructeur = fabrique.newDocumentBuilder();
-			
+
 			// lecture du contenu d'un fichier XML avec DOM
 			File xml = new File("BBDcarte.xml");
 			Document document = constructeur.parse(xml);
-			
-			//traitement du document
+
+			// traitement du document
 			Element racine = doc.getDocumentElement();
 			system.out.println(racine);
-			
+
 			Element taille = racine.getElementsByTagName("taille");
 			Element type = racine.getElementsByTagName("type");
 			Element plaine = type.getElementsByTagName("plaine");
-			
-			
-		}catch(ParserConfigurationException pce){
+
+		} catch (ParserConfigurationException pce) {
 			System.out.println("Erreur de configuration du parseur DOM");
-			System.out.println("lors de l'appel à fabrique.newDocumentBuilder();");
-		}catch(SAXException se){
+			System.out
+					.println("lors de l'appel à fabrique.newDocumentBuilder();");
+		} catch (SAXException se) {
 			System.out.println("Erreur lors du parsing du document");
 			System.out.println("lors de l'appel à construteur.parse(xml)");
-		}catch(IOException ioe){
+		} catch (IOException ioe) {
 			System.out.println("Erreur d'entrée/sortie");
 			System.out.println("lors de l'appel à construteur.parse(xml)");
 		}
 	}
 
-	
 	/**
 	 * Permet de sauvegarder une partie en écrivant dans un XML
 	 */
@@ -62,10 +67,11 @@ public class Map {
 
 	}
 
-	public void perception(Coordonnee co, int rayon) {
+	public List<Entite> perception(Coordonnee co, int rayon) {
 
 	}
-	public void main(String args[]){
+
+	public void main(String args[]) {
 		lireXML();
 	}
 
