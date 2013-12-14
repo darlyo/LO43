@@ -1,16 +1,16 @@
-package Animaux;
+package Entite.Animaux;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import Animaux.interfaces.Carnivorable;
 import Carte.Coordonnee;
+import Entite.Animaux.interfaces.Omnivorable;
+import Entite.Vegetaux.Vegetal;
 
-public class Loup extends Animal implements Carnivorable {
+public class Renard extends Animal implements Omnivorable {
 
 
 	/**
-	 * @see Animaux.interface.Carnivorable#manger(Animaux.Animal)
+	 * @see Entite.Animaux.interface.Omnivorable#manger(Entite.Animaux.Animal)
 	 */
 	public void manger(Animal animal) {
 		int quantiteaManger;
@@ -31,6 +31,32 @@ public class Loup extends Animal implements Carnivorable {
 
 	}
 
+
+	/**
+	 * @see Entite.Animaux.interface.Omnivorable#manger(Vegetal)
+	 */
+	public void manger(Vegetal vegetal) {
+		int quantiteaManger;
+		/* On ne peut pas manger plus que la quantite disponible
+		 * on va dir aussi que les unités 
+		 * de faim, quantite et fatigue sont égales*/
+		if (this.faim > vegetal.getQuantite())
+			 quantiteaManger= vegetal.getQuantite();
+		else
+			quantiteaManger= this.faim;
+		
+		/* Reduce la quantite vegetal */
+		vegetal.setQuantite(vegetal.getQuantite()-quantiteaManger);
+		
+		/* Après manger il a mois faim */
+		this.faim = this.faim -quantiteaManger;
+		
+		/*Apres manger il a plus fatigue*/
+		this.fatigue = this.fatigue + quantiteaManger;
+
+	}
+
+
 	@Override
 	protected void deplacement(Coordonnee nouveauPosition) {
 		// TODO Auto-generated method stub
@@ -42,6 +68,7 @@ public class Loup extends Animal implements Carnivorable {
 		
 	}
 
+
 	@Override
 	protected List<Animal> reproduction() {
 		// TODO Auto-generated method stub
@@ -50,10 +77,11 @@ public class Loup extends Animal implements Carnivorable {
 		//Créer des enfans
 		List<Animal> enfants = new ArrayList <Animal>();
 		for (int i= 0; i<nombreEnfants;i++){
-			enfants.add(new Loup());
+			enfants.add(new Renard());
 		}
 		return enfants;				
 	}
+
 
 	@Override
 	public void live() {

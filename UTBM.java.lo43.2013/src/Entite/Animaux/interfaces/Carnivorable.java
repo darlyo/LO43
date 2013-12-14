@@ -1,6 +1,6 @@
-package Animaux.interfaces;
+package Entite.Animaux.interfaces;
 
-import Animaux.Animal;
+import Entite.Animaux.Animal;
 
 public interface Carnivorable {
 

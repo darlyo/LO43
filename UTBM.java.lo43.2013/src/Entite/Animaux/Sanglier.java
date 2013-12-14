@@ -1,15 +1,39 @@
-package Animaux;
+package Entite.Animaux;
 
 import java.util.ArrayList;
 import java.util.List;
-import Animaux.interfaces.Vegetarienable;
 import Carte.Coordonnee;
-import Vegetaux.Vegetal;
+import Entite.Animaux.interfaces.Omnivorable;
+import Entite.Vegetaux.Vegetal;
+
+public class Sanglier extends Animal implements Omnivorable {
 
 
-public class Chamois extends Animal implements Vegetarienable {
 	/**
-	 * @see Animaux.interface.Vegetarienable#manger(Vegetal)
+	 * @see Entite.Animaux.interface.Omnivorable#manger(Entite.Animaux.Animal)
+	 */
+	public void manger(Animal animal) {
+		int quantiteaManger;
+		
+		if (animal.valeurEnergetique > this.faim)
+			quantiteaManger = this.faim;
+		else 
+			quantiteaManger = animal.valeurEnergetique;
+		
+		/* Animal est mort */
+		animal.delete();
+		
+		/* Après manger il a mois faim */
+		this.faim = this.faim -quantiteaManger;
+		
+		/*Apres manger il a plus fatigue*/
+		this.fatigue = this.fatigue + quantiteaManger;
+
+	}
+
+
+	/**
+	 * @see Entite.Animaux.interface.Omnivorable#manger(Vegetal)
 	 */
 	public void manger(Vegetal vegetal) {
 		int quantiteaManger;
@@ -29,8 +53,9 @@ public class Chamois extends Animal implements Vegetarienable {
 		
 		/*Apres manger il a plus fatigue*/
 		this.fatigue = this.fatigue + quantiteaManger;
-		
+
 	}
+
 
 	@Override
 	protected void deplacement(Coordonnee nouveauPosition) {
@@ -43,6 +68,7 @@ public class Chamois extends Animal implements Vegetarienable {
 		
 	}
 
+
 	@Override
 	protected List<Animal> reproduction() {
 		// TODO Auto-generated method stub
@@ -51,10 +77,11 @@ public class Chamois extends Animal implements Vegetarienable {
 		//Créer des enfans
 		List<Animal> enfants = new ArrayList <Animal>();
 		for (int i= 0; i<nombreEnfants;i++){
-			enfants.add(new Chamois());
+			enfants.add(new Sanglier());
 		}
 		return enfants;				
 	}
+
 
 	@Override
 	public void live() {

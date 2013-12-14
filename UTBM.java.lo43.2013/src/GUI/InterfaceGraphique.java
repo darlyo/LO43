@@ -1,4 +1,5 @@
-public class InterfaceConsole implements Vue {
+package GUI;
+public class InterfaceGraphique implements Vue, Controle {
 
 
 	/**
@@ -17,6 +18,16 @@ public class InterfaceConsole implements Vue {
 	 *  
 	 */
 	public void dessineMap() {
+
+	}
+
+
+	/**
+	 * @see Controle#getChoix()
+	 * 
+	 *  
+	 */
+	public void getChoix() {
 
 	}
 

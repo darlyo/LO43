@@ -1,8 +1,8 @@
-package Animaux;
+package Entite.Animaux;
 
 import Carte.Coordonnee;
-import Carte.Entite;
 import Carte.Map;
+import Entite.Entite;
 import Enumeration.EnumModeDeVie;
 import Enumeration.EnumSexe;
 import Enumeration.EnumStade;

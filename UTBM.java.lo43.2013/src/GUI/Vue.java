@@ -1,3 +1,4 @@
+package GUI;
 public interface Vue {
 
 	public abstract void menu();

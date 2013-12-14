@@ -1,39 +1,15 @@
-package Animaux;
+package Entite.Animaux;
 
 import java.util.ArrayList;
 import java.util.List;
-import Vegetaux.Vegetal;
-import Animaux.interfaces.Omnivorable;
 import Carte.Coordonnee;
+import Entite.Animaux.interfaces.Vegetarienable;
+import Entite.Vegetaux.Vegetal;
 
-public class Renard extends Animal implements Omnivorable {
 
-
+public class Chamois extends Animal implements Vegetarienable {
 	/**
-	 * @see Animaux.interface.Omnivorable#manger(Animaux.Animal)
-	 */
-	public void manger(Animal animal) {
-		int quantiteaManger;
-		
-		if (animal.valeurEnergetique > this.faim)
-			quantiteaManger = this.faim;
-		else 
-			quantiteaManger = animal.valeurEnergetique;
-		
-		/* Animal est mort */
-		animal.delete();
-		
-		/* Après manger il a mois faim */
-		this.faim = this.faim -quantiteaManger;
-		
-		/*Apres manger il a plus fatigue*/
-		this.fatigue = this.fatigue + quantiteaManger;
-
-	}
-
-
-	/**
-	 * @see Animaux.interface.Omnivorable#manger(Vegetal)
+	 * @see Entite.Animaux.interface.Vegetarienable#manger(Vegetal)
 	 */
 	public void manger(Vegetal vegetal) {
 		int quantiteaManger;
@@ -53,9 +29,8 @@ public class Renard extends Animal implements Omnivorable {
 		
 		/*Apres manger il a plus fatigue*/
 		this.fatigue = this.fatigue + quantiteaManger;
-
+		
 	}
-
 
 	@Override
 	protected void deplacement(Coordonnee nouveauPosition) {
@@ -68,7 +43,6 @@ public class Renard extends Animal implements Omnivorable {
 		
 	}
 
-
 	@Override
 	protected List<Animal> reproduction() {
 		// TODO Auto-generated method stub
@@ -77,11 +51,10 @@ public class Renard extends Animal implements Omnivorable {
 		//Créer des enfans
 		List<Animal> enfants = new ArrayList <Animal>();
 		for (int i= 0; i<nombreEnfants;i++){
-			enfants.add(new Renard());
+			enfants.add(new Chamois());
 		}
 		return enfants;				
 	}
-
 
 	@Override
 	public void live() {

@@ -1,3 +1,4 @@
+package Vivarium;
 public class Partie {
 
 	private int tempsDeJeux;

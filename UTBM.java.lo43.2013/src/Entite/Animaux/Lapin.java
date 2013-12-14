@@ -1,17 +1,17 @@
-package Animaux;
+package Entite.Animaux;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import Vegetaux.Vegetal;
-import Animaux.interfaces.Vegetarienable;
 import Carte.Coordonnee;
+import Entite.Animaux.interfaces.Vegetarienable;
+import Entite.Vegetaux.Vegetal;
 
-public class Mouton extends Animal implements Vegetarienable {
+public class Lapin extends Animal implements Vegetarienable {
 
 
 	/**
-	 * @see Animaux.interface.Vegetarienable#manger(Vegetal)
+	 * @see Entite.Animaux.interface.Vegetarienable#manger(Vegetal)
 	 */
 	public void manger(Vegetal vegetal) {
 		int quantiteaManger;
@@ -44,7 +44,6 @@ public class Mouton extends Animal implements Vegetarienable {
 		this.coordonee = nouveauPosition;
 		
 	}
-
 	@Override
 	protected List<Animal> reproduction() {
 		// TODO Auto-generated method stub
@@ -53,7 +52,7 @@ public class Mouton extends Animal implements Vegetarienable {
 		//Créer des enfans
 		List<Animal> enfants = new ArrayList <Animal>();
 		for (int i= 0; i<nombreEnfants;i++){
-			enfants.add(new Mouton());
+			enfants.add(new Lapin());
 		}
 		return enfants;				
 	}

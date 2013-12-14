@@ -1,6 +1,6 @@
-package Vegetaux;
+package Entite.Vegetaux;
 
-import Carte.Entite;
+import Entite.Entite;
 
 public abstract class Vegetal extends Entite {
 

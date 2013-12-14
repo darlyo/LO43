@@ -1,4 +1,6 @@
-package Carte;
+package Entite;
+
+import Carte.Cordonnee;
 
 public abstract class Entite {
 

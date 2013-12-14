@@ -1,7 +1,7 @@
-package Animaux.interfaces;
+package Entite.Animaux.interfaces;
 
-import Vegetaux.Vegetal;
-import Animaux.Animal;
+import Entite.Animaux.Animal;
+import Entite.Vegetaux.Vegetal;
 
 public interface Omnivorable {
 
