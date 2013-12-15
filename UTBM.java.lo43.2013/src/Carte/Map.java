@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import org.jdom2.*;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
@@ -42,27 +43,47 @@ public class Map {
 		document = sxb.build(new File(fichier));
 		racine = document.getRootElement();
 		
-		String tailleXML = racine.getChild("taille").getText();
-		//TODO transformer tailleXML en int et le mettre dans taille
+		String tailleXML = racine.getChildText("taille");
+		taille = Integer.parseInt(tailleXML);
+		System.out.println("Taille de la map : " + taille);
+		
+		List<Element> listEnv = racine.getChildren("environnements");
+		for(int i = 0 ; i<listEnv.size(); i++){
+			Element e = (Element)listEnv.get(i);
+			System.out.println("Name: " + e.getChild("environnement").getAttributeValue("name"));
+			System.out.println("Coordonnée X debut: "+ e.getChild("environnement").getAttributeValue("coordX_debut"));
+			System.out.println("Coordonnée Y début: "+ e.getChild("environnement").getAttributeValue("coordY_debut"));
+			
+		}
+		
+		System.out.println(listEnv.get(0));
 		
 		
-		//Récupérer une liste d'environnements sous l'Element racine
-		List listeEnvironnementsLus = racine.getChildren("environnement");
-		List<Environnement> listeEnvironnementsCrees = new ArrayList<Environnement>();
-		Iterator<Element> i = listeEnvironnementsLus.iterator();
-		/*while(i.hasNext()){
+		Element environnements = racine.getChild("enviromments");
+		
+		List listEnvCrees = new ArrayList();
+		List listEnvLus = racine.getChildren("environnement");
+		
+		//On crée une List contenant tous les noeuds "environnement" de l'Element racine
+		//List listeEnvironnements = racine.getChildren("environnement");
+		
+		
+		
+		Iterator<Element> i = listEnvLus.iterator();
+		
+		while(i.hasNext()){
 			Element e = i.next();
-			Environnement env = new Environnement();
-			listeEnvironnementsCrees.add(env);
-			
+			//Environnement env = new Environnement();
+			//listeEnvironnementsCrees.add(env);
+			System.out.println("Element e :" +e);
 			//TODO faire avec les cases ! faire correspondre la plaine par exemple sur une case ! 
-			env.setName(e.getAttribute("name").getName());
+			System.out.println(e.getAttribute("name").getName());
 			
-			env.setCoordXDebut(e.getAttribute("coordX_debut").getIntValue());
-			env.setCoordXFin(e.getAttribute("coordX_fin").getIntValue());
-			env.setCoordYDebut(e.getAttribute("coordY_debut").getIntValue());
-			env.setCoordYFin(e.getAttribute("coordY_fin").getIntValue());
-		}*/
+			System.out.println(e.getAttribute("coordX_debut").getIntValue());
+			System.out.println(e.getAttribute("coordX_fin").getIntValue());
+			System.out.println(e.getAttribute("coordY_debut").getIntValue());
+			System.out.println(e.getAttribute("coordY_fin").getIntValue());
+		}
 		
 		List<Entite> listeEntites = new ArrayList<Entite>();
 		
@@ -92,10 +113,7 @@ public class Map {
 		for(Entite elem: listeEntites){
 			System.out.println(elem);
 		}
-		System.out.println("Liste des entités : ");
-		for(Environnement elem: listeEnvironnementsCrees){
-			System.out.println(elem);
-		}
+		
 	}
 	
 	/**
