@@ -75,4 +75,12 @@ public class Map {
 		lireXML();
 	}
 
+	public int getTaille() {
+		return taille;
+	}
+
+	public int[][] getGrilleDeJeu() {
+		return grilleDeJeu;
+	}
+
 }
