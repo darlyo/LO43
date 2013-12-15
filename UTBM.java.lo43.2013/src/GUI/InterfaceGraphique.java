@@ -6,9 +6,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -17,26 +19,33 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import Carte.Map;
+import Entite.Entite;
 import Enumeration.EnumEntite;
 import Enumeration.EnumEnvironnement;
 import Vivarium.Main;
 
-public class InterfaceGraphique implements Vue, Controle {
+public class InterfaceGraphique implements Vue {
 
 	private JFrame fenetre;
-	private JPanel menu, map;
+	private JPanel panelMenu, panelMap, panelCarte;
 
-	// attribut propre au menu
+	// attribut propre au panelMenu
 	private CardLayout cardMenu;
 	private JPanel content, menuConfigue, menuGestion;
 	private String[] listContent = { "Configue", "Gestion" };
 
-	// element du menu modifiable
+	// element du panelMenu modifiable
 	private JLabel JNbTour, JScore;
 	private int NbTour = 0;
 	private int Score = 0;
 	private boolean etat = false;
-
+	
+	//Couleur
+	private Color grisClair = new Color( Integer.parseInt( "d2d2d2", 16 ) );
+	private Color grisClaire2 = new Color( Integer.parseInt( "eeeeee", 16 ) );
+	private int taille;
+	
 	@Override
 	public void fenetre() {
 
@@ -47,37 +56,36 @@ public class InterfaceGraphique implements Vue, Controle {
 		this.fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.fenetre.setResizable(false);
 
-		// construction du menu
-		menu = new JPanel();
+		// construction du panelMenu
+		panelMenu = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		buildMenu();
 
-		// construction de la zone de map
-		// mais on ne charge pas encore de map
-		map = new JPanel();
+		// construction de la zone de panelMap
+		// mais on ne charge pas encore de panelMap
+		panelMap = new JPanel();
 		buildMap();
 
-		fenetre.add(menu);
-		fenetre.add(map);
+		fenetre.add(panelMenu);
+		fenetre.add(panelMap);
 
 		this.fenetre.setVisible(true);
 	}
 
 	private void buildMap() {
-		map.setSize(600, 600);
-		map.setBackground(Color.green);
+		panelMap.setSize(600, 600);
+		panelMap.setBackground(Color.green);
 	}
 
 	private void buildMenu() {
-		menu.setSize(200, 600);
-		menu.setBackground(Color.cyan);
-
+		panelMenu.setSize(200, 600);
+		panelMenu.setBackground(grisClaire2);
+		panelMenu.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.black));
+		
 		// création d'un titre sur une seul ligne de taille 18 et de police
 		// sherif
 		JLabel title = new JLabel();
-		Font font = new Font(Font.SERIF, Font.PLAIN, 18);
-		title.setFont(font);
+		title.setFont( new Font(Font.SERIF, Font.PLAIN, 18));
 		title.setText("Gestion du " + Main.NAME);
-
 		cardMenu = new CardLayout();
 		buildMenuConfigue();
 		buildMenuGestion();
@@ -85,16 +93,15 @@ public class InterfaceGraphique implements Vue, Controle {
 		content.setLayout(cardMenu);
 		content.add(menuConfigue, listContent[0]);
 		content.add(menuGestion, listContent[1]);
-
-		menu.setLayout(new BorderLayout());
-		menu.add(title, BorderLayout.NORTH);
-		menu.add(content, BorderLayout.CENTER);
+		
+		panelMenu.setLayout(new BorderLayout());
+		panelMenu.add(title, BorderLayout.NORTH);
+		panelMenu.add(content, BorderLayout.CENTER);
 
 	}
 
 	private void buildMenuGestion() {
 		menuGestion = new JPanel(new FlowLayout(FlowLayout.CENTER, 100, 20));
-		menuGestion.setBackground(Color.yellow);
 
 		// affichage du nombre de tour de la partie
 		JPanel PTour = new JPanel();
@@ -127,7 +134,7 @@ public class InterfaceGraphique implements Vue, Controle {
 		}
 		ListEntite.setEnabled(false);
 
-		final JButton btSave = new JButton("Enregistrer la map");
+		final JButton btSave = new JButton("Enregistrer la panelMap");
 		final JButton btPauseStart = new JButton("Pause");
 		// défintion des action sur les bouttons
 		ActionListener listener = new ActionListener() {
@@ -166,7 +173,6 @@ public class InterfaceGraphique implements Vue, Controle {
 
 	private void buildMenuConfigue() {
 		menuConfigue = new JPanel(new FlowLayout(FlowLayout.CENTER, 100, 20));
-		menuConfigue.setBackground(Color.red);
 
 		// definit des boutons radio
 		final JRadioButton r1 = new JRadioButton("Modifier l'environnement");
@@ -196,7 +202,7 @@ public class InterfaceGraphique implements Vue, Controle {
 
 		// définition des bouttons
 		final JButton BtStart = new JButton("Start");
-		final JButton BtCharge = new JButton("Charger une map");
+		final JButton BtCharge = new JButton("Charger une panelMap");
 
 		// défintion des action sur les bouttons
 		ActionListener listener = new ActionListener() {
@@ -227,7 +233,7 @@ public class InterfaceGraphique implements Vue, Controle {
 		BtStart.addActionListener(listener);
 		BtCharge.addActionListener(listener);
 
-		// ajout des éléments au menu
+		// ajout des éléments au panelMenu
 		menuConfigue.add(r1);
 		menuConfigue.add(ListEnv);
 		menuConfigue.add(r2);
@@ -238,39 +244,18 @@ public class InterfaceGraphique implements Vue, Controle {
 	}
 
 	@Override
-	public void menu() {
+	public void dessineEntite(java.util.List<Entite> listEntite) {
 		// TODO Auto-generated method stub
-
-	}
-
-	/**
-	 * @see Vue#dessineMap()
-	 * 
-	 * 
-	 */
-	public void dessineMap() {
-
-	}
-
-	/**
-	 * @see Controle#getChoix()
-	 * 
-	 * 
-	 */
-	public void getChoix() {
-
+		
 	}
 
 	@Override
-	public void dessineEntite() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void message(String msg) {
-		// TODO Auto-generated method stub
-
+	public void dessineMap(Map map) {
+		panelMap.removeAll();
+		
+		taille = 10;//map.getSize();
+		panelCarte = new JPanel(new GridLayout(taille, taille));
+		
 	}
 
 }

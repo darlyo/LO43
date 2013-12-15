@@ -1,24 +1,11 @@
 package GUI;
 
+import java.util.List;
+
+import Carte.Map;
+import Entite.Entite;
+
 public class InterfaceConsole implements Vue {
-
-	/**
-	 * @see Vue#menu()
-	 * 
-	 * 
-	 */
-	public void menu() {
-
-	}
-
-	/**
-	 * @see Vue#dessineMap()
-	 * 
-	 * 
-	 */
-	public void dessineMap() {
-
-	}
 
 	@Override
 	public void fenetre() {
@@ -27,15 +14,16 @@ public class InterfaceConsole implements Vue {
 	}
 
 	@Override
-	public void dessineEntite() {
+	public void dessineMap(Map map) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void message(String msg) {
+	public void dessineEntite(List<Entite> listEntite) {
 		// TODO Auto-generated method stub
 		
 	}
+
 
 }

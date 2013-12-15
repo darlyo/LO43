@@ -1,10 +1,11 @@
 package GUI;
 
+import java.util.List;
+
+import Carte.Map;
+import Entite.Entite;
+
 public interface Vue {
-
-	public abstract void menu();
-
-	public abstract void dessineMap();
 
 	/**
 	 * Déssine l'interface graphique de l'appliacation - les menus -
@@ -18,17 +19,11 @@ public interface Vue {
 	 */
 	public abstract void fenetre();
 
+	public abstract void dessineMap(Map map);
+	
 	/**
 	 * dessine les entitées
 	 */
-	public abstract void dessineEntite();
-
-	/**
-	 * affiche un message
-	 * 
-	 * @param msg
-	 *            : intitulé du message
-	 */
-	void message(String msg);
+	public abstract void dessineEntite(List<Entite> listEntite );
 
 }
