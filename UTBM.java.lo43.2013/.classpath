@@ -2,6 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Program Files (x86)/eclipse/plugins/jdom-2.0.5.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/eclipse/plugins/jdom-2.0.5.jar" sourcepath="C:/Program Files (x86)/eclipse/plugins/jdom-2.0.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Glion/Downloads/essaiEclipse/jdom-2.0.5.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

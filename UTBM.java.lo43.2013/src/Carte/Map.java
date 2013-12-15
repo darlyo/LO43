@@ -114,7 +114,7 @@ public class Map {
 	public static void main(String[] args) throws IOException {
 			
 		try {
-			lireXML("Map.xml");
+			lireXML("src/Carte/Map.xml");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -134,6 +134,14 @@ public class Map {
 
 	public Case[][] getGrilleDeJeu() {
 		return grilleDeJeu;
+	}
+
+	public Nourriture getNourriture() {
+		return nourriture;
+	}
+
+	public void setNourriture(Nourriture nourriture) {
+		this.nourriture = nourriture;
 	}
 
 }
