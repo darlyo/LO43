@@ -27,6 +27,12 @@ public class Map {
 	private int rayon;
 	
 	/**
+	 * TODO : résoudre le problème avec les listes : n'affiche qu'un seul élément de la liste !!! 
+	 */
+	
+	
+	
+	/**
 	 * Constructeurs
 	 */
 	public Map(int taille){
@@ -42,20 +48,23 @@ public class Map {
 	}
 	
 	/**
-	 * Permet de lire le XML et de créer la map 
-	 * 
+	 * Permet de parser le XML et de créer la map 
 	 */
 	public static void lireXML(String fichier) throws Exception{
 		
+		/*On crée une instance de SAXBuilder*/
 		SAXBuilder sxb = new SAXBuilder();
+		/*On crée un nouveau document JDOM*/
 		document = sxb.build(new File(fichier));
+		/*On initialise un nouvel élément racine avec l'élément racine du document*/
 		racine = document.getRootElement();
 		
+		/*Récupération de la taille de la map*/
 		String tailleXML = racine.getChildText("taille");
 		taille = Integer.parseInt(tailleXML);
 		System.out.println("Taille de la map : " + taille);
 		
-		//TODO faire avec les cases ! faire correspondre la plaine par exemple sur une case ! 
+		/*Récupération des éléments environnement du fichier XML*/
 		List<Element> listEnv = racine.getChildren("environnements");
 		for(int i = 0 ; i<listEnv.size(); i++){
 			Element e = (Element)listEnv.get(i);
@@ -70,12 +79,10 @@ public class Map {
 			int coordY_F = Integer.parseInt(e.getChild("environnement").getAttributeValue("coordY_fin"));
 			
 			/*Affichage des coordonnées des environnements*/
-			System.out.println("Coordonnée X debut: " + coordX_D);
-			System.out.println("Coordonnée Y début: " + coordY_D);
-			System.out.println("Coordonnée X fin: " + coordX_F);
-			System.out.println("Coordonnée Y fin: " + coordY_F);
-			
-			/* */
+			System.out.println("Coord X debut: " + coordX_D + " ; Coord Y début: " + coordY_D);
+			System.out.println("Coord X fin: " + coordX_F + " ; Coord Y fin: " + coordY_F);
+						
+			/*Affectation des cases de la grille aux différents environnements*/
 			for(int j=coordX_D ;j<=coordX_F ; j++){
 				for(int k=coordY_D ; k <=coordY_F; k++){
 					System.out.println("coor : " + j + " " + k);
@@ -90,37 +97,20 @@ public class Map {
 			}
 		}
 		
+		System.out.println();
 		
-		
-		
-		
-	
-		
-		List<Entite> listeEntites = new ArrayList<Entite>();
-		
-		/*On crée une List contenant tous les noeuds "renard" de l'Element racine */
-		List listeRenards = racine.getChildren("renard");
-		Iterator<Element> j = listeRenards.iterator();
-		while(j.hasNext()){
-			Element courant = j.next();
-			Renard r = new Renard();
-			listeEntites.add(r);
-			int id = courant.getAttribute("id").getIntValue();
-			/*r.setId(id);
+		//TODO Liste des Entités du fichier XML
+		List<Element> listEntitesRecupere = racine.getChildren("entites");
+		for(int i=0; i<listEntitesRecupere.size(); i++){
+			Element courant = listEntitesRecupere.get(i);
 			
-			r.setX(courant.getAttribute("coordX").getIntValue());
-			r.setY(courant.getAttribute("coordY").getIntValue());
-			
-			r.setFaim(courant.getChild("faim").getText());
-			*/
-
+			System.out.println("Renard " + courant.getChild("renard").getAttributeValue("id")+ " ");
+			System.out.println("coordX " + courant.getChild("renard").getAttributeValue("coordX")+ " ");
+			System.out.println("coordY " + courant.getChild("renard").getAttributeValue("coordY")+ " ");
+			System.out.println("Faim : " + courant.getChild("renard").getChildText("faim"));
 		}
-	
-		//Affichage
-		System.out.println("Liste des entités : ");
-		for(Entite elem: listeEntites){
-			System.out.println(elem);
-		}
+		
+		System.out.println();
 	}
 
 	/**
@@ -133,7 +123,6 @@ public class Map {
 	         sortie.output(document, System.out);
 	   }
 	
-	
 	public static void main(String[] args) throws IOException {
 		String fichier = new String ("src/Carte/Map.xml");
 		
@@ -142,9 +131,9 @@ public class Map {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		taille = Integer.parseInt(racine.getChildText("taille"));
 		Map map = new Map(taille);
+		
 	}
 
 	//TODO à faire ! 
