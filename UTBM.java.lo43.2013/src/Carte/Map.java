@@ -20,29 +20,24 @@ public class Map {
 	private static Document document;
 	private static Element racine;
 	private static int taille;
-	protected static Case [][] grille;
+	protected static Case [][] grilleDeJeu;
 	private Nourriture nourriture;
 	private Environnement environnement;
 	private static Coordonnee coordonnee;
 	private int rayon;
 	
 	/**
-	 * TODO : résoudre le problème avec les listes : n'affiche qu'un seul élément de la liste !!! 
-	 */
-	
-	
-	
-	/**
 	 * Constructeurs
 	 */
 	public Map(int taille){
-		grille = new Case[taille][taille];
+		System.out.println("----------------MAP--------------\n");
+		grilleDeJeu = new Case[taille][taille];
 		for(int j=0; j <taille; j++){
 			for(int k = 0; k<taille; k++){
-				grille[j][k] = new Case();
-				System.out.print(" | ");
+				grilleDeJeu[j][k] = new Case();
+				System.out.print("|_");
 			}
-			System.out.print(" | ");
+			System.out.print("|");
 			 System.out.println();
 		}
 	}
@@ -65,52 +60,66 @@ public class Map {
 		System.out.println("Taille de la map : " + taille);
 		
 		/*Récupération des éléments environnement du fichier XML*/
-		List<Element> listEnv = racine.getChildren("environnements");
-		for(int i = 0 ; i<listEnv.size(); i++){
-			Element e = (Element)listEnv.get(i);
+		List<Element> listEnvs = racine.getChildren("environnements");
+		System.out.println("\n-------------ENVIRONNEMENTS------------- : ");
+		
+		for(int i = 0 ; i<listEnvs.size(); i++){
 			
-			String nomEnv = e.getChild("environnement").getAttributeValue("name");
-			System.out.println("Nom: " + nomEnv);
-			 
-			/*Récupération des coordonnées des environnements sur la grille*/
-			int coordX_D = Integer.parseInt(e.getChild("environnement").getAttributeValue("coordX_debut"));
-			int coordY_D = Integer.parseInt(e.getChild("environnement").getAttributeValue("coordY_debut"));
-			int coordX_F = Integer.parseInt(e.getChild("environnement").getAttributeValue("coordX_fin"));
-			int coordY_F = Integer.parseInt(e.getChild("environnement").getAttributeValue("coordY_fin"));
+			Element e = (Element)listEnvs.get(i);
+			List listEnv = e.getChildren("environnement");
 			
-			/*Affichage des coordonnées des environnements*/
-			System.out.println("Coord X debut: " + coordX_D + " ; Coord Y début: " + coordY_D);
-			System.out.println("Coord X fin: " + coordX_F + " ; Coord Y fin: " + coordY_F);
-						
-			/*Affectation des cases de la grille aux différents environnements*/
-			for(int j=coordX_D ;j<=coordX_F ; j++){
-				for(int k=coordY_D ; k <=coordY_F; k++){
-					System.out.println("coor : " + j + " " + k);
-					if(nomEnv == "eau"){
-						grille[j][k] = new Case (new Coordonnee(j,k),EnumEnvironnement.eau, true);
-					}else if (nomEnv == "plaine"){
-						grille[j][k] = new Case (new Coordonnee(j,k),EnumEnvironnement.plaine, true);
-					}else if(nomEnv == "montagne"){
-						grille[j][k] = new Case (new Coordonnee(j,k),EnumEnvironnement.montagne, true);
+			for(int h=0; h < listEnv.size() ; h++){
+				Element env = (Element)listEnv.get(h);
+				
+				String nomEnv = env.getAttributeValue("name");
+				System.out.println("Nom: " + nomEnv);
+				 
+				/*Récupération des coordonnées des environnements sur la grille*/
+				int coordX_D = Integer.parseInt(env.getAttributeValue("coordX_debut"));
+				int coordY_D = Integer.parseInt(env.getAttributeValue("coordY_debut"));
+				int coordX_F = Integer.parseInt(env.getAttributeValue("coordX_fin"));
+				int coordY_F = Integer.parseInt(env.getAttributeValue("coordY_fin"));
+				
+				/*Affichage des coordonnées des environnements*/
+				System.out.println("Coord X debut: " + coordX_D + " ; Coord Y début: " + coordY_D);
+				System.out.println("Coord X fin: " + coordX_F + " ; Coord Y fin: " + coordY_F);
+				
+				/*Affectation des cases de la grille aux différents environnements*/
+				for(int j=coordX_D ;j<=coordX_F ; j++){
+					for(int k=coordY_D ; k <=coordY_F; k++){
+						//System.out.println("coor : " + j + " " + k);
+						if(nomEnv == "eau"){
+							grilleDeJeu[j][k] = new Case (new Coordonnee(j,k),EnumEnvironnement.eau, true);
+						}else if (nomEnv == "plaine"){
+							grilleDeJeu[j][k] = new Case (new Coordonnee(j,k),EnumEnvironnement.plaine, true);
+						}else if(nomEnv == "montagne"){
+							grilleDeJeu[j][k] = new Case (new Coordonnee(j,k),EnumEnvironnement.montagne, true);
+						}
 					}
-				}
+				}	
+				System.out.println();
 			}
 		}
-		
-		System.out.println();
+
 		
 		//TODO Liste des Entités du fichier XML
 		List<Element> listEntitesRecupere = racine.getChildren("entites");
+		
+		System.out.println("---------------ENTITES---------------");
+		
 		for(int i=0; i<listEntitesRecupere.size(); i++){
 			Element courant = listEntitesRecupere.get(i);
-			
-			System.out.println("Renard " + courant.getChild("renard").getAttributeValue("id")+ " ");
-			System.out.println("coordX " + courant.getChild("renard").getAttributeValue("coordX")+ " ");
-			System.out.println("coordY " + courant.getChild("renard").getAttributeValue("coordY")+ " ");
-			System.out.println("Faim : " + courant.getChild("renard").getChildText("faim"));
+			List listR = courant.getChildren("renard");
+			for(int j=0; j<listR.size(); j++){
+				Element ren = (Element)listR.get(j);
+				
+				System.out.print("Renard " + ren.getAttributeValue("id")+ " ");
+				System.out.print(" (" + ren.getAttributeValue("coordX")+ " ; ");
+				System.out.print(ren.getAttributeValue("coordY")+ ") ");
+				System.out.println("Faim : " + ren.getChildText("faim"));
+			}
+			System.out.println();
 		}
-		
-		System.out.println();
 	}
 
 	/**
@@ -151,8 +160,8 @@ public class Map {
 	public int getTaille() {
 		return taille;
 	}
-	public Case[][] getGrille() {
-		return grille;
+	public Case[][] getGrilleDeJeu() {
+		return grilleDeJeu;
 	}
 	public Nourriture getNourriture() {
 		return nourriture;
