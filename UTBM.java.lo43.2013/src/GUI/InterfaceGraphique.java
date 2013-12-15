@@ -19,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import Carte.Case;
 import Carte.Map;
 import Entite.Entite;
 import Enumeration.EnumEntite;
@@ -44,7 +45,10 @@ public class InterfaceGraphique implements Vue {
 	//Couleur
 	private Color grisClair = new Color( Integer.parseInt( "d2d2d2", 16 ) );
 	private Color grisClaire2 = new Color( Integer.parseInt( "eeeeee", 16 ) );
+
+	//caractéristique de la carte
 	private int taille;
+	private Case[][] carte;
 	
 	@Override
 	public void fenetre() {
@@ -253,8 +257,20 @@ public class InterfaceGraphique implements Vue {
 	public void dessineMap(Map map) {
 		panelMap.removeAll();
 		
-		taille = 10;//map.getSize();
+		taille = map.getTaille();
+		carte = map.getGrilleDeJeu();
+		
 		panelCarte = new JPanel(new GridLayout(taille, taille));
+		panelCarte.setBorder(BorderFactory.createLineBorder(grisClair, 2));
+		
+		for(int i =0; i < taille; i++)
+		{
+			for(int j = 0; i<taille; i++)
+			{
+				JLabel emplacement = new JLabel(carte[i][j].getEnvironnement().name());
+				panelCarte.add(emplacement);
+			}
+		}
 		
 	}
 

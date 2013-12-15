@@ -10,7 +10,7 @@ public class Map {
 	// TODO Dom n'est pas reconnue, Il s'agit peut etre plutot de Doc
 	private Dom doc;
 	private int taille;
-	private int[][] grilleDeJeu;
+	private Case[][] grilleDeJeu;
 	private Nourriture nourriture;
 
 	/**
@@ -79,7 +79,7 @@ public class Map {
 		return taille;
 	}
 
-	public int[][] getGrilleDeJeu() {
+	public Case[][] getGrilleDeJeu() {
 		return grilleDeJeu;
 	}
 

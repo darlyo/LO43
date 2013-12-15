@@ -1,5 +1,7 @@
 package Vivarium.Test;
 
+import Carte.Case;
+import Carte.Map;
 import Entite.Entite;
 import Enumeration.EnumEnvironnement;
 import GUI.InterfaceGraphique;
@@ -15,7 +17,6 @@ public class TestGraphique {
 		Vue vue = new InterfaceGraphique();
 		vue.fenetre();
 		
-		System.out.println("" + Entite.class.getSimpleName());
 	}
 
 }
