@@ -12,16 +12,23 @@ public class Case {
 	/**
 	 * Constructeurs
 	 */
-	public Case() {
+	public Case (){
+		
+	}
+	public Case(Coordonnee coordonnee) {
+		this.coordonnee = coordonnee;
 		this.environnement = EnumEnvironnement.plaine;
-		this.vide = true;
+		this.vide = vide;
 	}
 
-	public Case(Coordonnee coordonnee, EnumEnvironnement environnement,
-			boolean vide) {
+	public Case (int x, int y){
+		this.coordonnee.setX(x);
+		this.coordonnee.setY(y);
+	}
+	public Case(Coordonnee coordonnee, EnumEnvironnement environnement, boolean vide) {
 		this.coordonnee = coordonnee;
 		this.environnement = environnement;
-		this.vide = true;
+		this.vide = vide;
 	}
 
 	/**

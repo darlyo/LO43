@@ -14,12 +14,13 @@ import org.jdom2.output.XMLOutputter;
 
 import Entite.Entite;
 import Entite.Animaux.Renard;
+import Enumeration.EnumEnvironnement;
 
 public class Map {
 	private static Document document;
 	private static Element racine;
 	private static int taille;
-	private Case [][] grilleDeJeu;
+	protected static Case [][] grille;
 	private Nourriture nourriture;
 	private Environnement environnement;
 	private static Coordonnee coordonnee;
@@ -28,8 +29,16 @@ public class Map {
 	/**
 	 * Constructeurs
 	 */
-	public Map(){
-		
+	public Map(int taille){
+		grille = new Case[taille][taille];
+		for(int j=0; j <taille; j++){
+			for(int k = 0; k<taille; k++){
+				grille[j][k] = new Case();
+				System.out.print(" | ");
+			}
+			System.out.print(" | ");
+			 System.out.println();
+		}
 	}
 	
 	/**
@@ -37,7 +46,6 @@ public class Map {
 	 * 
 	 */
 	public static void lireXML(String fichier) throws Exception{
-		
 		
 		SAXBuilder sxb = new SAXBuilder();
 		document = sxb.build(new File(fichier));
@@ -47,43 +55,46 @@ public class Map {
 		taille = Integer.parseInt(tailleXML);
 		System.out.println("Taille de la map : " + taille);
 		
+		//TODO faire avec les cases ! faire correspondre la plaine par exemple sur une case ! 
 		List<Element> listEnv = racine.getChildren("environnements");
 		for(int i = 0 ; i<listEnv.size(); i++){
 			Element e = (Element)listEnv.get(i);
-			System.out.println("Name: " + e.getChild("environnement").getAttributeValue("name"));
-			System.out.println("Coordonnée X debut: "+ e.getChild("environnement").getAttributeValue("coordX_debut"));
-			System.out.println("Coordonnée Y début: "+ e.getChild("environnement").getAttributeValue("coordY_debut"));
 			
+			String nomEnv = e.getChild("environnement").getAttributeValue("name");
+			System.out.println("Nom: " + nomEnv);
+			 
+			/*Récupération des coordonnées des environnements sur la grille*/
+			int coordX_D = Integer.parseInt(e.getChild("environnement").getAttributeValue("coordX_debut"));
+			int coordY_D = Integer.parseInt(e.getChild("environnement").getAttributeValue("coordY_debut"));
+			int coordX_F = Integer.parseInt(e.getChild("environnement").getAttributeValue("coordX_fin"));
+			int coordY_F = Integer.parseInt(e.getChild("environnement").getAttributeValue("coordY_fin"));
+			
+			/*Affichage des coordonnées des environnements*/
+			System.out.println("Coordonnée X debut: " + coordX_D);
+			System.out.println("Coordonnée Y début: " + coordY_D);
+			System.out.println("Coordonnée X fin: " + coordX_F);
+			System.out.println("Coordonnée Y fin: " + coordY_F);
+			
+			/* */
+			for(int j=coordX_D ;j<=coordX_F ; j++){
+				for(int k=coordY_D ; k <=coordY_F; k++){
+					System.out.println("coor : " + j + " " + k);
+					if(nomEnv == "eau"){
+						grille[j][k] = new Case (new Coordonnee(j,k),EnumEnvironnement.eau, true);
+					}else if (nomEnv == "plaine"){
+						grille[j][k] = new Case (new Coordonnee(j,k),EnumEnvironnement.plaine, true);
+					}else if(nomEnv == "montagne"){
+						grille[j][k] = new Case (new Coordonnee(j,k),EnumEnvironnement.montagne, true);
+					}
+				}
+			}
 		}
 		
-		System.out.println(listEnv.get(0));
-		
-		
-		Element environnements = racine.getChild("enviromments");
-		
-		List listEnvCrees = new ArrayList();
-		List listEnvLus = racine.getChildren("environnement");
-		
-		//On crée une List contenant tous les noeuds "environnement" de l'Element racine
-		//List listeEnvironnements = racine.getChildren("environnement");
 		
 		
 		
-		Iterator<Element> i = listEnvLus.iterator();
 		
-		while(i.hasNext()){
-			Element e = i.next();
-			//Environnement env = new Environnement();
-			//listeEnvironnementsCrees.add(env);
-			System.out.println("Element e :" +e);
-			//TODO faire avec les cases ! faire correspondre la plaine par exemple sur une case ! 
-			System.out.println(e.getAttribute("name").getName());
-			
-			System.out.println(e.getAttribute("coordX_debut").getIntValue());
-			System.out.println(e.getAttribute("coordX_fin").getIntValue());
-			System.out.println(e.getAttribute("coordY_debut").getIntValue());
-			System.out.println(e.getAttribute("coordY_fin").getIntValue());
-		}
+	
 		
 		List<Entite> listeEntites = new ArrayList<Entite>();
 		
@@ -102,10 +113,7 @@ public class Map {
 			
 			r.setFaim(courant.getChild("faim").getText());
 			*/
-			//TODO à trnasformer en int
-			
-			
-			
+
 		}
 	
 		//Affichage
@@ -113,16 +121,13 @@ public class Map {
 		for(Entite elem: listeEntites){
 			System.out.println(elem);
 		}
-		
 	}
-	
+
 	/**
 	 * Permet de sauvegarder une partie en écrivant dans un XML
 	 */
 	public void ecrireXML() {
-
 	}
-	
 	static void afficher(Document document) throws Exception{
 	         XMLOutputter sortie = new XMLOutputter(Format.getPrettyFormat());
 	         sortie.output(document, System.out);
@@ -130,37 +135,61 @@ public class Map {
 	
 	
 	public static void main(String[] args) throws IOException {
-			
+		String fichier = new String ("src/Carte/Map.xml");
+		
 		try {
-			lireXML("src/Carte/Map.xml");
+			lireXML(fichier);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+		taille = Integer.parseInt(racine.getChildText("taille"));
+		Map map = new Map(taille);
 	}
 
+	//TODO à faire ! 
 	public List<Entite> perception(Coordonnee co, int rayon) {
 		List<Entite> listeEntite = new ArrayList<Entite>();
 		
 		return listeEntite;
 	}
 
+	
+	/**
+	 * Getters et setters
+	 * 
+	 */
 	public int getTaille() {
 		return taille;
 	}
-
-	public Case[][] getGrilleDeJeu() {
-		return grilleDeJeu;
+	public Case[][] getGrille() {
+		return grille;
 	}
-
 	public Nourriture getNourriture() {
 		return nourriture;
 	}
-
 	public void setNourriture(Nourriture nourriture) {
 		this.nourriture = nourriture;
 	}
 
+	public int getRayon() {
+		return rayon;
+	}
+
+	public void setRayon(int rayon) {
+		this.rayon = rayon;
+	}
+	public static Coordonnee getCoordonnee() {
+		return coordonnee;
+	}
+	public static void setCoordonnee(Coordonnee coordonnee) {
+		Map.coordonnee = coordonnee;
+	}
+	public Environnement getEnvironnement() {
+		return environnement;
+	}
+	public void setEnvironnement(Environnement environnement) {
+		this.environnement = environnement;
+	}
 }
 

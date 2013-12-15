@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map>
-	<taille>10</taille>
+	<taille>5</taille>
 	<environnements>
-		<environnement name="PLAINE" coordX_debut="0" coordY_debut="0" coordX_fin="9" coordY_fin="9">env1</environnement>
-		<environnement name="EAU" coordX_debut="4" coordY_debut="4" coordX_fin="6" coordY_fin="6">env2</environnement>
+		<environnement name="eau" coordX_debut="2" coordY_debut="2" coordX_fin="4" coordY_fin="4">env2</environnement>
+		<environnement name="plaine" coordX_debut="0" coordY_debut="0" coordX_fin="4" coordY_fin="4">env1</environnement>
 	</environnements>
 	<entite>
 		<renard id="1" coordX="1" coordY="1">
