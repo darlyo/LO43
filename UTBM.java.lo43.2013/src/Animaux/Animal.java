@@ -6,10 +6,7 @@ import Carte.Map;
 import Enumeration.EnumModeDeVie;
 import Enumeration.EnumSexe;
 import Enumeration.EnumStade;
-
 import java.util.List;
-
-import Vegetaux.Vegetal;
 
 
 public abstract class Animal extends Entite {
@@ -114,7 +111,7 @@ public abstract class Animal extends Entite {
 
 	protected abstract void deplacement(Coordonnee nouveauPosition);
 
-	protected abstract List<Animal> reproduction();
+	protected abstract List<Animal> reproduction(Coordonnee coord);
 
 	protected void grandir() {
 		/* Augmenter l'age */
@@ -130,53 +127,10 @@ public abstract class Animal extends Entite {
 				this.stade = EnumStade.vieux;
 	}
 
-	public void live(){
-		//recuperer tout les entites prochaines (animaux ou vegetal)
-		List<Entite> entitesProchaines = perception(this.coordonee, this.rayon);
-		
-		Coordonnee nouveauPosition = new Coordonnee();
-		
-		//L'animal a faim quand faim > = 80;
-		if (this.faim >= 80 ) 
-		{		
-			//recherche le repas;
-			for (int i = 0; i < entitesProchaines.size(); i++)
-			{
-				//si on veut manger un Vegetal
-				if(entitesProchaines.get(i) instanceof Vegetal)
-				{
-					//recupere les coordonnee du Vegetal
-					nouveauPosition.setX(entitesProchaines.get(i).getCoordonnee().getX());
-					nouveauPosition.setY(entitesProchaines.get(i).getCoordonnee().getY());
-					this.deplacement(nouveauPosition);
-				}
-					//il n'y a pas de repas, mouvement a l'hazard
-					else 
-					{
-						nouveauPosition.setX((int)Math.random()*5);
-						nouveauPosition.setY((int)Math.random()*5);	
-					}
-						
-		
-			}
-		}
-			else
-			{
-				if (this.fatigue > 80)
-				{
-					this.reposer(this.fatigue);//comme ca, fatigue arrive a 0 après de reposer
-				}
-				else //s'el n'a pas faim et il n'est pas fatigue => mouvement a l'hazard
-				{
-					nouveauPosition.setX((int)Math.random()*5);
-					nouveauPosition.setY((int)Math.random()*5);	
-				}
-			}
-		}
+	public abstract void live(Map map);
 
-
-	protected List<Entite> perception(Coordonnee coord, int ray) {
-		Map map = new Map(); //le map doit etre donne 
+	protected List<Entite> perception(Coordonnee coord, int ray, Map map)//le resultat est une liste avec tout les entites prochaines
+	{
 		List <Entite> entitesProchaine = map.perception(coord, ray); //Reviser quand utilise cet List
 		return entitesProchaine;
 	}
@@ -205,6 +159,54 @@ public abstract class Animal extends Entite {
 	
 	public int getFaim(){
 		return this.faim;
+	}
+
+	public int getDureeVie() {
+		return dureeVie;
+	}
+
+	public void setDureeVie(int dureeVie) {
+		this.dureeVie = dureeVie;
+	}
+
+	public EnumModeDeVie getModeDeVie() {
+		return modeDeVie;
+	}
+
+	public void setModeDeVie(EnumModeDeVie modeDeVie) {
+		this.modeDeVie = modeDeVie;
+	}
+
+	public EnumSexe getSexe() {
+		return sexe;
+	}
+
+	public void setSexe(EnumSexe sexe) {
+		this.sexe = sexe;
+	}
+
+	public int getPortee() {
+		return portee;
+	}
+
+	public void setPortee(int portee) {
+		this.portee = portee;
+	}
+
+	public int getRayon() {
+		return rayon;
+	}
+
+	public void setRayon(int rayon) {
+		this.rayon = rayon;
+	}
+
+	public EnumStade getStade() {
+		return stade;
+	}
+
+	public void setStade(EnumStade stade) {
+		this.stade = stade;
 	}
 
 }

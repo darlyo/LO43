@@ -5,6 +5,9 @@ import java.util.List;
 
 import Animaux.interfaces.Carnivorable;
 import Carte.Coordonnee;
+import Carte.Map;
+import Enumeration.EnumModeDeVie;
+import Enumeration.EnumSexe;
 
 public class Loup extends Animal implements Carnivorable {
 
@@ -12,6 +15,66 @@ public class Loup extends Animal implements Carnivorable {
 	/**
 	 * @see Animaux.interface.Carnivorable#manger(Animaux.Animal)
 	 */
+	
+	public Loup(){
+		super();
+		this.modeDeVie=EnumModeDeVie.terrestre;	
+		this.valeurEnergetique = 80;
+		this.portee = 5;
+	}
+	
+	public Loup(int dureeVie
+			,EnumModeDeVie modedevie
+			,EnumSexe sexe
+			,int portee
+			,int faim
+			,int rayon
+			,int fatigue
+			,int age
+			,int valeurEnergetic
+			,int x
+			,int y){	
+		super(dureeVie
+				,modedevie
+				,sexe
+				,portee
+				,faim
+				,rayon
+				,fatigue
+				,age
+				,valeurEnergetic
+				,x
+				,y);
+		this.modeDeVie=EnumModeDeVie.terrestre;	
+		this.valeurEnergetique = 80;
+		this.portee = 5;
+	}
+	
+	public Loup(int dureeVie
+			,EnumModeDeVie modedevie
+			,EnumSexe sexe
+			,int portee
+			,int faim
+			,int rayon
+			,int fatigue
+			,int age
+			,int valeurEnergetic
+			,Coordonnee coordonnee)
+	{
+		super(dureeVie
+				,modedevie
+				,sexe
+				,portee
+				,faim
+				,rayon
+				,fatigue
+				,age
+				,valeurEnergetic
+				,coordonnee);
+		this.modeDeVie=EnumModeDeVie.terrestre;
+		this.valeurEnergetique = 80; //valeurEnergetique entre 0 et 100
+		this.portee = 5; //nro max des enfants
+	}
 	public void manger(Animal animal) {
 		int quantiteaManger;
 		
@@ -56,7 +119,7 @@ public class Loup extends Animal implements Carnivorable {
 	}
 
 	@Override
-	public void live() {
+	public void live(Map map) {
 		// TODO Auto-generated method stub
 		
 	}

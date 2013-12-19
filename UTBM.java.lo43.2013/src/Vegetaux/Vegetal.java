@@ -1,23 +1,55 @@
 package Vegetaux;
 
+import Carte.Coordonnee;
 import Carte.Entite;
 
 public abstract class Vegetal extends Entite {
 
 	protected int cycle;
 
-	protected int quantite;
+	protected int quantiteMax;//quantite max de fruit 
+	
+	private int quantiteNow;//quantite de fruit maintenant
+	
+
+	
+	public Vegetal() {
+		super();
+		this.quantiteNow = 0;
+	}
+
+	public Vegetal(int valeurEnergetique, int age, Coordonnee coordonnee) {
+		super(valeurEnergetique, age, coordonnee);
+		this.quantiteNow = 0;
+	}
+
+	public Vegetal(int valeurEnergetic, int age, int x, int y) {
+		super(valeurEnergetic, age, x, y);
+		this.quantiteNow = 0;
+	}
 
 	protected void produire() {
+		this.setQuantiteNow(this.quantiteMax);
 
 	}
 	
-	public void setQuantite(int x){
-		this.quantite = x;
+	public void setQuantiteMax(int x){
+		this.quantiteMax = x;
 	}
 	
-	public int getQuantite(){
-		return this.quantite;
+	public int getQuantiteMax(){
+		return this.quantiteMax;
 	}
 
+	
+	public int getQuantiteNow() {
+		return quantiteNow;
+	}
+
+	
+	public void setQuantiteNow(int quantiteNow) {
+		this.quantiteNow = quantiteNow;
+	}
+
+	
 }
