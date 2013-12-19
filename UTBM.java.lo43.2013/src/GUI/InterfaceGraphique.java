@@ -77,11 +77,20 @@ public class InterfaceGraphique implements Vue {
 		this.fenetre.setVisible(true);
 	}
 
+	/**
+	 * Construit la zone ou sera afficher la map
+	 * et definit sa taille
+	 */
 	private void buildMap() {
 		panelMap.setSize(600, 600);
 		//panelMap.setBackground(Color.green);
 	}
 
+	/**
+	 * Construit la zone de menu
+	 * Avec le titre
+	 * et les 2 conteneur pour la gestion et la configuration
+	 */
 	private void buildMenu() {
 		panelMenu.setSize(200, 600);
 		panelMenu.setBackground(grisClaire2);
@@ -106,6 +115,10 @@ public class InterfaceGraphique implements Vue {
 
 	}
 
+	/**
+	 * Construi le menu propre a la gestion de la partie
+	 * C'est a dire visible une fois la partie demarrer
+	 */
 	private void buildMenuGestion() {
 		menuGestion = new JPanel(new FlowLayout(FlowLayout.CENTER, 100, 20));
 
@@ -177,6 +190,10 @@ public class InterfaceGraphique implements Vue {
 		menuGestion.add(btPauseStart);
 	}
 
+	/**
+	 * Définit la menu de configuration de la map
+	 * disponible avant le lancer de la map
+	 */
 	private void buildMenuConfigue() {
 		menuConfigue = new JPanel(new FlowLayout(FlowLayout.CENTER, 100, 20));
 
