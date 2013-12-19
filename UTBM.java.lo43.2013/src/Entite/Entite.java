@@ -9,7 +9,7 @@ public abstract class Entite {
 
 	protected int age;
 	
-	public Coordonnee coordonee = new Coordonnee();
+	public Coordonnee coordonee;
 
 	public void delete() {
 

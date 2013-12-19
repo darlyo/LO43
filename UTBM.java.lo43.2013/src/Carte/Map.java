@@ -31,10 +31,12 @@ public class Map {
 	 */
 	public Map(int taille){
 		System.out.println("----------------MAP--------------\n");
+		this.taille = taille;
 		grilleDeJeu = new Case[taille][taille];
 		for(int j=0; j <taille; j++){
 			for(int k = 0; k<taille; k++){
-				grilleDeJeu[j][k] = new Case();
+				//grilleDeJeu[j][k] = new Case();
+				grilleDeJeu[j][k] = new Case(new Coordonnee(j, k));
 				System.out.print("|_");
 			}
 			System.out.print("|");

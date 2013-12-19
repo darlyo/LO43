@@ -17,6 +17,10 @@ public class TestGraphique {
 		Vue vue = new InterfaceGraphique();
 		vue.fenetre();
 		
+		Map map = new Map(20);
+		map.getGrilleDeJeu()[1][1].setEnvironnement(EnumEnvironnement.eau);
+		vue.dessineMap(map);
+		
 	}
 
 }

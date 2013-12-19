@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Kevin/eclipse/plugins/jdom-2.0.5.zip" sourcepath="C:/Users/Kevin/eclipse/plugins/jdom-2.0.5.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/Kevin/eclipse/plugins/jdom-2.0.5.zip!/"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:/Users/Kevin/eclipse/plugins"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Kevin/eclipse/plugins/jdom-2.0.5.jar"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Program Files (x86)/eclipse/plugins/jdom-2.0.5.jar" sourcepath="C:/Program Files (x86)/eclipse/plugins/jdom-2.0.5.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Glion/Downloads/essaiEclipse/jdom-2.0.5.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

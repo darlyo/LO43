@@ -106,7 +106,7 @@ public abstract class Animal extends Entite {
 	}
 
 	protected List<Entite> perception(Coordonnee coord, int ray) {
-		Map map = new Map(); // le map doit etre donne
+		Map map = new Map(1); // le map doit etre donne
 		List<Entite> entitesProchaine = map.perception(coord, ray); // Reviser
 																	// quand
 																	// utilise

@@ -19,6 +19,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import com.sun.corba.se.spi.legacy.connection.GetEndPointInfoAgainException;
+
 import Carte.Case;
 import Carte.Map;
 import Entite.Entite;
@@ -66,7 +68,7 @@ public class InterfaceGraphique implements Vue {
 
 		// construction de la zone de panelMap
 		// mais on ne charge pas encore de panelMap
-		panelMap = new JPanel();
+		panelMap = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		buildMap();
 
 		fenetre.add(panelMenu);
@@ -77,7 +79,7 @@ public class InterfaceGraphique implements Vue {
 
 	private void buildMap() {
 		panelMap.setSize(600, 600);
-		panelMap.setBackground(Color.green);
+		//panelMap.setBackground(Color.green);
 	}
 
 	private void buildMenu() {
@@ -260,17 +262,42 @@ public class InterfaceGraphique implements Vue {
 		taille = map.getTaille();
 		carte = map.getGrilleDeJeu();
 		
-		panelCarte = new JPanel(new GridLayout(taille, taille));
-		panelCarte.setBorder(BorderFactory.createLineBorder(grisClair, 2));
+		panelCarte = new JPanel(new GridLayout(taille, taille,1,1));
+		panelCarte.setBorder(BorderFactory.createLineBorder(Color.black, 2));
+		panelCarte.setBackground(grisClair);
+		
+		JPanel emplacement;
 		
 		for(int i =0; i < taille; i++)
 		{
-			for(int j = 0; i<taille; i++)
+			for(int j = 0; j<taille; j++)
 			{
-				JLabel emplacement = new JLabel(carte[i][j].getEnvironnement().name());
+				emplacement = new JPanel();
+				emplacement.add(new JLabel(carte[i][j].getEnvironnement().name()));
+				switch(carte[i][j].getEnvironnement().name())
+				{
+				case ("plaine"):
+				{
+					emplacement.setBackground(Color.green);
+					break;
+				}
+				case ("eau"):
+				{
+					emplacement.setBackground(Color.cyan);
+					break;
+				}
+				case ("montagne"):
+				{
+					emplacement.setBackground(Color.lightGray);
+					break;
+				}
+				}
 				panelCarte.add(emplacement);
 			}
 		}
+		
+		panelMap.add(panelCarte);
+		panelMap.repaint();
 		
 	}
 
