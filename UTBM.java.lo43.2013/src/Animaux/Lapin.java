@@ -177,7 +177,8 @@ public class Lapin extends Animal implements Vegetarienable {
 										
 										List<Animal> enfants = this.reproduction(this.coordonee);// se reproduire
 										/*
-										 * cet liste des enfants il faut l'ajouter dans la liste des animaux 
+										 * cet liste des enfants il faut l'ajouter dans la liste des animaux
+										 * du logiciel principal 
 										 */
 									}
 								

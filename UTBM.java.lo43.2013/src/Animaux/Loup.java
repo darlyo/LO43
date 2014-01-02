@@ -96,7 +96,6 @@ public class Loup extends Animal implements Carnivorable {
 
 	@Override
 	protected void deplacement(Coordonnee nouveauPosition) {
-		// TODO Auto-generated method stub
 		// Distance entre deux points
 		double distance = this.coordonee.distance(nouveauPosition);
 		// Augmente la fatigue
@@ -105,23 +104,27 @@ public class Loup extends Animal implements Carnivorable {
 		
 	}
 
-	@Override
-	protected List<Animal> reproduction() {
-		// TODO Auto-generated method stub
-		//Nombre des enfants
-		int nombreEnfants = (int) (Math.random()*(portee));
-		//Créer des enfans
-		List<Animal> enfants = new ArrayList <Animal>();
-		for (int i= 0; i<nombreEnfants;i++){
-			enfants.add(new Loup());
-		}
-		return enfants;				
-	}
+	
 
 	@Override
 	public void live(Map map) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	protected List<Animal> reproduction(Coordonnee coord) 
+	{
+		//Nombre des enfants
+				int nombreEnfants = (int) (Math.random()*(portee));
+				//Créer des enfans
+				List<Animal> enfants = new ArrayList <Animal>();
+				for (int i= 0; i<nombreEnfants;i++)
+				{
+					enfants.add(new Loup());
+					enfants.get(i).setCoordonee(coord);
+				}
+				return enfants;
 	}
 
 }

@@ -109,22 +109,23 @@ public class Mouton extends Animal implements Vegetarienable {
 	}
 
 	@Override
-	protected List<Animal> reproduction() {
-		// TODO Auto-generated method stub
-		//Nombre des enfants
-		int nombreEnfants = (int) (Math.random()*(portee));
-		//Créer des enfans
-		List<Animal> enfants = new ArrayList <Animal>();
-		for (int i= 0; i<nombreEnfants;i++){
-			enfants.add(new Mouton());
-		}
-		return enfants;				
-	}
-
-	@Override
 	public void live(Map map) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	protected List<Animal> reproduction(Coordonnee coord) {
+		//Nombre des enfants
+				int nombreEnfants = (int) (Math.random()*(portee));
+				//Créer des enfans
+				List<Animal> enfants = new ArrayList <Animal>();
+				for (int i= 0; i<nombreEnfants;i++)
+				{
+					enfants.add(new Mouton());
+					enfants.get(i).setCoordonee(coord);
+				}
+				return enfants;
 	}
 
 }

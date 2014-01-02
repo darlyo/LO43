@@ -134,16 +134,17 @@ public class Sanglier extends Animal implements Omnivorable {
 
 
 	@Override
-	protected List<Animal> reproduction() {
-		// TODO Auto-generated method stub
+	protected List<Animal> reproduction(Coordonnee coord) {
 		//Nombre des enfants
-		int nombreEnfants = (int) (Math.random()*(portee));
-		//Créer des enfans
-		List<Animal> enfants = new ArrayList <Animal>();
-		for (int i= 0; i<nombreEnfants;i++){
-			enfants.add(new Sanglier());
-		}
-		return enfants;				
+				int nombreEnfants = (int) (Math.random()*(portee));
+				//Créer des enfans
+				List<Animal> enfants = new ArrayList <Animal>();
+				for (int i= 0; i<nombreEnfants;i++)
+				{
+					enfants.add(new Sanglier());
+					enfants.get(i).setCoordonee(coord);
+				}
+				return enfants;			
 	}
 
 

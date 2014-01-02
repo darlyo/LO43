@@ -111,7 +111,7 @@ public abstract class Animal extends Entite {
 
 	protected abstract void deplacement(Coordonnee nouveauPosition);
 
-	protected abstract List<Animal> reproduction(Coordonnee coord);
+	protected abstract List<Animal> reproduction(Coordonnee coord);//Chaque animal doit naitre dans le meme place que les parents
 
 	protected void grandir() {
 		/* Augmenter l'age */
