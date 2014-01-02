@@ -2,18 +2,33 @@
 <map>
 	<taille>5</taille>
 	<environnements>
-		<environnement name="eau" coordX_debut="2" coordY_debut="2" coordX_fin="4" coordY_fin="4">env2</environnement>
 		<environnement name="plaine" coordX_debut="0" coordY_debut="0" coordX_fin="4" coordY_fin="4">env1</environnement>
+		<environnement name="eau" coordX_debut="2" coordY_debut="2" coordX_fin="4" coordY_fin="4">env2</environnement>
+		<environnement name="montagne" coordX_debut="0" coordY_debut="2" coordX_fin="1" coordY_fin="4">env3</environnement>
 	</environnements>
 	<entites>
-		<renard id="1" coordX="1" coordY="1">
-			<faim>100</faim>
-		</renard>
-		<renard id="2" coordX="3" coordY="3">
-			<faim>100</faim>
-		</renard>
-		<renard id="3" coordX="4" coordY="4">
-			<faim>100</faim>
-		</renard>
+		<renards portee="5" rayon="2" valeurEnergetique="10" dureeVie="15" modeDeVie="aquatique">
+			<renard id="1" coordX="0" coordY="0" age="1" faim="100" fatigue="100" stade="jeune" sexe="male"></renard>
+			<renard id="2" coordX="2" coordY="0" age="1" faim="100" fatigue="100" stade="jeune" sexe="femelle"></renard>
+		</renards>
+		<lapins portee="10" rayon="1" valeurEnergetique="5" dureeVie="10" modeDeVie="terrestre">
+			<lapin id="1" coordX="0" coordY="1" age="1" faim="100" fatigue="100" stade="jeune" sexe="femelle"></lapin>
+		</lapins>
+		<chamois portee="2" rayon="6" valeurEnergetique="20" dureeVie="12" modeDeVie="terrestre">
+			<chamoi id="1" coordX="0" coordY="4" age="4" faim="100" fatigue="100" stade="adulte" sexe="male"></chamoi>
+		</chamois>
+		<loups portee="1" rayon="5" valeurEnergetique="14" dureeVie="12" modeDeVie="terrestre">
+			<loup id="1" coordX="1" coordY="2" age="6" faim="100" fatigue="100" stade="adulte" sexe="femelle"></loup>
+		</loups>
+		<moutons portee="7" rayon="4" valeurEnergetique="15" dureeVie="7" modeDeVie="terrestre">
+			<mouton id="1" coordX="0" coordY="2" age="3" faim="100" fatigue="100" stade="adulte" sexe="femelle"></mouton>
+		</moutons>
+		<sangliers></sangliers>
+		<arbres cycle="3" quantiteMax="10" valeurEnergetique="2">
+				<arbre id="1" coordX="1" coordY="4" quantiteNow="10" age="1" ></arbre>
+		</arbres>
+		<herbes cycle="3" quantiteMax="10" valeurEnergetique="2">
+			<herbe id="1" coordX="0" coordY="2" quantiteNow="10" age="1" ></herbe>
+		</herbes>
 	</entites>
 </map>

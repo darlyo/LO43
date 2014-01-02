@@ -5,7 +5,7 @@ import Enumeration.EnumEnvironnement;
 
 public class Case {
 
-	private EnumEnvironnement environnement;
+	protected EnumEnvironnement environnement;
 	protected Coordonnee coordonnee;
 	protected boolean vide;
 
@@ -18,7 +18,7 @@ public class Case {
 	public Case(Coordonnee coordonnee) {
 		this.coordonnee = coordonnee;
 		this.environnement = EnumEnvironnement.plaine;
-		this.vide = vide;
+		this.vide = true;
 	}
 
 	public Case (int x, int y){
@@ -31,6 +31,10 @@ public class Case {
 		this.vide = vide;
 	}
 
+	public boolean estVide(Case square){
+		return ((square.vide==true)?true:false);
+	}
+	
 	/**
 	 * Getters et setters
 	 */

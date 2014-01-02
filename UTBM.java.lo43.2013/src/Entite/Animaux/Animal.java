@@ -140,4 +140,52 @@ public abstract class Animal extends Entite {
 		return this.faim;
 	}
 
+	public int getDureeVie() {
+		return dureeVie;
+	}
+
+	public void setDureeVie(int dureeVie) {
+		this.dureeVie = dureeVie;
+	}
+
+	public EnumModeDeVie getModeDeVie() {
+		return modeDeVie;
+	}
+
+	public void setModeDeVie(EnumModeDeVie modeDeVie) {
+		this.modeDeVie = modeDeVie;
+	}
+
+	public EnumSexe getSexe() {
+		return sexe;
+	}
+
+	public void setSexe(EnumSexe sexe) {
+		this.sexe = sexe;
+	}
+
+	public int getPortee() {
+		return portee;
+	}
+
+	public void setPortee(int portee) {
+		this.portee = portee;
+	}
+
+	public int getRayon() {
+		return rayon;
+	}
+
+	public void setRayon(int rayon) {
+		this.rayon = rayon;
+	}
+
+	public EnumStade getStade() {
+		return stade;
+	}
+
+	public void setStade(EnumStade stade) {
+		this.stade = stade;
+	}
+
 }

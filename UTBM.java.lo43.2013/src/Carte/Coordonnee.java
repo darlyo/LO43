@@ -39,7 +39,7 @@ public class Coordonnee {
 	}
 
 	/**
-	 * Distance entre deux point (x^2+y^2+z^2)^(1/2)
+	 * Distance entre deux point (x^2+y^2)^(1/2)
 	 */
 	public double distance(Coordonnee nouveauPosition) {
 		return Math.sqrt(Math.pow((double) (nouveauPosition.x - this.x), 2)

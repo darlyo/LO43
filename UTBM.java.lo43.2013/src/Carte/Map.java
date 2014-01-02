@@ -12,9 +12,14 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
+import com.sun.xml.internal.bind.v2.runtime.RuntimeUtil.ToStringAdapter;
+
 import Entite.Entite;
 import Entite.Animaux.Renard;
 import Enumeration.EnumEnvironnement;
+import Enumeration.EnumModeDeVie;
+import Enumeration.EnumSexe;
+import Enumeration.EnumStade;
 
 public class Map {
 	private static Document document;
@@ -103,9 +108,90 @@ public class Map {
 			}
 		}
 
+		/*Récupération des éléments entités du fichier XML*/
+		List<Entite> listEntites = new ArrayList<Entite>();
+		
+		Element entites = racine.getChild("entites");
+		System.out.println("\n-------------ENTITES (ANIMAUX ET VEGETAUX)------------- : ");
+		
+		List<Element> listRenards = entites.getChildren("renards");
+		for(int i = 0 ; i<listRenards.size(); i++){
+			System.out.println("RENARDS :");
+			Element e = (Element)listRenards.get(i);
+			List listRenard = e.getChildren("renard");
+			
+			int portee = Integer.parseInt(e.getAttributeValue("portee"));
+			int rayon = Integer.parseInt(e.getAttributeValue("rayon"));
+			int valeurEnergetique = Integer.parseInt(e.getAttributeValue("valeurEnergetique"));
+			int dureeVie = Integer.parseInt(e.getAttributeValue("dureeVie"));
+			
+			for(int h=0; h < listRenard.size() ; h++){
+				System.out.println("Renard "+(h+1));
+				Renard renard = new Renard();
+				
+				Element ren = (Element)listRenard.get(h);
+				
+				renard.setPortee(portee);
+				renard.setRayon(rayon);
+				renard.setValeurEnergetique(valeurEnergetique);
+				renard.setDureeVie(dureeVie);
+				String stade = ren.getAttributeValue("stade");
+				if(stade == "jeune"){
+					renard.setStade(EnumStade.jeune);
+				}else if (stade == "adulte"){
+					renard.setStade(EnumStade.adulte);
+				}else if (stade == "vieux"){
+					renard.setStade(EnumStade.vieux);
+				}
+				renard.setFaim(Integer.parseInt(ren.getAttributeValue("faim")));
+				renard.setFatigue(Integer.parseInt(ren.getAttributeValue("fatigue")));
+				
+				if(e.getAttributeValue("modeDeVie") == "terrestre"){
+					System.out.println("ici");
+					renard.setModeDeVie(EnumModeDeVie.terrestre);
+				}else if (e.getAttributeValue("modeDeVie") == "aquatique"){
+					renard.setModeDeVie(EnumModeDeVie.aquatique);
+				}else if (e.getAttributeValue("modeDeVie") == "amphibie"){
+					renard.setModeDeVie(EnumModeDeVie.amphibie);
+				}else{
+					//Par défaut terrestre
+					renard.setModeDeVie(EnumModeDeVie.terrestre);
+				}
+				
+				renard.setAge(Integer.parseInt(ren.getAttributeValue("age")));
+				if(ren.getAttributeValue("sexe") == "femelle"){
+					renard.setSexe(EnumSexe.femelle);
+				}else{
+					renard.setSexe(EnumSexe.male);
+				}
+				int coordX = Integer.parseInt(ren.getAttributeValue("coordX"));
+				int coordY = Integer.parseInt(ren.getAttributeValue("coordY"));
+				renard.setCoordonee(new Coordonnee(coordX,coordY));
+				
+				
+				//Affichage des éléments de renard
+				System.out.println("Faim : "+renard.getFaim());
+				System.out.println("Fatigue :"+renard.getFatigue());
+				System.out.println("Durée de Vie :"+renard.getDureeVie());
+				System.out.println("Mode de Vie :"+renard.getModeDeVie());
+				System.out.println("Portee : "+renard.getPortee());
+				System.out.println("Rayon :"+renard.getRayon());
+				System.out.println("Valeur Energetique : "+ renard.getValeurEnergetique());
+				System.out.println("Stade :"+ renard.getStade());
+				System.out.println("Age : "+ renard.getAge());
+				System.out.println("Sexe : "+ renard.getSexe());
+				System.out.println("Coordonnée :"+ renard.getCoordonee());
+				
+				
+				 
+				listEntites.add(renard);
+				System.out.println();
+			}
+			
+		}
 		
 		//TODO Liste des Entités du fichier XML
-		List<Element> listEntitesRecupere = racine.getChildren("entites");
+		/*List<Element> listEntitesRecupere = racine.getChildren("entites");
 		
 		System.out.println("---------------ENTITES---------------");
 		
@@ -121,7 +207,7 @@ public class Map {
 				System.out.println("Faim : " + ren.getChildText("faim"));
 			}
 			System.out.println();
-		}
+		}*/
 	}
 
 	/**
@@ -129,6 +215,7 @@ public class Map {
 	 */
 	public void ecrireXML() {
 	}
+	
 	static void afficher(Document document) throws Exception{
 	         XMLOutputter sortie = new XMLOutputter(Format.getPrettyFormat());
 	         sortie.output(document, System.out);
