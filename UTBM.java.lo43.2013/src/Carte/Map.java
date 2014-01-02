@@ -17,7 +17,10 @@ import com.sun.xml.internal.bind.v2.runtime.RuntimeUtil.ToStringAdapter;
 import Entite.Entite;
 import Entite.Animaux.Chamois;
 import Entite.Animaux.Lapin;
+import Entite.Animaux.Loup;
+import Entite.Animaux.Mouton;
 import Entite.Animaux.Renard;
+import Entite.Animaux.Sanglier;
 import Enumeration.EnumEnvironnement;
 import Enumeration.EnumModeDeVie;
 import Enumeration.EnumSexe;
@@ -56,7 +59,7 @@ public class Map {
 	/**
 	 * Permet de parser le XML et de créer la map 
 	 */
-	public static void lireXML(String fichier) throws Exception{
+	public static List<Entite> lireXML(String fichier) throws Exception{
 		
 		/*On crée une instance de SAXBuilder*/
 		SAXBuilder sxb = new SAXBuilder();
@@ -124,72 +127,74 @@ public class Map {
 			Element e = (Element)listRenards.get(i);
 			List listRenard = e.getChildren("renard");
 			
-			int portee = Integer.parseInt(e.getAttributeValue("portee"));
-			int rayon = Integer.parseInt(e.getAttributeValue("rayon"));
-			int valeurEnergetique = Integer.parseInt(e.getAttributeValue("valeurEnergetique"));
-			int dureeVie = Integer.parseInt(e.getAttributeValue("dureeVie"));
-			
-			for(int h=0; h < listRenard.size() ; h++){
-				System.out.println("Renard "+(h+1));
-				Renard renard = new Renard();
+			if(listRenard.size() == 0){
+				System.out.println("Pas de renards");
+			}else{
+				int portee = Integer.parseInt(e.getAttributeValue("portee"));
+				int rayon = Integer.parseInt(e.getAttributeValue("rayon"));
+				int valeurEnergetique = Integer.parseInt(e.getAttributeValue("valeurEnergetique"));
+				int dureeVie = Integer.parseInt(e.getAttributeValue("dureeVie"));
 				
-				Element ren = (Element)listRenard.get(h);
+				for(int h=0; h < listRenard.size() ; h++){
+					System.out.println("Renard "+(h+1));
+					Renard renard = new Renard();
+					
+					Element ren = (Element)listRenard.get(h);
+					
+					renard.setPortee(portee);
+					renard.setRayon(rayon);
+					renard.setValeurEnergetique(valeurEnergetique);
+					renard.setDureeVie(dureeVie);
+					String stade = ren.getAttributeValue("stade");
+					if(stade == "jeune"){
+						renard.setStade(EnumStade.jeune);
+					}else if (stade == "adulte"){
+						renard.setStade(EnumStade.adulte);
+					}else if (stade == "vieux"){
+						renard.setStade(EnumStade.vieux);
+					}
+					renard.setFaim(Integer.parseInt(ren.getAttributeValue("faim")));
+					renard.setFatigue(Integer.parseInt(ren.getAttributeValue("fatigue")));
+					
+					if(e.getAttributeValue("modeDeVie") == "terrestre"){
+						System.out.println("ici");
+						renard.setModeDeVie(EnumModeDeVie.terrestre);
+					}else if (e.getAttributeValue("modeDeVie") == "aquatique"){
+						renard.setModeDeVie(EnumModeDeVie.aquatique);
+					}else if (e.getAttributeValue("modeDeVie") == "amphibie"){
+						renard.setModeDeVie(EnumModeDeVie.amphibie);
+					}else{
+						//Par défaut terrestre
+						renard.setModeDeVie(EnumModeDeVie.terrestre);
+					}
+					
+					renard.setAge(Integer.parseInt(ren.getAttributeValue("age")));
+					if(ren.getAttributeValue("sexe") == "femelle"){
+						renard.setSexe(EnumSexe.femelle);
+					}else{
+						renard.setSexe(EnumSexe.male);
+					}
+					int coordX = Integer.parseInt(ren.getAttributeValue("coordX"));
+					int coordY = Integer.parseInt(ren.getAttributeValue("coordY"));
+					renard.setCoordonee(new Coordonnee(coordX,coordY));
+					
+					
+					//Affichage des éléments
+					System.out.println("Faim : "+renard.getFaim());
+					System.out.println("Fatigue :"+renard.getFatigue());
+					System.out.println("Durée de Vie :"+renard.getDureeVie());
+					System.out.println("Mode de Vie :"+renard.getModeDeVie());
+					System.out.println("Portee : "+renard.getPortee());
+					System.out.println("Rayon :"+renard.getRayon());
+					System.out.println("Valeur Energetique : "+ renard.getValeurEnergetique());
+					System.out.println("Stade :"+ renard.getStade());
+					System.out.println("Age : "+ renard.getAge());
+					System.out.println("Sexe : "+ renard.getSexe());
+					System.out.println("Coordonnée :"+ renard.getCoordonee());
 				
-				renard.setPortee(portee);
-				renard.setRayon(rayon);
-				renard.setValeurEnergetique(valeurEnergetique);
-				renard.setDureeVie(dureeVie);
-				String stade = ren.getAttributeValue("stade");
-				if(stade == "jeune"){
-					renard.setStade(EnumStade.jeune);
-				}else if (stade == "adulte"){
-					renard.setStade(EnumStade.adulte);
-				}else if (stade == "vieux"){
-					renard.setStade(EnumStade.vieux);
+					listEntites.add(renard);
+					System.out.println();
 				}
-				renard.setFaim(Integer.parseInt(ren.getAttributeValue("faim")));
-				renard.setFatigue(Integer.parseInt(ren.getAttributeValue("fatigue")));
-				
-				if(e.getAttributeValue("modeDeVie") == "terrestre"){
-					System.out.println("ici");
-					renard.setModeDeVie(EnumModeDeVie.terrestre);
-				}else if (e.getAttributeValue("modeDeVie") == "aquatique"){
-					renard.setModeDeVie(EnumModeDeVie.aquatique);
-				}else if (e.getAttributeValue("modeDeVie") == "amphibie"){
-					renard.setModeDeVie(EnumModeDeVie.amphibie);
-				}else{
-					//Par défaut terrestre
-					renard.setModeDeVie(EnumModeDeVie.terrestre);
-				}
-				
-				renard.setAge(Integer.parseInt(ren.getAttributeValue("age")));
-				if(ren.getAttributeValue("sexe") == "femelle"){
-					renard.setSexe(EnumSexe.femelle);
-				}else{
-					renard.setSexe(EnumSexe.male);
-				}
-				int coordX = Integer.parseInt(ren.getAttributeValue("coordX"));
-				int coordY = Integer.parseInt(ren.getAttributeValue("coordY"));
-				renard.setCoordonee(new Coordonnee(coordX,coordY));
-				
-				
-				//Affichage des éléments de renard
-				System.out.println("Faim : "+renard.getFaim());
-				System.out.println("Fatigue :"+renard.getFatigue());
-				System.out.println("Durée de Vie :"+renard.getDureeVie());
-				System.out.println("Mode de Vie :"+renard.getModeDeVie());
-				System.out.println("Portee : "+renard.getPortee());
-				System.out.println("Rayon :"+renard.getRayon());
-				System.out.println("Valeur Energetique : "+ renard.getValeurEnergetique());
-				System.out.println("Stade :"+ renard.getStade());
-				System.out.println("Age : "+ renard.getAge());
-				System.out.println("Sexe : "+ renard.getSexe());
-				System.out.println("Coordonnée :"+ renard.getCoordonee());
-				
-				
-				 
-				listEntites.add(renard);
-				System.out.println();
 			}
 		}
 		
@@ -200,133 +205,141 @@ public class Map {
 			Element e = (Element)listLapins.get(i);
 			List listLapin = e.getChildren("lapin");
 			
-			int portee = Integer.parseInt(e.getAttributeValue("portee"));
-			int rayon = Integer.parseInt(e.getAttributeValue("rayon"));
-			int valeurEnergetique = Integer.parseInt(e.getAttributeValue("valeurEnergetique"));
-			int dureeVie = Integer.parseInt(e.getAttributeValue("dureeVie"));
-			
-			for(int h=0; h < listLapin.size() ; h++){
-				System.out.println("Lapin "+(h+1));
-				Lapin lapin = new Lapin();
+			if(listLapin.size() == 0){
+				System.out.println("Pas de lapins");
+			}else{
+				int portee = Integer.parseInt(e.getAttributeValue("portee"));
+				int rayon = Integer.parseInt(e.getAttributeValue("rayon"));
+				int valeurEnergetique = Integer.parseInt(e.getAttributeValue("valeurEnergetique"));
+				int dureeVie = Integer.parseInt(e.getAttributeValue("dureeVie"));
 				
-				Element lap = (Element)listLapin.get(h);
-				
-				lapin.setPortee(portee);
-				lapin.setRayon(rayon);
-				lapin.setValeurEnergetique(valeurEnergetique);
-				lapin.setDureeVie(dureeVie);
-				if(lap.getAttributeValue("stade") == "jeune"){
-					lapin.setStade(EnumStade.jeune);
-				}else if (lap.getAttributeValue("stade") == "adulte"){
-					lapin.setStade(EnumStade.adulte);
-				}else if (lap.getAttributeValue("stade") == "vieux"){
-					lapin.setStade(EnumStade.vieux);
+				for(int h=0; h < listLapin.size() ; h++){
+					System.out.println("Lapin "+(h+1));
+					Lapin lapin = new Lapin();
+					
+					Element lap = (Element)listLapin.get(h);
+					
+					lapin.setPortee(portee);
+					lapin.setRayon(rayon);
+					lapin.setValeurEnergetique(valeurEnergetique);
+					lapin.setDureeVie(dureeVie);
+					if(lap.getAttributeValue("stade") == "jeune"){
+						lapin.setStade(EnumStade.jeune);
+					}else if (lap.getAttributeValue("stade") == "adulte"){
+						lapin.setStade(EnumStade.adulte);
+					}else if (lap.getAttributeValue("stade") == "vieux"){
+						lapin.setStade(EnumStade.vieux);
+					}
+					lapin.setFaim(Integer.parseInt(lap.getAttributeValue("faim")));
+					lapin.setFatigue(Integer.parseInt(lap.getAttributeValue("fatigue")));
+					
+					if(e.getAttributeValue("modeDeVie") == "terrestre"){
+						System.out.println("ici");
+						lapin.setModeDeVie(EnumModeDeVie.terrestre);
+					}else if (e.getAttributeValue("modeDeVie") == "aquatique"){
+						lapin.setModeDeVie(EnumModeDeVie.aquatique);
+					}else if (e.getAttributeValue("modeDeVie") == "amphibie"){
+						lapin.setModeDeVie(EnumModeDeVie.amphibie);
+					}else{
+						//Par défaut terrestre
+						lapin.setModeDeVie(EnumModeDeVie.terrestre);
+					}
+					lapin.setAge(Integer.parseInt(lap.getAttributeValue("age")));
+					if(lap.getAttributeValue("sexe") == "femelle"){
+						lapin.setSexe(EnumSexe.femelle);
+					}else{
+						lapin.setSexe(EnumSexe.male);
+					}
+					lapin.setCoordonee(new Coordonnee(Integer.parseInt(lap.getAttributeValue("coordX")),Integer.parseInt(lap.getAttributeValue("coordY"))));
+					
+					//Affichage des éléments
+					System.out.println("Faim : "+lapin.getFaim());
+					System.out.println("Fatigue :"+lapin.getFatigue());
+					System.out.println("Durée de Vie :"+lapin.getDureeVie());
+					System.out.println("Mode de Vie :"+lapin.getModeDeVie());
+					System.out.println("Portee : "+lapin.getPortee());
+					System.out.println("Rayon :"+ lapin.getRayon());
+					System.out.println("Valeur Energetique : "+ lapin.getValeurEnergetique());
+					System.out.println("Stade :"+ lapin.getStade());
+					System.out.println("Age : "+ lapin.getAge());
+					System.out.println("Sexe : "+ lapin.getSexe());
+					System.out.println("Coordonnée :"+ lapin.getCoordonee());
+					
+					listEntites.add(lapin);
+					System.out.println();
 				}
-				lapin.setFaim(Integer.parseInt(lap.getAttributeValue("faim")));
-				lapin.setFatigue(Integer.parseInt(lap.getAttributeValue("fatigue")));
-				
-				if(e.getAttributeValue("modeDeVie") == "terrestre"){
-					System.out.println("ici");
-					lapin.setModeDeVie(EnumModeDeVie.terrestre);
-				}else if (e.getAttributeValue("modeDeVie") == "aquatique"){
-					lapin.setModeDeVie(EnumModeDeVie.aquatique);
-				}else if (e.getAttributeValue("modeDeVie") == "amphibie"){
-					lapin.setModeDeVie(EnumModeDeVie.amphibie);
-				}else{
-					//Par défaut terrestre
-					lapin.setModeDeVie(EnumModeDeVie.terrestre);
-				}
-				lapin.setAge(Integer.parseInt(lap.getAttributeValue("age")));
-				if(lap.getAttributeValue("sexe") == "femelle"){
-					lapin.setSexe(EnumSexe.femelle);
-				}else{
-					lapin.setSexe(EnumSexe.male);
-				}
-				lapin.setCoordonee(new Coordonnee(Integer.parseInt(lap.getAttributeValue("coordX")),Integer.parseInt(lap.getAttributeValue("coordY"))));
-				
-				//Affichage des éléments de renard
-				System.out.println("Faim : "+lapin.getFaim());
-				System.out.println("Fatigue :"+lapin.getFatigue());
-				System.out.println("Durée de Vie :"+lapin.getDureeVie());
-				System.out.println("Mode de Vie :"+lapin.getModeDeVie());
-				System.out.println("Portee : "+lapin.getPortee());
-				System.out.println("Rayon :"+ lapin.getRayon());
-				System.out.println("Valeur Energetique : "+ lapin.getValeurEnergetique());
-				System.out.println("Stade :"+ lapin.getStade());
-				System.out.println("Age : "+ lapin.getAge());
-				System.out.println("Sexe : "+ lapin.getSexe());
-				System.out.println("Coordonnée :"+ lapin.getCoordonee());
-				
-				listEntites.add(lapin);
-				System.out.println();
 			}
 		}
 		//Récupération des données sur les chamois
 		List<Element> listChamois = entites.getChildren("chamois");
 		for(int i = 0 ; i<listChamois.size(); i++){
-			System.out.println("------------LAPINS------------------");
+			System.out.println("------------CHAMOIS------------------");
 			Element e = (Element)listChamois.get(i);
 			List listChamoi = e.getChildren("chamoi");
-		
-			int portee = Integer.parseInt(e.getAttributeValue("portee"));
-			int rayon = Integer.parseInt(e.getAttributeValue("rayon"));
-			int valeurEnergetique = Integer.parseInt(e.getAttributeValue("valeurEnergetique"));
-			int dureeVie = Integer.parseInt(e.getAttributeValue("dureeVie"));
-				
-			for(int h=0; h < listChamoi.size() ; h++){
-				System.out.println("Chamois "+(h+1));
-				Chamois chamois = new Chamois();
+			
+			if(listChamoi.size() == 0){
+				System.out.println("Pas de chamois");
+			}else{
+				int portee = Integer.parseInt(e.getAttributeValue("portee"));
+				int rayon = Integer.parseInt(e.getAttributeValue("rayon"));
+				int valeurEnergetique = Integer.parseInt(e.getAttributeValue("valeurEnergetique"));
+				int dureeVie = Integer.parseInt(e.getAttributeValue("dureeVie"));
 					
-				Element ch = (Element)listChamoi.get(h);
+				for(int h=0; h < listChamoi.size() ; h++){
+					System.out.println("Chamois "+(h+1));
+					Chamois chamois = new Chamois();
 						
-				chamois.setPortee(portee);
-				chamois.setRayon(rayon);
-				chamois.setValeurEnergetique(valeurEnergetique);
-				chamois.setDureeVie(dureeVie);
-				if(ch.getAttributeValue("stade") == "jeune"){
-					chamois.setStade(EnumStade.jeune);
-				}else if (ch.getAttributeValue("stade") == "adulte"){
-					chamois.setStade(EnumStade.adulte);
-				}else if (ch.getAttributeValue("stade") == "vieux"){
-					chamois.setStade(EnumStade.vieux);
+					Element ch = (Element)listChamoi.get(h);
+							
+					chamois.setPortee(portee);
+					chamois.setRayon(rayon);
+					chamois.setValeurEnergetique(valeurEnergetique);
+					chamois.setDureeVie(dureeVie);
+					if(ch.getAttributeValue("stade") == "jeune"){
+						chamois.setStade(EnumStade.jeune);
+					}else if (ch.getAttributeValue("stade") == "adulte"){
+						chamois.setStade(EnumStade.adulte);
+					}else if (ch.getAttributeValue("stade") == "vieux"){
+						chamois.setStade(EnumStade.vieux);
+					}
+					chamois.setFaim(Integer.parseInt(ch.getAttributeValue("faim")));
+					chamois.setFatigue(Integer.parseInt(ch.getAttributeValue("fatigue")));
+							
+					if(e.getAttributeValue("modeDeVie") == "terrestre"){
+						System.out.println("ici");
+						chamois.setModeDeVie(EnumModeDeVie.terrestre);
+					}else if (e.getAttributeValue("modeDeVie") == "aquatique"){
+						chamois.setModeDeVie(EnumModeDeVie.aquatique);
+					}else if (e.getAttributeValue("modeDeVie") == "amphibie"){
+						chamois.setModeDeVie(EnumModeDeVie.amphibie);
+					}else{
+						//Par défaut terrestre
+						chamois.setModeDeVie(EnumModeDeVie.terrestre);
+					}
+					chamois.setAge(Integer.parseInt(ch.getAttributeValue("age")));
+					if(ch.getAttributeValue("sexe") == "femelle"){
+						chamois.setSexe(EnumSexe.femelle);
+					}else{
+						chamois.setSexe(EnumSexe.male);
+					}
+					chamois.setCoordonee(new Coordonnee(Integer.parseInt(ch.getAttributeValue("coordX")),Integer.parseInt(ch.getAttributeValue("coordY"))));
+					
+					//Affichage des éléments
+					System.out.println("Faim : "+chamois.getFaim());
+					System.out.println("Fatigue :"+chamois.getFatigue());
+					System.out.println("Durée de Vie :"+chamois.getDureeVie());
+					System.out.println("Mode de Vie :"+chamois.getModeDeVie());
+					System.out.println("Portee : "+chamois.getPortee());
+					System.out.println("Rayon :"+ chamois.getRayon());
+					System.out.println("Valeur Energetique : "+ chamois.getValeurEnergetique());
+					System.out.println("Stade :"+ chamois.getStade());
+					System.out.println("Age : "+ chamois.getAge());
+					System.out.println("Sexe : "+ chamois.getSexe());
+					System.out.println("Coordonnée :"+ chamois.getCoordonee());
+					
+					listEntites.add(chamois);
+					System.out.println();
 				}
-				chamois.setFaim(Integer.parseInt(ch.getAttributeValue("faim")));
-				chamois.setFatigue(Integer.parseInt(ch.getAttributeValue("fatigue")));
-						
-				if(e.getAttributeValue("modeDeVie") == "terrestre"){
-					System.out.println("ici");
-					chamois.setModeDeVie(EnumModeDeVie.terrestre);
-				}else if (e.getAttributeValue("modeDeVie") == "aquatique"){
-					chamois.setModeDeVie(EnumModeDeVie.aquatique);
-				}else if (e.getAttributeValue("modeDeVie") == "amphibie"){
-					chamois.setModeDeVie(EnumModeDeVie.amphibie);
-				}else{
-					//Par défaut terrestre
-					chamois.setModeDeVie(EnumModeDeVie.terrestre);
-				}
-				chamois.setAge(Integer.parseInt(ch.getAttributeValue("age")));
-				if(ch.getAttributeValue("sexe") == "femelle"){
-					chamois.setSexe(EnumSexe.femelle);
-				}else{
-					chamois.setSexe(EnumSexe.male);
-				}
-				chamois.setCoordonee(new Coordonnee(Integer.parseInt(ch.getAttributeValue("coordX")),Integer.parseInt(ch.getAttributeValue("coordY"))));
-				
-				//Affichage des éléments de renard
-				System.out.println("Faim : "+chamois.getFaim());
-				System.out.println("Fatigue :"+chamois.getFatigue());
-				System.out.println("Durée de Vie :"+chamois.getDureeVie());
-				System.out.println("Mode de Vie :"+chamois.getModeDeVie());
-				System.out.println("Portee : "+chamois.getPortee());
-				System.out.println("Rayon :"+ chamois.getRayon());
-				System.out.println("Valeur Energetique : "+ chamois.getValeurEnergetique());
-				System.out.println("Stade :"+ chamois.getStade());
-				System.out.println("Age : "+ chamois.getAge());
-				System.out.println("Sexe : "+ chamois.getSexe());
-				System.out.println("Coordonnée :"+ chamois.getCoordonee());
-				
-				listEntites.add(chamois);
-				System.out.println();
 			}
 		}
 		//Récupération des données sur les loups
@@ -334,74 +347,223 @@ public class Map {
 		for(int i = 0 ; i<listLoups.size(); i++){
 			System.out.println("------------LOUPS------------------");
 			Element e = (Element)listLoups.get(i);
-			List listChamoi = e.getChildren("loup");
+			List listLoup = e.getChildren("loup");
 			
-			int portee = Integer.parseInt(e.getAttributeValue("portee"));
-			int rayon = Integer.parseInt(e.getAttributeValue("rayon"));
-			int valeurEnergetique = Integer.parseInt(e.getAttributeValue("valeurEnergetique"));
-			int dureeVie = Integer.parseInt(e.getAttributeValue("dureeVie"));
-					
-			for(int h=0; h < listChamoi.size() ; h++){
-				System.out.println("Chamois "+(h+1));
-				Chamois chamois = new Chamois();
-					
-				Element ch = (Element)listChamoi.get(h);
-							
-				chamois.setPortee(portee);
-				chamois.setRayon(rayon);
-				chamois.setValeurEnergetique(valeurEnergetique);
-				chamois.setDureeVie(dureeVie);
-						if(ch.getAttributeValue("stade") == "jeune"){
-							chamois.setStade(EnumStade.jeune);
-						}else if (ch.getAttributeValue("stade") == "adulte"){
-							chamois.setStade(EnumStade.adulte);
-						}else if (ch.getAttributeValue("stade") == "vieux"){
-							chamois.setStade(EnumStade.vieux);
-						}
-						chamois.setFaim(Integer.parseInt(ch.getAttributeValue("faim")));
-						chamois.setFatigue(Integer.parseInt(ch.getAttributeValue("fatigue")));
+			if(listLoup.size() == 0){
+				System.out.println("Pas de sanglier");
+			}else{
+				int portee = Integer.parseInt(e.getAttributeValue("portee"));
+				int rayon = Integer.parseInt(e.getAttributeValue("rayon"));
+				int valeurEnergetique = Integer.parseInt(e.getAttributeValue("valeurEnergetique"));
+				int dureeVie = Integer.parseInt(e.getAttributeValue("dureeVie"));
+						
+				for(int h=0; h < listLoup.size() ; h++){
+					System.out.println("Loup "+(h+1));
+					Loup animal = new Loup();
+						
+					Element ani = (Element)listLoup.get(h);
 								
-						if(e.getAttributeValue("modeDeVie") == "terrestre"){
-							System.out.println("ici");
-							chamois.setModeDeVie(EnumModeDeVie.terrestre);
-						}else if (e.getAttributeValue("modeDeVie") == "aquatique"){
-							chamois.setModeDeVie(EnumModeDeVie.aquatique);
-						}else if (e.getAttributeValue("modeDeVie") == "amphibie"){
-							chamois.setModeDeVie(EnumModeDeVie.amphibie);
-						}else{
-							//Par défaut terrestre
-							chamois.setModeDeVie(EnumModeDeVie.terrestre);
-						}
-						chamois.setAge(Integer.parseInt(ch.getAttributeValue("age")));
-						if(ch.getAttributeValue("sexe") == "femelle"){
-							chamois.setSexe(EnumSexe.femelle);
-						}else{
-							chamois.setSexe(EnumSexe.male);
-						}
-						chamois.setCoordonee(new Coordonnee(Integer.parseInt(ch.getAttributeValue("coordX")),Integer.parseInt(ch.getAttributeValue("coordY"))));
-						
-						//Affichage des éléments de renard
-						System.out.println("Faim : "+chamois.getFaim());
-						System.out.println("Fatigue :"+chamois.getFatigue());
-						System.out.println("Durée de Vie :"+chamois.getDureeVie());
-						System.out.println("Mode de Vie :"+chamois.getModeDeVie());
-						System.out.println("Portee : "+chamois.getPortee());
-						System.out.println("Rayon :"+ chamois.getRayon());
-						System.out.println("Valeur Energetique : "+ chamois.getValeurEnergetique());
-						System.out.println("Stade :"+ chamois.getStade());
-						System.out.println("Age : "+ chamois.getAge());
-						System.out.println("Sexe : "+ chamois.getSexe());
-						System.out.println("Coordonnée :"+ chamois.getCoordonee());
-						
-						listEntites.add(chamois);
-						System.out.println();
+					animal.setPortee(portee);
+					animal.setRayon(rayon);
+					animal.setValeurEnergetique(valeurEnergetique);
+					animal.setDureeVie(dureeVie);
+					if(ani.getAttributeValue("stade") == "jeune"){
+						animal.setStade(EnumStade.jeune);
+					}else if (ani.getAttributeValue("stade") == "adulte"){
+						animal.setStade(EnumStade.adulte);
+					}else if (ani.getAttributeValue("stade") == "vieux"){
+						animal.setStade(EnumStade.vieux);
 					}
+					animal.setFaim(Integer.parseInt(ani.getAttributeValue("faim")));
+					animal.setFatigue(Integer.parseInt(ani.getAttributeValue("fatigue")));
+								
+					if(e.getAttributeValue("modeDeVie") == "terrestre"){
+						System.out.println("ici");
+						animal.setModeDeVie(EnumModeDeVie.terrestre);
+					}else if (e.getAttributeValue("modeDeVie") == "aquatique"){
+						animal.setModeDeVie(EnumModeDeVie.aquatique);
+					}else if (e.getAttributeValue("modeDeVie") == "amphibie"){
+						animal.setModeDeVie(EnumModeDeVie.amphibie);
+					}else{
+						//Par défaut terrestre
+						animal.setModeDeVie(EnumModeDeVie.terrestre);
+					}
+					animal.setAge(Integer.parseInt(ani.getAttributeValue("age")));
+					if(ani.getAttributeValue("sexe") == "femelle"){
+						animal.setSexe(EnumSexe.femelle);
+					}else{
+						animal.setSexe(EnumSexe.male);
+					}
+					animal.setCoordonee(new Coordonnee(Integer.parseInt(ani.getAttributeValue("coordX")),Integer.parseInt(ani.getAttributeValue("coordY"))));
+						
+					//Affichage des éléments
+					System.out.println("Faim : "+animal.getFaim());
+					System.out.println("Fatigue :"+animal.getFatigue());
+					System.out.println("Durée de Vie :"+animal.getDureeVie());
+					System.out.println("Mode de Vie :"+animal.getModeDeVie());
+					System.out.println("Portee : "+animal.getPortee());
+					System.out.println("Rayon :"+ animal.getRayon());
+					System.out.println("Valeur Energetique : "+ animal.getValeurEnergetique());
+					System.out.println("Stade :"+ animal.getStade());
+					System.out.println("Age : "+ animal.getAge());
+					System.out.println("Sexe : "+ animal.getSexe());
+					System.out.println("Coordonnée :"+ animal.getCoordonee());
+							
+					listEntites.add(animal);
+					System.out.println();
 				}
+			}
+		}		
 		
+		//Récupération des données sur les moutons
+		List<Element> listMoutons = entites.getChildren("moutons");
+		for(int i = 0 ; i<listMoutons.size(); i++){
+			System.out.println("------------MOUTONS------------------");
+			Element e = (Element)listMoutons.get(i);
+			List listMouton = e.getChildren("mouton");
+			
+			if(listMouton.size() == 0){
+				System.out.println("Pas de sanglier");
+			}else{
+				int portee = Integer.parseInt(e.getAttributeValue("portee"));
+				int rayon = Integer.parseInt(e.getAttributeValue("rayon"));
+				int valeurEnergetique = Integer.parseInt(e.getAttributeValue("valeurEnergetique"));
+				int dureeVie = Integer.parseInt(e.getAttributeValue("dureeVie"));
+						
+				for(int h=0; h < listMouton.size() ; h++){
+					System.out.println("Mouton "+(h+1));
+					Mouton animal = new Mouton();
+						
+					Element ani = (Element)listMouton.get(h);
+								
+					animal.setPortee(portee);
+					animal.setRayon(rayon);
+					animal.setValeurEnergetique(valeurEnergetique);
+					animal.setDureeVie(dureeVie);
+					if(ani.getAttributeValue("stade") == "jeune"){
+						animal.setStade(EnumStade.jeune);
+					}else if (ani.getAttributeValue("stade") == "adulte"){
+						animal.setStade(EnumStade.adulte);
+					}else if (ani.getAttributeValue("stade") == "vieux"){
+						animal.setStade(EnumStade.vieux);
+					}
+					animal.setFaim(Integer.parseInt(ani.getAttributeValue("faim")));
+					animal.setFatigue(Integer.parseInt(ani.getAttributeValue("fatigue")));
+								
+					if(e.getAttributeValue("modeDeVie") == "terrestre"){
+						System.out.println("ici");
+						animal.setModeDeVie(EnumModeDeVie.terrestre);
+					}else if (e.getAttributeValue("modeDeVie") == "aquatique"){
+						animal.setModeDeVie(EnumModeDeVie.aquatique);
+					}else if (e.getAttributeValue("modeDeVie") == "amphibie"){
+						animal.setModeDeVie(EnumModeDeVie.amphibie);
+					}else{
+						//Par défaut terrestre
+						animal.setModeDeVie(EnumModeDeVie.terrestre);
+					}
+					animal.setAge(Integer.parseInt(ani.getAttributeValue("age")));
+					if(ani.getAttributeValue("sexe") == "femelle"){
+						animal.setSexe(EnumSexe.femelle);
+					}else{
+						animal.setSexe(EnumSexe.male);
+					}
+					animal.setCoordonee(new Coordonnee(Integer.parseInt(ani.getAttributeValue("coordX")),Integer.parseInt(ani.getAttributeValue("coordY"))));
+						
+					//Affichage des éléments
+					System.out.println("Faim : "+animal.getFaim());
+					System.out.println("Fatigue :"+animal.getFatigue());
+					System.out.println("Durée de Vie :"+animal.getDureeVie());
+					System.out.println("Mode de Vie :"+animal.getModeDeVie());
+					System.out.println("Portee : "+animal.getPortee());
+					System.out.println("Rayon :"+ animal.getRayon());
+					System.out.println("Valeur Energetique : "+ animal.getValeurEnergetique());
+					System.out.println("Stade :"+ animal.getStade());
+					System.out.println("Age : "+ animal.getAge());
+					System.out.println("Sexe : "+ animal.getSexe());
+					System.out.println("Coordonnée :"+ animal.getCoordonee());
+							
+					listEntites.add(animal);
+					System.out.println();
+				}
+			}
+		}		
 		
+		//Récupération des données sur les sangliers
+		List<Element> listSangliers = entites.getChildren("sangliers");
+		for(int i = 0 ; i<listSangliers.size(); i++){
+			System.out.println("------------SANGLIERS------------------");
+			Element e = (Element)listSangliers.get(i);
+			List listSanglier = e.getChildren("sanglier");
+			
+			if(listSanglier.size() == 0){
+				System.out.println("Pas de sanglier");
+			}else{
+				int portee = Integer.parseInt(e.getAttributeValue("portee"));
+				int rayon = Integer.parseInt(e.getAttributeValue("rayon"));
+				int valeurEnergetique = Integer.parseInt(e.getAttributeValue("valeurEnergetique"));
+				int dureeVie = Integer.parseInt(e.getAttributeValue("dureeVie"));
+						
+				for(int h=0; h < listSanglier.size() ; h++){
+					System.out.println("Sanglier "+(h+1));
+					Sanglier animal = new Sanglier();
+						
+					Element ani = (Element)listSanglier.get(h);
+								
+					animal.setPortee(portee);
+					animal.setRayon(rayon);
+					animal.setValeurEnergetique(valeurEnergetique);
+					animal.setDureeVie(dureeVie);
+					if(ani.getAttributeValue("stade") == "jeune"){
+						animal.setStade(EnumStade.jeune);
+					}else if (ani.getAttributeValue("stade") == "adulte"){
+						animal.setStade(EnumStade.adulte);
+					}else if (ani.getAttributeValue("stade") == "vieux"){
+						animal.setStade(EnumStade.vieux);
+					}
+					animal.setFaim(Integer.parseInt(ani.getAttributeValue("faim")));
+					animal.setFatigue(Integer.parseInt(ani.getAttributeValue("fatigue")));
+								
+					if(e.getAttributeValue("modeDeVie") == "terrestre"){
+						System.out.println("ici");
+						animal.setModeDeVie(EnumModeDeVie.terrestre);
+					}else if (e.getAttributeValue("modeDeVie") == "aquatique"){
+						animal.setModeDeVie(EnumModeDeVie.aquatique);
+					}else if (e.getAttributeValue("modeDeVie") == "amphibie"){
+						animal.setModeDeVie(EnumModeDeVie.amphibie);
+					}else{
+						//Par défaut terrestre
+						animal.setModeDeVie(EnumModeDeVie.terrestre);
+					}
+					animal.setAge(Integer.parseInt(ani.getAttributeValue("age")));
+					if(ani.getAttributeValue("sexe") == "femelle"){
+						animal.setSexe(EnumSexe.femelle);
+					}else{
+						animal.setSexe(EnumSexe.male);
+					}
+					animal.setCoordonee(new Coordonnee(Integer.parseInt(ani.getAttributeValue("coordX")),Integer.parseInt(ani.getAttributeValue("coordY"))));
+						
+					//Affichage des éléments
+					System.out.println("Faim : "+animal.getFaim());
+					System.out.println("Fatigue :"+animal.getFatigue());
+					System.out.println("Durée de Vie :"+animal.getDureeVie());
+					System.out.println("Mode de Vie :"+animal.getModeDeVie());
+					System.out.println("Portee : "+animal.getPortee());
+					System.out.println("Rayon :"+ animal.getRayon());
+					System.out.println("Valeur Energetique : "+ animal.getValeurEnergetique());
+					System.out.println("Stade :"+ animal.getStade());
+					System.out.println("Age : "+ animal.getAge());
+					System.out.println("Sexe : "+ animal.getSexe());
+					System.out.println("Coordonnée :"+ animal.getCoordonee());
+							
+					listEntites.add(animal);
+					System.out.println();
+				}
+			}
+		}
+				
 		
 		System.out.println(listEntites.size());
-	
+		return listEntites;
 	}
 
 	/**
@@ -419,15 +581,17 @@ public class Map {
 		String fichier = new String ("src/Carte/Map.xml");
 		Vue vue = new InterfaceGraphique();
 		vue.fenetre();
+		List<Entite> listEntites= new ArrayList<Entite>();
 		
 		try {
-			lireXML(fichier);
+			listEntites = lireXML(fichier);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		taille = Integer.parseInt(racine.getChildText("taille"));
 		Map map = new Map(taille);
 		
+		//A mettre dans dessineMap je pense ;)
 		for(int j=0 ;j<=taille ; j++){
 			for(int k=0 ; k <=taille; k++){
 				if(map.getGrilleDeJeu()[1][1].getEnvironnement() == EnumEnvironnement.plaine){
@@ -439,8 +603,6 @@ public class Map {
 				}
 			}
 		}	
-		
-		
 		vue.dessineMap(map);
 		
 	}
@@ -469,11 +631,9 @@ public class Map {
 	public void setNourriture(Nourriture nourriture) {
 		this.nourriture = nourriture;
 	}
-
 	public int getRayon() {
 		return rayon;
 	}
-
 	public void setRayon(int rayon) {
 		this.rayon = rayon;
 	}
