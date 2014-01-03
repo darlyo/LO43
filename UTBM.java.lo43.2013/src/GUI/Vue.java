@@ -26,4 +26,6 @@ public interface Vue {
 	 */
 	public abstract void dessineEntite(List<Entite> listEntite );
 
+	public abstract void repaint();
+
 }

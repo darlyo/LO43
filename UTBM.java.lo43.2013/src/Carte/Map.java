@@ -36,6 +36,7 @@ public class Map {
 	private Nourriture nourriture;
 	private Environnement environnement;
 	private static Coordonnee coordonnee;
+	public static List<Entite> listEntites;
 	private int rayon;
 	
 	/**
@@ -581,7 +582,7 @@ public class Map {
 		String fichier = new String ("src/Carte/Map.xml");
 		Vue vue = new InterfaceGraphique();
 		vue.fenetre();
-		List<Entite> listEntites= new ArrayList<Entite>();
+		listEntites= new ArrayList<Entite>();
 		
 		try {
 			listEntites = lireXML(fichier);
@@ -591,19 +592,20 @@ public class Map {
 		taille = Integer.parseInt(racine.getChildText("taille"));
 		Map map = new Map(taille);
 		
-		//A mettre dans dessineMap je pense ;)
+		/*//A mettre dans dessineMap je pense ;)
 		for(int j=0 ;j<=taille ; j++){
 			for(int k=0 ; k <=taille; k++){
-				if(map.getGrilleDeJeu()[1][1].getEnvironnement() == EnumEnvironnement.plaine){
+				if(map.getGrilleDeJeu()[j][k].getEnvironnement() == EnumEnvironnement.plaine){
 					//color en vert
-				}else if(map.getGrilleDeJeu()[1][1].getEnvironnement() == EnumEnvironnement.eau){
+				}else if(map.getGrilleDeJeu()[j][k].getEnvironnement() == EnumEnvironnement.eau){
 					//color en bleu
-				}else if(map.getGrilleDeJeu()[1][1].getEnvironnement() == EnumEnvironnement.montagne){
+				}else if(map.getGrilleDeJeu()[j][k].getEnvironnement() == EnumEnvironnement.montagne){
 					//color en gris
 				}
 			}
-		}	
+		}	*/
 		vue.dessineMap(map);
+		vue.dessineEntite(listEntites);
 		
 	}
 

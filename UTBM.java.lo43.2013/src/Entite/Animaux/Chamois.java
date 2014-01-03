@@ -2,6 +2,7 @@ package Entite.Animaux;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import Carte.Coordonnee;
 import Entite.Animaux.interfaces.Vegetarienable;
 import Entite.Vegetaux.Vegetal;

@@ -6,7 +6,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -19,9 +18,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import com.sun.corba.se.spi.legacy.connection.GetEndPointInfoAgainException;
-
-import Carte.Case;
 import Carte.Map;
 import Entite.Entite;
 import Enumeration.EnumEntite;
@@ -31,7 +27,8 @@ import Vivarium.Main;
 public class InterfaceGraphique implements Vue {
 
 	private JFrame fenetre;
-	private JPanel panelMenu, panelMap, panelCarte;
+	private JPanel panelMenu, panelMap;
+	private MyJMap panelCarte;
 
 	// attribut propre au panelMenu
 	private CardLayout cardMenu;
@@ -43,15 +40,7 @@ public class InterfaceGraphique implements Vue {
 	private int NbTour = 0;
 	private int Score = 0;
 	private boolean etat = false;
-	
-	//Couleur
-	private Color grisClair = new Color( Integer.parseInt( "d2d2d2", 16 ) );
-	private Color grisClaire2 = new Color( Integer.parseInt( "eeeeee", 16 ) );
 
-	//caractéristique de la carte
-	private int taille;
-	private Case[][] carte;
-	
 	@Override
 	public void fenetre() {
 
@@ -78,28 +67,30 @@ public class InterfaceGraphique implements Vue {
 	}
 
 	/**
-	 * Construit la zone ou sera afficher la map
-	 * et definit sa taille
+	 * Construit la zone ou sera afficher la map et definit sa taille
 	 */
 	private void buildMap() {
 		panelMap.setSize(600, 600);
-		//panelMap.setBackground(Color.green);
+		panelMap.setOpaque(false);
+		panelMap.setLocation(200, 0);
+
+		// panelMap.setBackground(Color.green);
 	}
 
 	/**
-	 * Construit la zone de menu
-	 * Avec le titre
-	 * et les 2 conteneur pour la gestion et la configuration
+	 * Construit la zone de menu Avec le titre et les 2 conteneur pour la
+	 * gestion et la configuration
 	 */
 	private void buildMenu() {
 		panelMenu.setSize(200, 600);
-		panelMenu.setBackground(grisClaire2);
-		panelMenu.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.black));
-		
+		panelMenu.setBackground(Couleur.grisClaire2);
+		panelMenu.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2,
+				Color.black));
+
 		// création d'un titre sur une seul ligne de taille 18 et de police
 		// sherif
 		JLabel title = new JLabel();
-		title.setFont( new Font(Font.SERIF, Font.PLAIN, 18));
+		title.setFont(new Font(Font.SERIF, Font.PLAIN, 18));
 		title.setText("Gestion du " + Main.NAME);
 		cardMenu = new CardLayout();
 		buildMenuConfigue();
@@ -108,7 +99,7 @@ public class InterfaceGraphique implements Vue {
 		content.setLayout(cardMenu);
 		content.add(menuConfigue, listContent[0]);
 		content.add(menuGestion, listContent[1]);
-		
+
 		panelMenu.setLayout(new BorderLayout());
 		panelMenu.add(title, BorderLayout.NORTH);
 		panelMenu.add(content, BorderLayout.CENTER);
@@ -116,8 +107,8 @@ public class InterfaceGraphique implements Vue {
 	}
 
 	/**
-	 * Construi le menu propre a la gestion de la partie
-	 * C'est a dire visible une fois la partie demarrer
+	 * Construi le menu propre a la gestion de la partie C'est a dire visible
+	 * une fois la partie demarrer
 	 */
 	private void buildMenuGestion() {
 		menuGestion = new JPanel(new FlowLayout(FlowLayout.CENTER, 100, 20));
@@ -153,7 +144,7 @@ public class InterfaceGraphique implements Vue {
 		}
 		ListEntite.setEnabled(false);
 
-		final JButton btSave = new JButton("Enregistrer la panelMap");
+		final JButton btSave = new JButton("Enregistrer la carte");
 		final JButton btPauseStart = new JButton("Pause");
 		// défintion des action sur les bouttons
 		ActionListener listener = new ActionListener() {
@@ -191,8 +182,8 @@ public class InterfaceGraphique implements Vue {
 	}
 
 	/**
-	 * Définit la menu de configuration de la map
-	 * disponible avant le lancer de la map
+	 * Définit la menu de configuration de la map disponible avant le lancer de
+	 * la map
 	 */
 	private void buildMenuConfigue() {
 		menuConfigue = new JPanel(new FlowLayout(FlowLayout.CENTER, 100, 20));
@@ -225,7 +216,7 @@ public class InterfaceGraphique implements Vue {
 
 		// définition des bouttons
 		final JButton BtStart = new JButton("Start");
-		final JButton BtCharge = new JButton("Charger une panelMap");
+		final JButton BtCharge = new JButton("Charger une carte");
 
 		// défintion des action sur les bouttons
 		ActionListener listener = new ActionListener() {
@@ -244,6 +235,7 @@ public class InterfaceGraphique implements Vue {
 				} else if (e.getSource() == BtStart) {
 					cardMenu.next(content);
 					etat = true;
+					
 				} else if (e.getSource() == BtCharge) {
 					;
 				}
@@ -268,53 +260,24 @@ public class InterfaceGraphique implements Vue {
 
 	@Override
 	public void dessineEntite(java.util.List<Entite> listEntite) {
-		// TODO Auto-generated method stub
-		
+		if (listEntite.isEmpty())
+			return;
+		panelCarte.add(listEntite);
 	}
 
 	@Override
 	public void dessineMap(Map map) {
 		panelMap.removeAll();
 		
-		taille = map.getTaille();
-		carte = map.getGrilleDeJeu();
-		
-		panelCarte = new JPanel(new GridLayout(taille, taille,1,1));
-		panelCarte.setBorder(BorderFactory.createLineBorder(Color.black, 2));
-		panelCarte.setBackground(grisClair);
-		
-		JPanel emplacement;
-		
-		for(int i =0; i < taille; i++)
-		{
-			for(int j = 0; j<taille; j++)
-			{
-				emplacement = new JPanel();
-				emplacement.add(new JLabel(carte[i][j].getEnvironnement().name()));
-				switch(carte[i][j].getEnvironnement().name())
-				{
-				case ("plaine"):
-				{
-					emplacement.setBackground(Color.green);
-					break;
-				}
-				case ("eau"):
-				{
-					emplacement.setBackground(Color.cyan);
-					break;
-				}
-				case ("montagne"):
-				{
-					emplacement.setBackground(Color.lightGray);
-					break;
-				}
-				}
-				panelCarte.add(emplacement);
-			}
-		}
+		panelCarte = new MyJMap(map, panelMap.getHeight(), panelMap.getWidth());
 		
 		panelMap.add(panelCarte);
-		panelMap.repaint();
+
+	}
+
+	@Override
+	public void repaint() {
+		fenetre.repaint();
 		
 	}
 

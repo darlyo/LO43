@@ -1,13 +1,13 @@
 package Entite.Animaux;
 
+import java.util.List;
+
 import Carte.Coordonnee;
 import Carte.Map;
 import Entite.Entite;
 import Enumeration.EnumModeDeVie;
 import Enumeration.EnumSexe;
 import Enumeration.EnumStade;
-
-import java.util.List;
 
 public abstract class Animal extends Entite {
 

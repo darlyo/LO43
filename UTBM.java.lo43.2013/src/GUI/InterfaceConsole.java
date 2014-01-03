@@ -25,5 +25,11 @@ public class InterfaceConsole implements Vue {
 		
 	}
 
+	@Override
+	public void repaint() {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }
