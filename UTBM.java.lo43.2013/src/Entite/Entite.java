@@ -1,6 +1,7 @@
 package Entite;
 
 import Carte.Coordonnee;
+import Carte.Map;
 
 public abstract class Entite {
     //atributes
@@ -57,4 +58,5 @@ public abstract class Entite {
                 this.coordonee.setY(coord.getY());
         }
         
+        public abstract void live(Map map); 
 }

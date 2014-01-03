@@ -131,6 +131,11 @@ public class Lapin extends Animal implements Vegetarienable {
 				//L'animal a faim quand faim > = 80;
 				if (this.faim >= 80 ) 
 				{		
+					if(entitesProchaines.size()==0)
+					{
+						nouveauPosition.setX((int)Math.random()*5);
+						nouveauPosition.setY((int)Math.random()*5);
+					}
 					//recherche le repas;
 					for (int i = 0; i < entitesProchaines.size();i++)
 					{

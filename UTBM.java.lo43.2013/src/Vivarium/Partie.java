@@ -6,7 +6,8 @@ public class Partie {
 
 	private int score;
 
-	public void fin() {
+	public void fin() 
+	{
 
 	}
 

@@ -1,6 +1,7 @@
 package Entite.Vegetaux;
 
 import Carte.Coordonnee;
+import Carte.Map;
 
 public class Arbre extends Vegetal {
 
@@ -21,6 +22,12 @@ public class Arbre extends Vegetal {
                 this.valeurEnergetique = 80;
                 this.quantiteMax = 70;
         }
+
+		@Override
+		public void live(Map map) {
+			// TODO Auto-generated method stub
+			
+		}
 
         
 

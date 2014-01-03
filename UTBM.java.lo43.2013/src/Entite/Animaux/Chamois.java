@@ -78,8 +78,8 @@ public class Chamois extends Animal implements Vegetarienable {
 	}
 
 	@Override
-	protected List<Animal> reproduction(Coordonnee coord) // les enfants ont le
-															// meme coordonne
+	protected List<Animal> reproduction(Coordonnee coord) // les enfants ont les
+															// meme coordonnees
 	{
 		// Nombre des enfants
 		int nombreEnfants = (int) (Math.random() * (portee));

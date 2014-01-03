@@ -3,6 +3,7 @@ package Carte;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.jdom2.Document;
@@ -589,25 +590,29 @@ public class Map {
 		taille = Integer.parseInt(racine.getChildText("taille"));
 		Map map = new Map(taille);
 		
-		/*//A mettre dans dessineMap je pense ;)
-		for(int j=0 ;j<=taille ; j++){
-			for(int k=0 ; k <=taille; k++){
-				if(map.getGrilleDeJeu()[j][k].getEnvironnement() == EnumEnvironnement.plaine){
-					//color en vert
-				}else if(map.getGrilleDeJeu()[j][k].getEnvironnement() == EnumEnvironnement.eau){
-					//color en bleu
-				}else if(map.getGrilleDeJeu()[j][k].getEnvironnement() == EnumEnvironnement.montagne){
-					//color en gris
-				}
-			}
-		}	*/
 		vue.dessineMap(map);
 		vue.dessineEntite(listEntites);
 		
 		while(true)
 		{
+			try {
+				new Thread();
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			vue.dessineMap(map);
 			vue.dessineEntite(listEntites);
+			Iterator<Entite> it =listEntites.iterator();
+			while(it.hasNext())
+			{
+				Entite ent = it.next();
+				Coordonnee cord = ent.getCoordonnee();
+				cord.setCoordonnee((cord.getX()+1)%5, (cord.getY()+1)%5);
+				//ent.live(map);
+			}
 		}
 		
 	}
