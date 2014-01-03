@@ -105,8 +105,8 @@ public class MyJMap extends JPanel {
 				Entite ent = iteratorEntite.next();
 				g.setColor(EnumEntite.valueOf(ent.getClass().getSimpleName())
 						.getColor());
-				g.fillOval(bordureLegende + ent.getCoordonee().getX()
-						* widhtCase+widhtCase/4, bordureLegende + ent.getCoordonee().getY()
+				g.fillOval(bordureLegende + ent.getCoordonnee().getX()
+						* widhtCase+widhtCase/4, bordureLegende + ent.getCoordonnee().getY()
 						* heightCase+heightCase/4, widhtCase / 2, heightCase / 2);
 			}
 		}

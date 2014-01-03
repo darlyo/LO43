@@ -191,7 +191,7 @@ public class Map {
 					System.out.println("Stade :"+ renard.getStade());
 					System.out.println("Age : "+ renard.getAge());
 					System.out.println("Sexe : "+ renard.getSexe());
-					System.out.println("Coordonnée :"+ renard.getCoordonee());
+					System.out.println("Coordonnée :"+ renard.getCoordonnee());
 				
 					listEntites.add(renard);
 					System.out.println();
@@ -264,7 +264,7 @@ public class Map {
 					System.out.println("Stade :"+ lapin.getStade());
 					System.out.println("Age : "+ lapin.getAge());
 					System.out.println("Sexe : "+ lapin.getSexe());
-					System.out.println("Coordonnée :"+ lapin.getCoordonee());
+					System.out.println("Coordonnée :"+ lapin.getCoordonnee());
 					
 					listEntites.add(lapin);
 					System.out.println();
@@ -336,7 +336,7 @@ public class Map {
 					System.out.println("Stade :"+ chamois.getStade());
 					System.out.println("Age : "+ chamois.getAge());
 					System.out.println("Sexe : "+ chamois.getSexe());
-					System.out.println("Coordonnée :"+ chamois.getCoordonee());
+					System.out.println("Coordonnée :"+ chamois.getCoordonnee());
 					
 					listEntites.add(chamois);
 					System.out.println();
@@ -408,7 +408,7 @@ public class Map {
 					System.out.println("Stade :"+ animal.getStade());
 					System.out.println("Age : "+ animal.getAge());
 					System.out.println("Sexe : "+ animal.getSexe());
-					System.out.println("Coordonnée :"+ animal.getCoordonee());
+					System.out.println("Coordonnée :"+ animal.getCoordonnee());
 							
 					listEntites.add(animal);
 					System.out.println();
@@ -481,7 +481,7 @@ public class Map {
 					System.out.println("Stade :"+ animal.getStade());
 					System.out.println("Age : "+ animal.getAge());
 					System.out.println("Sexe : "+ animal.getSexe());
-					System.out.println("Coordonnée :"+ animal.getCoordonee());
+					System.out.println("Coordonnée :"+ animal.getCoordonnee());
 							
 					listEntites.add(animal);
 					System.out.println();
@@ -554,7 +554,7 @@ public class Map {
 					System.out.println("Stade :"+ animal.getStade());
 					System.out.println("Age : "+ animal.getAge());
 					System.out.println("Sexe : "+ animal.getSexe());
-					System.out.println("Coordonnée :"+ animal.getCoordonee());
+					System.out.println("Coordonnée :"+ animal.getCoordonnee());
 							
 					listEntites.add(animal);
 					System.out.println();

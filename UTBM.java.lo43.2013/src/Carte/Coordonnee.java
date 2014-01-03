@@ -10,6 +10,11 @@ public class Coordonnee {
 		this.y = y;
 	}
 	
+	public Coordonnee() {
+		this.x = 0;
+		this.y = 0;
+	}
+
 	/**
 	 * Getters et setters
 	 */

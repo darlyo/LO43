@@ -13,39 +13,44 @@ public abstract class Animal extends Entite {
 
 	protected int dureeVie;
 
-	protected EnumModeDeVie modeDeVie; /*
-										 * model de vie: 1/3 Jeune, 1/3 adulte
-										 * et 1/3 Vieux
-										 */
+	/**
+	 * model de vie: 1/3 Jeune, 1/3 adulte et 1/3 Vieux
+	 */
+	protected EnumModeDeVie modeDeVie;
 
 	protected EnumSexe sexe;
 
 	protected int portee;
 
-	protected int faim;// Faim de 0 a 100, 0 il n'a pas faim, 100 il a trop
-						// faim;
+	/**
+	 * Faim de 0 a 100, 0 il n'a pas faim, 100 il a trop faim
+	 */
+	protected int faim;
 
 	protected int rayon;
 
-	protected int fatigue;// Fatigue de 0 a 100, parei faim;
+	/**
+	 * Fatigue de 0 a 100, parei faim
+	 */
+	protected int fatigue;
 
 	protected EnumStade stade;
 
 	public Animal() {
-		// this.cordonee(int x,int y,int z);
+		super();
 
-		this.age = 0;
-		// 80 <= Duree de Vie <= 100: random()*(N-M)+M
 		this.dureeVie = (int) (Math.random() * 20 + 80);
 
 		// sexe random
 		this.sexe = (Math.random() > 0.5) ? EnumSexe.male : EnumSexe.femelle;
 
-		this.portee = 5; // Nombre des enfants
+		// Nombre max des enfants
+		this.portee = 5;
 
 		this.faim = 0;
 
-		this.rayon = 5; // Definir les rayon (max, min) scale.
+		// Definir les rayon (max, min) scale.
+		this.rayon = 5;
 
 		this.fatigue = 0;
 
@@ -53,9 +58,11 @@ public abstract class Animal extends Entite {
 	}
 
 	Animal(int dureeVie, EnumModeDeVie modedevie, EnumSexe sexe, int portee,
-			int faim, int rayon, int fatigue) {
-		this.age = 0;
-		// this.cordonee();
+			int faim, int rayon, int fatigue, int age, int valeurEnergetic,
+			int x, int y) {
+
+		super(valeurEnergetic, age, x, y);
+
 		this.dureeVie = dureeVie;
 
 		this.faim = faim;
@@ -71,14 +78,40 @@ public abstract class Animal extends Entite {
 		this.sexe = sexe;
 
 		this.stade = EnumStade.jeune;
+	}// fin contructeur
 
-		this.valeurEnergetique = 15; // Il faut corriger cet valeur et creer la
-										// scale de valeurs posibles.
-	}
+	Animal(int dureeVie, EnumModeDeVie modedevie, EnumSexe sexe, int portee,
+			int faim, int rayon, int fatigue, int age, int valeurEnergetic,
+			Coordonnee coordonnee) {
+
+		super(valeurEnergetic, age, coordonnee);
+
+		this.dureeVie = dureeVie;
+
+		this.faim = faim;
+
+		this.fatigue = fatigue;
+
+		this.modeDeVie = modedevie;
+
+		this.portee = portee;
+
+		this.rayon = rayon;
+
+		this.sexe = sexe;
+
+		this.stade = EnumStade.jeune;
+	}// fin contructeur
 
 	protected abstract void deplacement(Coordonnee nouveauPosition);
 
-	protected abstract List<Animal> reproduction();
+	/**
+	 * Chaque animal doit naitre dans la meme place que les parents
+	 * 
+	 * @param coord
+	 * @return
+	 */
+	protected abstract List<Animal> reproduction(Coordonnee coord);
 
 	protected void grandir() {
 		/* Augmenter l'age */
@@ -93,20 +126,17 @@ public abstract class Animal extends Entite {
 			this.stade = EnumStade.vieux;
 	}
 
-	public void live() {
-		// pour connaitre s'il y a repas dans la liste de Entites
-		boolean repas;
+	public abstract void live(Map map);
 
-		// recu tout les entites prochaines (animaux ou vegetal)
-		List<Entite> entitesProchaines = perception(this.coordonee, this.rayon);
-		// L'animal a faim quand faim > = 80;
-		if (this.faim >= 80) {
-			// recherche de repas...
-		}
-	}
-
-	protected List<Entite> perception(Coordonnee coord, int ray) {
-		Map map = new Map(1); // le map doit etre donne
+	/**
+	 * le resultat est une liste avec tout les entites prochaines
+	 * 
+	 * @param coord
+	 * @param ray
+	 * @param map
+	 * @return
+	 */
+	protected List<Entite> perception(Coordonnee coord, int ray, Map map) {
 		List<Entite> entitesProchaine = map.perception(coord, ray); // Reviser
 																	// quand
 																	// utilise
@@ -117,7 +147,7 @@ public abstract class Animal extends Entite {
 	protected void reposer(int temp) {
 		/*
 		 * If faut changer ce methode, il faut avoir un timer.swing L'animal ne
-		 * peut rien faire pendant il dortfatigue et temp ont la mÃªme unite de
+		 * peut rien faire pendant il dortfatigue et temp ont la même unite de
 		 * meassure.
 		 */
 		this.fatigue = this.fatigue - temp;

@@ -2,43 +2,59 @@ package Entite;
 
 import Carte.Coordonnee;
 
-
 public abstract class Entite {
+    //atributes
+        public int valeurEnergetique;// de 0 a 100.
 
-	public int valeurEnergetique;
+        protected int age;
+        
+        public Coordonnee coordonee = new Coordonnee();//composition (class de dans une class)
 
-	protected int age;
-	
-	public Coordonnee coordonee;
+        //constructeurs
+        public Entite(){
+                this.valeurEnergetique = 0;
+                this.age = 0;
+                this.coordonee = new Coordonnee();
+        }
+        
+        public Entite(int valeurEnergetic, int age, int x, int y){
+                this.valeurEnergetique = valeurEnergetic;
+                this.age = age;
+                this.coordonee = new Coordonnee(x,y);
+        }
+        
+        public Entite(int valeurEnergetique, int age, Coordonnee coordonnee){
+                this.valeurEnergetique = valeurEnergetique;
+                this.age = age;
+                this.coordonee = coordonnee;
+        }
+        
+        //methodes
+        public void delete() {}
+        
+        public int getValeurEnergetique() {
+                return valeurEnergetique;
+        }
 
-	public void delete() {
+        public void setValeurEnergetique(int valeurEnergetique) {
+                this.valeurEnergetique = valeurEnergetique;
+        }
 
-	}
+        public int getAge() {
+                return age;
+        }
 
-	public int getValeurEnergetique() {
-		return valeurEnergetique;
-	}
+        public void setAge(int age) {
+                this.age = age;
+        }
 
-	public void setValeurEnergetique(int valeurEnergetique) {
-		this.valeurEnergetique = valeurEnergetique;
-	}
-
-	public int getAge() {
-		return age;
-	}
-
-	public void setAge(int age) {
-		this.age = age;
-	}
-
-	public Coordonnee getCoordonee() {
-		return coordonee;
-	}
-
-	public void setCoordonee(Coordonnee coordonee) {
-		this.coordonee = coordonee;
-	}
-
-	
-
+        public Coordonnee getCoordonnee() {
+                return this.coordonee;
+        }
+        
+        public void setCoordonee(Coordonnee coord){
+                this.coordonee.setX(coord.getX());
+                this.coordonee.setY(coord.getY());
+        }
+        
 }
