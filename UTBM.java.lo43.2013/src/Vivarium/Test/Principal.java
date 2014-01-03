@@ -1,3 +1,4 @@
+package Vivarium.Test;
 import Entite.Animaux.Animal;
 import Entite.Animaux.Chamois;
 
