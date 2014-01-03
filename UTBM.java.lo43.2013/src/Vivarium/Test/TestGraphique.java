@@ -25,10 +25,7 @@ public class TestGraphique {
 		map.getGrilleDeJeu()[1][49].setEnvironnement(EnumEnvironnement.montagne);
 		map.getGrilleDeJeu()[49][49].setEnvironnement(EnumEnvironnement.montagne);
 
-
-		vue.dessineMap(map);
-		while(true)
-			vue.repaint();
+		vue.dessineMap(map);			
 		
 	}
 

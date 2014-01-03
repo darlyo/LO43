@@ -272,13 +272,15 @@ public class InterfaceGraphique implements Vue {
 		panelCarte = new MyJMap(map, panelMap.getHeight(), panelMap.getWidth());
 		
 		panelMap.add(panelCarte);
+		fenetre.repaint();
+		panelMap.repaint();
 
 	}
 
 	@Override
 	public void repaint() {
 		fenetre.repaint();
-		
+		panelMap.repaint();		
 	}
 
 }

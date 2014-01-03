@@ -607,6 +607,12 @@ public class Map {
 		vue.dessineMap(map);
 		vue.dessineEntite(listEntites);
 		
+		while(true)
+		{
+			vue.dessineMap(map);
+			vue.dessineEntite(listEntites);
+		}
+		
 	}
 
 	//TODO à faire ! 
