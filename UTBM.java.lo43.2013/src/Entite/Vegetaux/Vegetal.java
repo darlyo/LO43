@@ -51,5 +51,13 @@ public abstract class Vegetal extends Entite {
                 this.quantiteNow = quantiteNow;
         }
 
+		public int getCycle() {
+			return cycle;
+		}
+
+		public void setCycle(int cycle) {
+			this.cycle = cycle;
+		}
+
         
 }

@@ -18,6 +18,8 @@ import Entite.Animaux.Loup;
 import Entite.Animaux.Mouton;
 import Entite.Animaux.Renard;
 import Entite.Animaux.Sanglier;
+import Entite.Vegetaux.Arbre;
+import Entite.Vegetaux.Herbe;
 import Enumeration.EnumEnvironnement;
 import Enumeration.EnumModeDeVie;
 import Enumeration.EnumSexe;
@@ -188,7 +190,7 @@ public class Map {
 					System.out.println("Stade :"+ renard.getStade());
 					System.out.println("Age : "+ renard.getAge());
 					System.out.println("Sexe : "+ renard.getSexe());
-					System.out.println("Coordonnée :"+ renard.getCoordonnee());
+					System.out.println("Coordonnée :"+ renard.getCoordonnee().getX() + " , " +renard.getCoordonnee().getY());
 				
 					listEntites.add(renard);
 					System.out.println();
@@ -261,7 +263,7 @@ public class Map {
 					System.out.println("Stade :"+ lapin.getStade());
 					System.out.println("Age : "+ lapin.getAge());
 					System.out.println("Sexe : "+ lapin.getSexe());
-					System.out.println("Coordonnée :"+ lapin.getCoordonnee());
+					System.out.println("Coordonnée :"+ lapin.getCoordonnee().getX() + " , " + lapin.getCoordonnee().getY());
 					
 					listEntites.add(lapin);
 					System.out.println();
@@ -333,7 +335,7 @@ public class Map {
 					System.out.println("Stade :"+ chamois.getStade());
 					System.out.println("Age : "+ chamois.getAge());
 					System.out.println("Sexe : "+ chamois.getSexe());
-					System.out.println("Coordonnée :"+ chamois.getCoordonnee());
+					System.out.println("Coordonnée :"+ chamois.getCoordonnee().getX() + " , " + chamois.getCoordonnee().getY());
 					
 					listEntites.add(chamois);
 					System.out.println();
@@ -405,7 +407,7 @@ public class Map {
 					System.out.println("Stade :"+ animal.getStade());
 					System.out.println("Age : "+ animal.getAge());
 					System.out.println("Sexe : "+ animal.getSexe());
-					System.out.println("Coordonnée :"+ animal.getCoordonnee());
+					System.out.println("Coordonnée :"+ animal.getCoordonnee().getX() + " , " + animal.getCoordonnee().getY());
 							
 					listEntites.add(animal);
 					System.out.println();
@@ -478,7 +480,7 @@ public class Map {
 					System.out.println("Stade :"+ animal.getStade());
 					System.out.println("Age : "+ animal.getAge());
 					System.out.println("Sexe : "+ animal.getSexe());
-					System.out.println("Coordonnée :"+ animal.getCoordonnee());
+					System.out.println("Coordonnée :"+ animal.getCoordonnee().getX() + " , " + animal.getCoordonnee().getY());
 							
 					listEntites.add(animal);
 					System.out.println();
@@ -551,15 +553,96 @@ public class Map {
 					System.out.println("Stade :"+ animal.getStade());
 					System.out.println("Age : "+ animal.getAge());
 					System.out.println("Sexe : "+ animal.getSexe());
-					System.out.println("Coordonnée :"+ animal.getCoordonnee());
+					System.out.println("Coordonnée :"+ animal.getCoordonnee().getX() + " , " + animal.getCoordonnee().getY());
 							
 					listEntites.add(animal);
 					System.out.println();
 				}
 			}
 		}
-				
 		
+		//Récupération des entités Arbres
+		List<Element> listArbres = entites.getChildren("arbres");
+		for(int i = 0 ; i<listArbres.size(); i++){
+			System.out.println("------------ARBRES------------------");
+			Element e = (Element)listArbres.get(i);
+			List listArbre = e.getChildren("arbre");
+			
+			if(listArbre.size() == 0){
+				System.out.println("Pas d'arbres");
+			}else{
+				int cycle = Integer.parseInt(e.getAttributeValue("cycle"));
+				int quantiteMax = Integer.parseInt(e.getAttributeValue("quantiteMax"));
+				int valeurEnergetique = Integer.parseInt(e.getAttributeValue("valeurEnergetique"));
+	
+				for(int h=0; h < listArbre.size() ; h++){
+					System.out.println("Arbre "+(h+1));
+					Arbre vegetal = new Arbre();
+						
+					Element veg = (Element)listArbre.get(h);
+								
+					vegetal.setCycle(cycle);
+					vegetal.setQuantiteMax(quantiteMax);
+					vegetal.setValeurEnergetique(valeurEnergetique);
+				
+					vegetal.setAge(Integer.parseInt(veg.getAttributeValue("age")));
+					vegetal.setCoordonee(new Coordonnee(Integer.parseInt(veg.getAttributeValue("coordX")),Integer.parseInt(veg.getAttributeValue("coordY"))));
+						
+					//Affichage des éléments
+					System.out.println("Cycle : "+vegetal.getCycle());
+					System.out.println("Quantité max :"+ vegetal.getQuantiteMax());
+					System.out.println("Valeur Energetique : "+ vegetal.getValeurEnergetique());
+					System.out.println("Quantite Now :"+ vegetal.getQuantiteNow());
+					System.out.println("Age : "+ vegetal.getAge());
+					System.out.println("Coordonnée :"+ vegetal.getCoordonnee().getX() + " , " + vegetal.getCoordonnee().getY());
+							
+					listEntites.add(vegetal);
+					System.out.println();
+				}
+			}
+		}
+		
+		//Récupération des entités Herbes
+		List<Element> listHerbes = entites.getChildren("herbes");
+		for(int i = 0 ; i<listHerbes.size(); i++){
+			System.out.println("------------HERBES------------------");
+			Element e = (Element)listHerbes.get(i);
+			List listHerbe = e.getChildren("herbe");
+			
+			if(listHerbe.size() == 0){
+				System.out.println("Pas d'herbes");
+			}else{
+				int cycle = Integer.parseInt(e.getAttributeValue("cycle"));
+				int quantiteMax = Integer.parseInt(e.getAttributeValue("quantiteMax"));
+				int valeurEnergetique = Integer.parseInt(e.getAttributeValue("valeurEnergetique"));
+	
+				for(int h=0; h < listHerbe.size() ; h++){
+					System.out.println("Herbe "+(h+1));
+					Herbe vegetal = new Herbe();
+						
+					Element veg = (Element)listHerbe.get(h);
+								
+					vegetal.setCycle(cycle);
+					vegetal.setQuantiteMax(quantiteMax);
+					vegetal.setValeurEnergetique(valeurEnergetique);
+				
+					vegetal.setAge(Integer.parseInt(veg.getAttributeValue("age")));
+					vegetal.setCoordonee(new Coordonnee(Integer.parseInt(veg.getAttributeValue("coordX")),Integer.parseInt(veg.getAttributeValue("coordY"))));
+						
+					//Affichage des éléments
+					System.out.println("Cycle : "+vegetal.getCycle());
+					System.out.println("Quantité max :"+ vegetal.getQuantiteMax());
+					System.out.println("Valeur Energetique : "+ vegetal.getValeurEnergetique());
+					System.out.println("Quantite Now :"+ vegetal.getQuantiteNow());
+					System.out.println("Age : "+ vegetal.getAge());
+					System.out.println("Coordonnée :"+ vegetal.getCoordonnee().getX() + " , " + vegetal.getCoordonnee().getY());
+							
+					listEntites.add(vegetal);
+					System.out.println();
+				}
+			}
+		}			
+
 		System.out.println(listEntites.size());
 		return listEntites;
 	}
@@ -574,6 +657,8 @@ public class Map {
 	         XMLOutputter sortie = new XMLOutputter(Format.getPrettyFormat());
 	         sortie.output(document, System.out);
 	   }
+	
+	
 	
 	public static void main(String[] args) throws IOException {
 		String fichier = new String ("src/Carte/Map.xml");

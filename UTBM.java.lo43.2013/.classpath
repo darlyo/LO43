@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/Kevin/Google Drive/LO43 vivarium/librairy/jdom-2.0.5.zip"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/Kevin/Google Drive/LO43 vivarium/librairy/jdom-2.0.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Glion/Google Drive/LO43 vivarium/librairy/jdom-2.0.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
