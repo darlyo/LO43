@@ -15,20 +15,23 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import Carte.Coordonnee;
 import Carte.Map;
 import Entite.Entite;
 import Enumeration.EnumEntite;
 import Enumeration.EnumEnvironnement;
 import Vivarium.Main;
+import Vivarium.Partie;
 
-public class InterfaceGraphique implements Vue {
+public class InterfaceGraphique implements Vue, Controle {
 
 	private JFrame fenetre;
 	private JPanel panelMenu, panelMap;
-	private MyJMap panelCarte;
+	private static MyJMap panelCarte = null;
 
 	// attribut propre au panelMenu
 	private CardLayout cardMenu;
@@ -40,10 +43,27 @@ public class InterfaceGraphique implements Vue {
 	private int NbTour = 0;
 	private int Score = 0;
 	private boolean etat = false;
+	private JButton btPauseStart;
+	private Coordonnee selectedCord;
+	private int action = -1;
+	private JComboBox<String> ListEnv;
+	private JComboBox<String> ListEntite;
+
+	private static Partie controleur;
+
+	public InterfaceGraphique(Partie partie) {
+		super();
+		controleur = partie;
+	}
+
+	public InterfaceGraphique() {
+		super();
+	}
 
 	@Override
-	public void fenetre() {
+	public void fenetre(Partie partie) {
 
+		Partie controlleur = partie;
 		this.fenetre = new JFrame();
 		this.fenetre.setTitle(Main.NAME);
 		this.fenetre.setSize(800, 600);
@@ -73,8 +93,6 @@ public class InterfaceGraphique implements Vue {
 		panelMap.setSize(600, 600);
 		panelMap.setOpaque(false);
 		panelMap.setLocation(200, 0);
-
-		// panelMap.setBackground(Color.green);
 	}
 
 	/**
@@ -136,7 +154,7 @@ public class InterfaceGraphique implements Vue {
 		btgr.add(r1);
 		btgr.add(r2);
 
-		final JComboBox<String> ListEntite = new JComboBox<String>();
+		ListEntite = new JComboBox<String>();
 		ListEntite.setPreferredSize(new Dimension(100, 30));
 		EnumEntite[] entite = EnumEntite.values();
 		for (int i = 0; i < entite.length; i++) {
@@ -145,38 +163,46 @@ public class InterfaceGraphique implements Vue {
 		ListEntite.setEnabled(false);
 
 		final JButton btSave = new JButton("Enregistrer la carte");
-		final JButton btPauseStart = new JButton("Pause");
+		btPauseStart = new JButton("Pause");
+		final JButton btValide = new JButton("Valider");
+
 		// défintion des action sur les bouttons
 		ActionListener listener = new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (e.getSource() == r1) {
+					action = 1;
 					ListEntite.setEnabled(true);
 				} else if (e.getSource() == r2) {
+					action = 2;
 					ListEntite.setEnabled(false);
 				} else if (e.getSource() == btSave) {
 
 				} else if (e.getSource() == btPauseStart) {
 					if (etat) {
-						btPauseStart.setText("Start");
-						etat = false;
+						pause();
 					} else {
-						btPauseStart.setText("Pause");
-						etat = true;
+						start();
 					}
+				} else if (e.getSource() == btValide) {
+					validerAction();
 				}
 			}
 		};
 
 		r1.addActionListener(listener);
 		r2.addActionListener(listener);
+		btPauseStart.addActionListener(listener);
+		btSave.addActionListener(listener);
+		btValide.addActionListener(listener);
 
 		menuGestion.add(PTour);
 		menuGestion.add(PScore);
 		menuGestion.add(r1);
 		menuGestion.add(ListEntite);
 		menuGestion.add(r2);
+		menuGestion.add(btValide);
 		menuGestion.add(btSave);
 		menuGestion.add(btPauseStart);
 	}
@@ -199,14 +225,14 @@ public class InterfaceGraphique implements Vue {
 		btgr.add(r3);
 
 		// definition des listes déroulantes
-		final JComboBox<String> ListEnv = new JComboBox<String>();
+		ListEnv = new JComboBox<String>();
 		EnumEnvironnement[] env = EnumEnvironnement.values();
 		for (int i = 0; i < env.length; i++) {
 			ListEnv.addItem(env[i].name());
 		}
 		ListEnv.setEnabled(false);
 
-		final JComboBox<String> ListEntite = new JComboBox<String>();
+		ListEntite = new JComboBox<String>();
 		ListEntite.setPreferredSize(new Dimension(100, 30));
 		EnumEntite[] entite = EnumEntite.values();
 		for (int i = 0; i < entite.length; i++) {
@@ -217,6 +243,7 @@ public class InterfaceGraphique implements Vue {
 		// définition des bouttons
 		final JButton BtStart = new JButton("Start");
 		final JButton BtCharge = new JButton("Charger une carte");
+		final JButton btValide = new JButton("Valider");
 
 		// défintion des action sur les bouttons
 		ActionListener listener = new ActionListener() {
@@ -226,18 +253,22 @@ public class InterfaceGraphique implements Vue {
 				if (e.getSource() == r1) {
 					ListEnv.setEnabled(true);
 					ListEntite.setEnabled(false);
+					action = 0;
 				} else if (e.getSource() == r2) {
 					ListEnv.setEnabled(false);
 					ListEntite.setEnabled(true);
+					action = 1;
 				} else if (e.getSource() == r3) {
 					ListEnv.setEnabled(false);
 					ListEntite.setEnabled(false);
+					action = 2;
 				} else if (e.getSource() == BtStart) {
+					start();
 					cardMenu.next(content);
-					etat = true;
-					
 				} else if (e.getSource() == BtCharge) {
-					;
+
+				} else if (e.getSource() == btValide) {
+					validerAction();
 				}
 			}
 		};
@@ -247,6 +278,7 @@ public class InterfaceGraphique implements Vue {
 		r3.addActionListener(listener);
 		BtStart.addActionListener(listener);
 		BtCharge.addActionListener(listener);
+		btValide.addActionListener(listener);
 
 		// ajout des éléments au panelMenu
 		menuConfigue.add(r1);
@@ -254,6 +286,7 @@ public class InterfaceGraphique implements Vue {
 		menuConfigue.add(r2);
 		menuConfigue.add(ListEntite);
 		menuConfigue.add(r3);
+		menuConfigue.add(btValide);
 		menuConfigue.add(BtCharge);
 		menuConfigue.add(BtStart);
 	}
@@ -268,19 +301,88 @@ public class InterfaceGraphique implements Vue {
 	@Override
 	public void dessineMap(Map map) {
 		panelMap.removeAll();
-		
-		panelCarte = new MyJMap(map, panelMap.getHeight(), panelMap.getWidth());
-		
+
+		panelCarte = new MyJMap(this, map, panelMap.getHeight(),
+				panelMap.getWidth());
 		panelMap.add(panelCarte);
+
 		fenetre.repaint();
 		panelMap.repaint();
+	}
+
+	@Override
+	public void getChoix() {
 
 	}
 
 	@Override
-	public void repaint() {
-		fenetre.repaint();
-		panelMap.repaint();		
+	public void setNbTour(int tour) {
+		NbTour = tour;
+		JNbTour.setText("" + NbTour);
 	}
 
+	private void start() {
+		btPauseStart.setText("Pause");
+		etat = true;
+		controleur.setPlay(etat);
+		selectedCord = null;
+	}
+
+	private void pause() {
+		btPauseStart.setText("Start");
+		etat = false;
+		controleur.setPlay(etat);
+	}
+
+	protected void validerAction() {
+		if (selectedCord != null) {
+			switch (action) {
+			case 0: // modification de l'environnement
+			{
+				int choice = JOptionPane.showConfirmDialog(fenetre,
+						"Etes vous sur de modifier l'environnement de la case "
+								+ selectedCord, "Modification d'environnement",
+						JOptionPane.WARNING_MESSAGE,
+						JOptionPane.OK_CANCEL_OPTION);
+				if (choice == 0) {
+					EnumEnvironnement env = EnumEnvironnement
+							.valueOf((String) ListEnv.getSelectedItem());
+					controleur.modiferEnv(selectedCord, env);
+				}
+				break;
+			}
+			case 1: // ajout d'entité
+			{
+				int choice = JOptionPane.showConfirmDialog(fenetre,
+						"Etes vous sur d'ajouter une entité sur la case "
+								+ selectedCord, "Ajout d'entité",
+						JOptionPane.WARNING_MESSAGE,
+						JOptionPane.OK_CANCEL_OPTION);
+				if (choice == 0) {
+					EnumEntite entite = EnumEntite
+							.valueOf((String) ListEntite.getSelectedItem());
+					controleur.ajouteEntite(selectedCord, entite);
+				}
+				break;
+			}
+			case 2: // suppression d'entité
+			{
+				break;
+			}
+			default:
+				JOptionPane.showMessageDialog(fenetre,
+						"Veuillez selctionnez une action", "Erreur",
+						JOptionPane.ERROR_MESSAGE);
+			}
+		} else {
+			JOptionPane.showMessageDialog(fenetre,
+					"Veuillez selctionnez une case", "Erreur",
+					JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	public void selectCase(Coordonnee cord) {
+		pause();
+		selectedCord = cord;
+	}
 }

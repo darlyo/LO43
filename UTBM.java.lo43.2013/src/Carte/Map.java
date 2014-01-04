@@ -3,6 +3,7 @@ package Carte;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.jdom2.Document;
@@ -10,6 +11,8 @@ import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
+
+import Vivarium.Partie;
 
 import Entite.Entite;
 import Entite.Animaux.Chamois;
@@ -662,8 +665,7 @@ public class Map {
 	
 	public static void main(String[] args) throws IOException {
 		String fichier = new String ("src/Carte/Map.xml");
-		Vue vue = new InterfaceGraphique();
-		vue.fenetre();
+		
 		listEntites= new ArrayList<Entite>();
 		
 		try {
@@ -674,27 +676,32 @@ public class Map {
 		taille = Integer.parseInt(racine.getChildText("taille"));
 		Map map = new Map(taille);
 		
-		/*//A mettre dans dessineMap je pense ;)
-		for(int j=0 ;j<=taille ; j++){
-			for(int k=0 ; k <=taille; k++){
-				if(map.getGrilleDeJeu()[j][k].getEnvironnement() == EnumEnvironnement.plaine){
-					//color en vert
-				}else if(map.getGrilleDeJeu()[j][k].getEnvironnement() == EnumEnvironnement.eau){
-					//color en bleu
-				}else if(map.getGrilleDeJeu()[j][k].getEnvironnement() == EnumEnvironnement.montagne){
-					//color en gris
-				}
-			}
-		}	*/
+		Vue vue = new InterfaceGraphique();
+		vue.fenetre(new Partie(map));
 		vue.dessineMap(map);
 		vue.dessineEntite(listEntites);
 		
 		while(true)
 		{
+			try {
+				new Thread();
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			vue.dessineMap(map);
 			vue.dessineEntite(listEntites);
+			Iterator<Entite> it =listEntites.iterator();
+			while(it.hasNext())
+			{
+				Entite ent = it.next();
+				Coordonnee cord = ent.getCoordonnee();
+				cord.setCoordonnee((cord.getX()+1)%5, (cord.getY()+1)%5);
+				//ent.live(map);
+			}
 		}
-		
 	}
 
 	//TODO à faire ! 
@@ -737,8 +744,9 @@ public class Map {
 	public Environnement getEnvironnement() {
 		return environnement;
 	}
-	public void setEnvironnement(Environnement environnement) {
-		this.environnement = environnement;
+	public void setEnvironnement(Coordonnee cord, EnumEnvironnement env) {
+		this.grilleDeJeu[cord.getX()][cord.getY()].setEnvironnement(env);
+		//this.environnement = environnement;
 	}
 }
 

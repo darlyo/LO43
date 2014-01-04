@@ -126,7 +126,7 @@ public abstract class Animal extends Entite {
 			this.stade = EnumStade.vieux;
 	}
 
-	public abstract void live(Map map);
+	
 
 	/**
 	 * le resultat est une liste avec tout les entites prochaines

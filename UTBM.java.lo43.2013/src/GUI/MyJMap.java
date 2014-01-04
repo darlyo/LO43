@@ -25,10 +25,12 @@ public class MyJMap extends JPanel {
 	private int bordureLegende = 20;
 	private int tailleMenu = 200;
 	private List<Entite> lisEnt;
+	private InterfaceGraphique controleur;
 
-	public MyJMap(Map map, int height, int width) {
+	public MyJMap(InterfaceGraphique inter, Map map, int height, int width) {
 
 		super();
+		controleur = inter;
 		setSize((int) (height * 1.10), (int) ((width - tailleMenu) * 1.1));
 		setLocation(tailleMenu, 0);
 
@@ -47,13 +49,18 @@ public class MyJMap extends JPanel {
 
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				// moveEntite(e.getX(),e.getY());
+				Coordonnee cord = MapToCord(e.getX(), e.getY());
+				controleur.selectCase(cord);
+				System.out.printf("\n mousse presed:  x: %d , y: %d \n",
+						cord.getX(), cord.getY());
 			}
 		});
 
 		addMouseMotionListener(new MouseAdapter() {
 			public void mouseDragged(MouseEvent e) {
-				// moveEntite(e.getX(),e.getY());
+				Coordonnee cord = MapToCord(e.getX(), e.getY());
+				System.out.printf("\n mousse draged:  x: %d , y: %d \n",
+						cord.getX(), cord.getY());
 			}
 		});
 
@@ -73,8 +80,8 @@ public class MyJMap extends JPanel {
 					g.setColor(Color.gray);
 					break;
 				}
-				g.fillRect(i * widhtCase + bordureLegende, j * heightCase
-						+ bordureLegende, widhtCase, heightCase);
+				Coordonnee cord = CordToMap(i, j);
+				g.fillRect(cord.getX(), cord.getY(), widhtCase, heightCase);
 				if ((i == 0) && (j % 5 == 0)) {
 					g.setColor(Color.black);
 					g.drawString("" + j, widhtCase * j + bordureLegende,
@@ -83,20 +90,17 @@ public class MyJMap extends JPanel {
 			}
 			if (i % 5 == 0) {
 				g.setColor(Color.black);
-				g.setColor(new Color(20));
-				g.drawString("" + i, 2, (heightCase * i) + 2 * bordureLegende);
+				g.drawString("" + i, 2, (heightCase * i) + bordureLegende+heightCase);
 			}
 		}
 		g.setColor(Color.black);
 		for (int i = 0; i < defFond.length + 1; i++) {
 			// ligne verticale
-			g.drawLine(i * widhtCase + bordureLegende, bordureLegende, i
-					* widhtCase + bordureLegende, heightCase * taille
-					+ bordureLegende);
+			Coordonnee cord = CordToMap(i, taille);
+			g.drawLine(cord.getX(), bordureLegende, cord.getX(), cord.getY());
 			// ligne horizontale
-			g.drawLine(bordureLegende, i * heightCase + bordureLegende, taille
-					* widhtCase + bordureLegende, heightCase * i
-					+ bordureLegende);
+			cord = CordToMap(taille, i);
+			g.drawLine(bordureLegende, cord.getY(), cord.getX(), cord.getY());
 		}
 
 		if (!lisEnt.isEmpty()) {
@@ -105,14 +109,15 @@ public class MyJMap extends JPanel {
 				Entite ent = iteratorEntite.next();
 				g.setColor(EnumEntite.valueOf(ent.getClass().getSimpleName())
 						.getColor());
-				g.fillOval(bordureLegende + ent.getCoordonnee().getX()
-						* widhtCase+widhtCase/4, bordureLegende + ent.getCoordonnee().getY()
-						* heightCase+heightCase/4, widhtCase / 2, heightCase / 2);
+				Coordonnee cord = CordToMap(ent.getCoordonnee().getX(), ent
+						.getCoordonnee().getY());
+				g.fillOval(cord.getX() + widhtCase / 4, cord.getY()
+						+ heightCase / 4, widhtCase / 2, heightCase / 2);
 			}
 		}
 	}
 
-	protected void moveEntite(Coordonnee depart, Coordonnee arrivé) {
+	protected void moveEntite(Coordonnee departco, Coordonnee arrivé) {
 		// TODO Auto-generated method stub
 	}
 
@@ -122,7 +127,7 @@ public class MyJMap extends JPanel {
 	 * @param ent
 	 */
 	public void add(List<Entite> ent) {
-		lisEnt =ent;
+		lisEnt = ent;
 	}
 
 	/**
@@ -176,5 +181,26 @@ public class MyJMap extends JPanel {
 		for (int i = cord1.getX(); i <= cord2.getX(); i++)
 			for (int j = cord1.getY(); j <= cord2.getY(); j++)
 				setEnv(new Coordonnee(i, j), env);
+	}
+
+	private Coordonnee MapToCord(int x, int y) {
+
+		if ((x > bordureLegende) && (y > bordureLegende)
+				&& (x < taille * widhtCase + bordureLegende)
+				&& (y < taille * heightCase + bordureLegende)) {
+			Coordonnee cord = new Coordonnee();
+			cord.setX((x - bordureLegende) / widhtCase);
+			cord.setY((y - bordureLegende) / heightCase);
+			return cord;
+
+		}
+		return null;
+	}
+
+	private Coordonnee CordToMap(int x, int y) {
+		Coordonnee cord = new Coordonnee();
+		cord.setX(x * widhtCase + bordureLegende);
+		cord.setY(y * heightCase + bordureLegende);
+		return cord;
 	}
 }
