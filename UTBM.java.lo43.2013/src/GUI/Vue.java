@@ -26,5 +26,7 @@ public interface Vue {
 	 * dessine les entitées
 	 */
 	public abstract void dessineEntite(List<Entite> listEntite );
+	
+	public abstract void setNbTour(int tour);
 
 }

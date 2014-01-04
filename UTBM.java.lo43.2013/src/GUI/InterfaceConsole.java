@@ -27,4 +27,10 @@ public class InterfaceConsole implements Vue {
 		
 	}
 
+	@Override
+	public void setNbTour(int tour) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

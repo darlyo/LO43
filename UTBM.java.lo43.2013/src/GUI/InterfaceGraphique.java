@@ -24,6 +24,7 @@ import Enumeration.EnumEntite;
 import Enumeration.EnumEnvironnement;
 import Vivarium.Main;
 import Vivarium.Partie;
+import Vivarium.Test.TestGraphique;
 
 public class InterfaceGraphique implements Vue, Controle {
 
@@ -41,6 +42,17 @@ public class InterfaceGraphique implements Vue, Controle {
 	private int NbTour = 0;
 	private int Score = 0;
 	private boolean etat = false;
+	
+	private static Partie controleur;
+
+	public InterfaceGraphique(Partie partie) {
+		super();
+		controleur=partie;
+	}
+
+	public InterfaceGraphique() {
+		super();
+	}
 
 	@Override
 	public void fenetre(Partie partie) {
@@ -148,6 +160,7 @@ public class InterfaceGraphique implements Vue, Controle {
 
 		final JButton btSave = new JButton("Enregistrer la carte");
 		final JButton btPauseStart = new JButton("Pause");
+		
 		// défintion des action sur les bouttons
 		ActionListener listener = new ActionListener() {
 
@@ -161,11 +174,19 @@ public class InterfaceGraphique implements Vue, Controle {
 
 				} else if (e.getSource() == btPauseStart) {
 					if (etat) {
+						System.out.println("passage1");
+
 						btPauseStart.setText("Start");
 						etat = false;
+						controleur.setPlay(etat);
+
 					} else {
+						System.out.println("passage2");
+
 						btPauseStart.setText("Pause");
 						etat = true;
+						controleur.setPlay(etat);
+						System.out.println("passage3");
 					}
 				}
 			}
@@ -173,6 +194,9 @@ public class InterfaceGraphique implements Vue, Controle {
 
 		r1.addActionListener(listener);
 		r2.addActionListener(listener);
+		btPauseStart.addActionListener(listener);
+		btSave.addActionListener(listener);
+		
 
 		menuGestion.add(PTour);
 		menuGestion.add(PScore);
@@ -235,9 +259,11 @@ public class InterfaceGraphique implements Vue, Controle {
 					ListEnv.setEnabled(false);
 					ListEntite.setEnabled(false);
 				} else if (e.getSource() == BtStart) {
-					cardMenu.next(content);
 					etat = true;
-					
+					controleur.setPlay(etat);
+					System.out.println("ok");
+					cardMenu.next(content);
+
 				} else if (e.getSource() == BtCharge) {
 					;
 				}
@@ -282,6 +308,12 @@ public class InterfaceGraphique implements Vue, Controle {
 	@Override
 	public void getChoix() {
 		
+	}
+
+	@Override
+	public void setNbTour(int tour) {
+		NbTour = tour;
+		JNbTour.setText(""+NbTour);
 	}
 
 }

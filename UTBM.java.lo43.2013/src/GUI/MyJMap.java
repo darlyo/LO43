@@ -87,8 +87,7 @@ public class MyJMap extends JPanel {
 			}
 			if (i % 5 == 0) {
 				g.setColor(Color.black);
-				g.setColor(new Color(20));
-				g.drawString("" + i, 2, (heightCase * i) + 2 * bordureLegende);
+				g.drawString("" + i, 2, (heightCase * i) + bordureLegende+heightCase);
 			}
 		}
 		g.setColor(Color.black);
