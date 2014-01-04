@@ -6,7 +6,7 @@ public abstract class Entite {
 
 	protected int age;
 	
-	public Coordonnee coordonee = new Coordonnee();//composition (class de dans une class)
+	protected Coordonnee coordonee = new Coordonnee();//composition (class de dans une class)
 
 	//constructeurs
 	public Entite(){
