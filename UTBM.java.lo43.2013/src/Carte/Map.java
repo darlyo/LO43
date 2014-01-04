@@ -12,6 +12,8 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
+import Vivarium.Partie;
+
 import Entite.Entite;
 import Entite.Animaux.Chamois;
 import Entite.Animaux.Lapin;
@@ -578,8 +580,7 @@ public class Map {
 	
 	public static void main(String[] args) throws IOException {
 		String fichier = new String ("src/Carte/Map.xml");
-		Vue vue = new InterfaceGraphique();
-		vue.fenetre();
+		
 		listEntites= new ArrayList<Entite>();
 		
 		try {
@@ -590,6 +591,8 @@ public class Map {
 		taille = Integer.parseInt(racine.getChildText("taille"));
 		Map map = new Map(taille);
 		
+		Vue vue = new InterfaceGraphique();
+		vue.fenetre(new Partie(map));
 		vue.dessineMap(map);
 		vue.dessineEntite(listEntites);
 		
@@ -614,7 +617,6 @@ public class Map {
 				//ent.live(map);
 			}
 		}
-		
 	}
 
 	//TODO à faire ! 

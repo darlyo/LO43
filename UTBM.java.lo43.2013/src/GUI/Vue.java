@@ -4,6 +4,7 @@ import java.util.List;
 
 import Carte.Map;
 import Entite.Entite;
+import Vivarium.Partie;
 
 public interface Vue {
 
@@ -17,7 +18,7 @@ public interface Vue {
 	 * Les menus ont une structure fixe mais un contenu dynamique définit par
 	 * les classes et les enumerations
 	 */
-	public abstract void fenetre();
+	public abstract void fenetre(Partie partie);
 
 	public abstract void dessineMap(Map map);
 	
@@ -25,7 +26,5 @@ public interface Vue {
 	 * dessine les entitées
 	 */
 	public abstract void dessineEntite(List<Entite> listEntite );
-
-	public abstract void repaint();
 
 }

@@ -23,8 +23,9 @@ import Entite.Entite;
 import Enumeration.EnumEntite;
 import Enumeration.EnumEnvironnement;
 import Vivarium.Main;
+import Vivarium.Partie;
 
-public class InterfaceGraphique implements Vue {
+public class InterfaceGraphique implements Vue, Controle {
 
 	private JFrame fenetre;
 	private JPanel panelMenu, panelMap;
@@ -42,8 +43,9 @@ public class InterfaceGraphique implements Vue {
 	private boolean etat = false;
 
 	@Override
-	public void fenetre() {
+	public void fenetre(Partie partie) {
 
+		Partie controlleur = partie;
 		this.fenetre = new JFrame();
 		this.fenetre.setTitle(Main.NAME);
 		this.fenetre.setSize(800, 600);
@@ -278,9 +280,8 @@ public class InterfaceGraphique implements Vue {
 	}
 
 	@Override
-	public void repaint() {
-		fenetre.repaint();
-		panelMap.repaint();		
+	public void getChoix() {
+		
 	}
 
 }

@@ -2,13 +2,15 @@ package GUI;
 
 import java.util.List;
 
+import Vivarium.Partie;
+
 import Carte.Map;
 import Entite.Entite;
 
 public class InterfaceConsole implements Vue {
 
 	@Override
-	public void fenetre() {
+	public void fenetre(Partie partie) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -24,12 +26,5 @@ public class InterfaceConsole implements Vue {
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public void repaint() {
-		// TODO Auto-generated method stub
-		
-	}
-
 
 }
