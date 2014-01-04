@@ -47,6 +47,7 @@ public class InterfaceGraphique implements Vue, Controle {
 	private Coordonnee selectedCord;
 	private int action = -1;
 	private JComboBox<String> ListEnv;
+	private JComboBox<String> ListEntite;
 
 	private static Partie controleur;
 
@@ -153,7 +154,7 @@ public class InterfaceGraphique implements Vue, Controle {
 		btgr.add(r1);
 		btgr.add(r2);
 
-		final JComboBox<String> ListEntite = new JComboBox<String>();
+		ListEntite = new JComboBox<String>();
 		ListEntite.setPreferredSize(new Dimension(100, 30));
 		EnumEntite[] entite = EnumEntite.values();
 		for (int i = 0; i < entite.length; i++) {
@@ -231,7 +232,7 @@ public class InterfaceGraphique implements Vue, Controle {
 		}
 		ListEnv.setEnabled(false);
 
-		final JComboBox<String> ListEntite = new JComboBox<String>();
+		ListEntite = new JComboBox<String>();
 		ListEntite.setPreferredSize(new Dimension(100, 30));
 		EnumEntite[] entite = EnumEntite.values();
 		for (int i = 0; i < entite.length; i++) {
@@ -343,7 +344,6 @@ public class InterfaceGraphique implements Vue, Controle {
 								+ selectedCord, "Modification d'environnement",
 						JOptionPane.WARNING_MESSAGE,
 						JOptionPane.OK_CANCEL_OPTION);
-				System.out.println("choice "+choice);
 				if (choice == 0) {
 					EnumEnvironnement env = EnumEnvironnement
 							.valueOf((String) ListEnv.getSelectedItem());
@@ -353,6 +353,16 @@ public class InterfaceGraphique implements Vue, Controle {
 			}
 			case 1: // ajout d'entité
 			{
+				int choice = JOptionPane.showConfirmDialog(fenetre,
+						"Etes vous sur d'ajouter une entité sur la case "
+								+ selectedCord, "Ajout d'entité",
+						JOptionPane.WARNING_MESSAGE,
+						JOptionPane.OK_CANCEL_OPTION);
+				if (choice == 0) {
+					EnumEntite entite = EnumEntite
+							.valueOf((String) ListEntite.getSelectedItem());
+					controleur.ajouteEntite(selectedCord, entite);
+				}
 				break;
 			}
 			case 2: // suppression d'entité
