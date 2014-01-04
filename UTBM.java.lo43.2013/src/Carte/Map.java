@@ -6,13 +6,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
+import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
+import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
-
 import Vivarium.Partie;
 import Entite.Entite;
 import Entite.Animaux.Chamois;
@@ -32,6 +32,8 @@ import GUI.Vue;
 
 public class Map {
 	private static Document document;
+	private static Document documentSauv;
+	//private static Element racineSauv;
 	private static Element racine;
 	private static int taille;
 	protected static Case [][] grilleDeJeu;
@@ -646,17 +648,56 @@ public class Map {
 			}
 		}			
 
-		System.out.println(listEntites.size());
+		System.out.println("Nombre d'entités : "+listEntites.size());
 		return listEntites;
 	}
 
+	
 	/**
 	 * Permet de sauvegarder une partie en écrivant dans un XML
+	 * @throws IOException 
+	 * @throws JDOMException 
 	 */
-	public void ecrireXML() {
+	/*public static void ecrireXML() throws IOException, JDOMException {
+		System.out.println("\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>ECRIRE XML<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
 		
-	}
-	
+		Element racineSauv = new Element ("map");
+		Document documentSauv = new Document (racineSauv);
+		
+		Element taille = new Element ("taille");
+		racineSauv.addContent(taille);
+		
+		Element environnements = new Element ("environnements");
+		
+		Element environnement = new Element ("environnement");
+		environnement.setAttribute(new Attribute ("name","plaine"));
+		environnement.setAttribute(new Attribute ("coordX_debut","a trouver"));
+		environnement.setAttribute(new Attribute ("coordY_debut","a trouver"));
+		environnement.setAttribute(new Attribute ("coordX_fin","a trouver"));
+		environnement.setAttribute(new Attribute ("coordY_fin", "a trouver"));
+		
+		Element environnement2 = new Element ("environnement");
+		environnement2.setAttribute(new Attribute ("name","eau"));
+		environnement2.setAttribute(new Attribute ("coordX_debut","a trouver"));
+		environnement2.setAttribute(new Attribute ("coordY_debut","a trouver"));
+		environnement2.setAttribute(new Attribute ("coordX_fin","a trouver"));
+		environnement2.setAttribute(new Attribute ("coordY_fin", "a trouver"));
+		
+		Element environnement3 = new Element ("environnement");
+		environnement3.setAttribute(new Attribute ("name","montagne"));
+		environnement3.setAttribute(new Attribute ("coordX_debut","a trouver"));
+		environnement3.setAttribute(new Attribute ("coordY_debut","a trouver"));
+		environnement3.setAttribute(new Attribute ("coordX_fin","a trouver"));
+		environnement3.setAttribute(new Attribute ("coordY_fin", "a trouver"));
+		
+		environnements.addContent(environnement);
+		environnements.addContent(environnement2);
+		environnements.addContent(environnement3);
+	       
+		affiche();
+		enregistre("save.xml");
+	}*/
+
 	/**
 	 * Permet d'afficher le XML sauvegarder
 	 */
@@ -666,7 +707,7 @@ public class Map {
 	   {
 	      //On utilise ici un affichage classique avec getPrettyFormat()
 	      XMLOutputter sortie = new XMLOutputter(Format.getPrettyFormat());
-	      sortie.output(document, System.out);
+	      sortie.output(documentSauv, System.out);
 	   }
 	   catch (java.io.IOException e){}
 	}
@@ -682,10 +723,12 @@ public class Map {
 	      //On utilise ici un affichage classique avec getPrettyFormat()
 	      XMLOutputter sortie = new XMLOutputter(Format.getPrettyFormat());
 	      //effectuer la sérialisation
-	      sortie.output(document, new FileOutputStream(fichier));
+	      sortie.output(documentSauv, new FileOutputStream(fichier));
 	   }
 	   catch (java.io.IOException e){}
 	}
+	
+	
 	
 	/**
 	 * Main principale pour tester la map et l'interface graphique
@@ -697,6 +740,7 @@ public class Map {
 		
 		try {
 			listEntites = lireXML(fichier);
+			//ecrireXML();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
