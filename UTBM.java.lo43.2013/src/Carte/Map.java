@@ -1,6 +1,7 @@
 package Carte;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -13,7 +14,6 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 import Vivarium.Partie;
-
 import Entite.Entite;
 import Entite.Animaux.Chamois;
 import Entite.Animaux.Lapin;
@@ -657,13 +657,39 @@ public class Map {
 		
 	}
 	
-	static void afficher(Document document) throws Exception{
-	         XMLOutputter sortie = new XMLOutputter(Format.getPrettyFormat());
-	         sortie.output(document, System.out);
+	/**
+	 * Permet d'afficher le XML sauvegarder
+	 */
+	static void affiche()
+	{
+	   try
+	   {
+	      //On utilise ici un affichage classique avec getPrettyFormat()
+	      XMLOutputter sortie = new XMLOutputter(Format.getPrettyFormat());
+	      sortie.output(document, System.out);
 	   }
+	   catch (java.io.IOException e){}
+	}
+
+	/**
+	 * Permet de sauvegarder la map dans un fichier XML
+	 * @param fichier
+	 */
+	static void enregistre(String fichier)
+	{
+	   try
+	   {
+	      //On utilise ici un affichage classique avec getPrettyFormat()
+	      XMLOutputter sortie = new XMLOutputter(Format.getPrettyFormat());
+	      //effectuer la sérialisation
+	      sortie.output(document, new FileOutputStream(fichier));
+	   }
+	   catch (java.io.IOException e){}
+	}
 	
-	
-	
+	/**
+	 * Main principale pour tester la map et l'interface graphique
+	 */
 	public static void main(String[] args) throws IOException {
 		String fichier = new String ("src/Carte/Map.xml");
 		
@@ -716,7 +742,6 @@ public class Map {
 	
 	/**
 	 * Getters et setters
-	 * 
 	 */
 	public int getTaille() {
 		return taille;
