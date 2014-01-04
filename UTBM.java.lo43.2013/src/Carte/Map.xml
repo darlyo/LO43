@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map>
-	<taille>5</taille>
+	<taille>10</taille>
 	<environnements>
 		<environnement name="plaine" coordX_debut="0" coordY_debut="0" coordX_fin="4" coordY_fin="4">env1</environnement>
 		<environnement name="eau" coordX_debut="2" coordY_debut="2" coordX_fin="4" coordY_fin="4">env2</environnement>

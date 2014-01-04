@@ -63,7 +63,7 @@ public class Map {
 	 * Permet de parser le XML et de créer la map 
 	 */
 	public static List<Entite> lireXML(String fichier) throws Exception{
-		
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>PARSAGE XML<<<<<<<<<<<<<<<<<<<<<<<<<<");
 		/*On crée une instance de SAXBuilder*/
 		SAXBuilder sxb = new SAXBuilder();
 		/*On crée un nouveau document JDOM*/
@@ -83,7 +83,7 @@ public class Map {
 		for(int i = 0 ; i<listEnvs.size(); i++){
 			
 			Element e = (Element)listEnvs.get(i);
-			List listEnv = e.getChildren("environnement");
+			List<Element> listEnv = e.getChildren("environnement");
 			
 			for(int h=0; h < listEnv.size() ; h++){
 				Element env = (Element)listEnv.get(h);
@@ -128,7 +128,7 @@ public class Map {
 		for(int i = 0 ; i<listRenards.size(); i++){
 			System.out.println("-----------------RENARDS-----------------");
 			Element e = (Element)listRenards.get(i);
-			List listRenard = e.getChildren("renard");
+			List<Element> listRenard = e.getChildren("renard");
 			
 			if(listRenard.size() == 0){
 				System.out.println("Pas de renards");
@@ -206,7 +206,7 @@ public class Map {
 		for(int i = 0 ; i<listLapins.size(); i++){
 			System.out.println("------------LAPINS------------------");
 			Element e = (Element)listLapins.get(i);
-			List listLapin = e.getChildren("lapin");
+			List<Element> listLapin = e.getChildren("lapin");
 			
 			if(listLapin.size() == 0){
 				System.out.println("Pas de lapins");
@@ -278,7 +278,7 @@ public class Map {
 		for(int i = 0 ; i<listChamois.size(); i++){
 			System.out.println("------------CHAMOIS------------------");
 			Element e = (Element)listChamois.get(i);
-			List listChamoi = e.getChildren("chamoi");
+			List<Element> listChamoi = e.getChildren("chamoi");
 			
 			if(listChamoi.size() == 0){
 				System.out.println("Pas de chamois");
@@ -350,7 +350,7 @@ public class Map {
 		for(int i = 0 ; i<listLoups.size(); i++){
 			System.out.println("------------LOUPS------------------");
 			Element e = (Element)listLoups.get(i);
-			List listLoup = e.getChildren("loup");
+			List<Element> listLoup = e.getChildren("loup");
 			
 			if(listLoup.size() == 0){
 				System.out.println("Pas de sanglier");
@@ -423,7 +423,7 @@ public class Map {
 		for(int i = 0 ; i<listMoutons.size(); i++){
 			System.out.println("------------MOUTONS------------------");
 			Element e = (Element)listMoutons.get(i);
-			List listMouton = e.getChildren("mouton");
+			List<Element> listMouton = e.getChildren("mouton");
 			
 			if(listMouton.size() == 0){
 				System.out.println("Pas de sanglier");
@@ -496,7 +496,7 @@ public class Map {
 		for(int i = 0 ; i<listSangliers.size(); i++){
 			System.out.println("------------SANGLIERS------------------");
 			Element e = (Element)listSangliers.get(i);
-			List listSanglier = e.getChildren("sanglier");
+			List<Element> listSanglier = e.getChildren("sanglier");
 			
 			if(listSanglier.size() == 0){
 				System.out.println("Pas de sanglier");
@@ -569,7 +569,7 @@ public class Map {
 		for(int i = 0 ; i<listArbres.size(); i++){
 			System.out.println("------------ARBRES------------------");
 			Element e = (Element)listArbres.get(i);
-			List listArbre = e.getChildren("arbre");
+			List<Element> listArbre = e.getChildren("arbre");
 			
 			if(listArbre.size() == 0){
 				System.out.println("Pas d'arbres");
@@ -610,7 +610,7 @@ public class Map {
 		for(int i = 0 ; i<listHerbes.size(); i++){
 			System.out.println("------------HERBES------------------");
 			Element e = (Element)listHerbes.get(i);
-			List listHerbe = e.getChildren("herbe");
+			List<Element> listHerbe = e.getChildren("herbe");
 			
 			if(listHerbe.size() == 0){
 				System.out.println("Pas d'herbes");
@@ -654,6 +654,7 @@ public class Map {
 	 * Permet de sauvegarder une partie en écrivant dans un XML
 	 */
 	public void ecrireXML() {
+		
 	}
 	
 	static void afficher(Document document) throws Exception{
