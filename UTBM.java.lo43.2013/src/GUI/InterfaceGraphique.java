@@ -30,7 +30,7 @@ public class InterfaceGraphique implements Vue, Controle {
 
 	private JFrame fenetre;
 	private JPanel panelMenu, panelMap;
-	private MyJMap panelCarte;
+	private static MyJMap panelCarte = null;
 
 	// attribut propre au panelMenu
 	private CardLayout cardMenu;
@@ -42,12 +42,13 @@ public class InterfaceGraphique implements Vue, Controle {
 	private int NbTour = 0;
 	private int Score = 0;
 	private boolean etat = false;
-	
+	private JButton btPauseStart;
+
 	private static Partie controleur;
 
 	public InterfaceGraphique(Partie partie) {
 		super();
-		controleur=partie;
+		controleur = partie;
 	}
 
 	public InterfaceGraphique() {
@@ -87,8 +88,6 @@ public class InterfaceGraphique implements Vue, Controle {
 		panelMap.setSize(600, 600);
 		panelMap.setOpaque(false);
 		panelMap.setLocation(200, 0);
-
-		// panelMap.setBackground(Color.green);
 	}
 
 	/**
@@ -159,8 +158,8 @@ public class InterfaceGraphique implements Vue, Controle {
 		ListEntite.setEnabled(false);
 
 		final JButton btSave = new JButton("Enregistrer la carte");
-		final JButton btPauseStart = new JButton("Pause");
-		
+		btPauseStart = new JButton("Pause");
+
 		// défintion des action sur les bouttons
 		ActionListener listener = new ActionListener() {
 
@@ -174,19 +173,10 @@ public class InterfaceGraphique implements Vue, Controle {
 
 				} else if (e.getSource() == btPauseStart) {
 					if (etat) {
-						System.out.println("passage1");
-
-						btPauseStart.setText("Start");
-						etat = false;
-						controleur.setPlay(etat);
+						pause();
 
 					} else {
-						System.out.println("passage2");
-
-						btPauseStart.setText("Pause");
-						etat = true;
-						controleur.setPlay(etat);
-						System.out.println("passage3");
+						start();
 					}
 				}
 			}
@@ -196,7 +186,6 @@ public class InterfaceGraphique implements Vue, Controle {
 		r2.addActionListener(listener);
 		btPauseStart.addActionListener(listener);
 		btSave.addActionListener(listener);
-		
 
 		menuGestion.add(PTour);
 		menuGestion.add(PScore);
@@ -259,9 +248,7 @@ public class InterfaceGraphique implements Vue, Controle {
 					ListEnv.setEnabled(false);
 					ListEntite.setEnabled(false);
 				} else if (e.getSource() == BtStart) {
-					etat = true;
-					controleur.setPlay(etat);
-					System.out.println("ok");
+					start();
 					cardMenu.next(content);
 
 				} else if (e.getSource() == BtCharge) {
@@ -296,24 +283,37 @@ public class InterfaceGraphique implements Vue, Controle {
 	@Override
 	public void dessineMap(Map map) {
 		panelMap.removeAll();
-		
-		panelCarte = new MyJMap(map, panelMap.getHeight(), panelMap.getWidth());
-		
-		panelMap.add(panelCarte);
+
+			panelCarte = new MyJMap(map, panelMap.getHeight(),
+					panelMap.getWidth());
+			panelMap.add(panelCarte);
+
 		fenetre.repaint();
 		panelMap.repaint();
-
 	}
 
 	@Override
 	public void getChoix() {
-		
+
 	}
 
 	@Override
 	public void setNbTour(int tour) {
 		NbTour = tour;
-		JNbTour.setText(""+NbTour);
+		JNbTour.setText("" + NbTour);
 	}
 
+	private void start()
+	{
+		btPauseStart.setText("Pause");
+		etat = true;
+		controleur.setPlay(etat);
+	}
+	
+	private void pause()
+	{
+		btPauseStart.setText("Start");
+		etat = false;
+		controleur.setPlay(etat);
+	}
 }

@@ -1,5 +1,6 @@
 package Vivarium;
 
+import Carte.Coordonnee;
 import Carte.Map;
 import Enumeration.EnumEnvironnement;
 import GUI.InterfaceGraphique;
@@ -11,13 +12,11 @@ public class Partie {
 	private int score;
 	private Map map;
 
-	private boolean start;
-
 	private static boolean play;
 	
 	public Partie(Map map) {
 		this.map = map;
-		this.start = false;
+		score = 0;
 		play = false;
 	}
 	
@@ -43,8 +42,6 @@ public class Partie {
 
 		while (true)
 		{
-				vue.dessineMap(map);
-				
 				//si play on fait bouger les entiter en appliquer la methode live
 				if(play)
 				{
@@ -52,6 +49,8 @@ public class Partie {
 					vue.setNbTour(tempsDeJeux);
 				}
 				
+				vue.dessineMap(map);
+
 			try {
 				new Thread();
 				Thread.sleep(100);
@@ -69,13 +68,14 @@ public class Partie {
 		play = bool;
 	}
 	
-	public void stop()
-	{
-		this.start = false;
-	}
-	
-	public void supprEntite() {
-
+	public void supprEntite(Coordonnee cord) {
+		if(play)
+			return; //le jeux doit etre en pause on ne peut pas récupere un element en mouvement
+		
+		//recherche de l'entite au coordonée donnée
+		
+		//affichage d'une box de confiration
+		
 	}
 
 	public void ajouteEntite() {
