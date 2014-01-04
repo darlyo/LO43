@@ -15,16 +15,17 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import Carte.Coordonnee;
 import Carte.Map;
 import Entite.Entite;
 import Enumeration.EnumEntite;
 import Enumeration.EnumEnvironnement;
 import Vivarium.Main;
 import Vivarium.Partie;
-import Vivarium.Test.TestGraphique;
 
 public class InterfaceGraphique implements Vue, Controle {
 
@@ -43,6 +44,9 @@ public class InterfaceGraphique implements Vue, Controle {
 	private int Score = 0;
 	private boolean etat = false;
 	private JButton btPauseStart;
+	private Coordonnee selectedCord;
+	private int action = -1;
+	private JComboBox<String> ListEnv;
 
 	private static Partie controleur;
 
@@ -159,6 +163,7 @@ public class InterfaceGraphique implements Vue, Controle {
 
 		final JButton btSave = new JButton("Enregistrer la carte");
 		btPauseStart = new JButton("Pause");
+		final JButton btValide = new JButton("Valider");
 
 		// défintion des action sur les bouttons
 		ActionListener listener = new ActionListener() {
@@ -166,18 +171,21 @@ public class InterfaceGraphique implements Vue, Controle {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (e.getSource() == r1) {
+					action = 1;
 					ListEntite.setEnabled(true);
 				} else if (e.getSource() == r2) {
+					action = 2;
 					ListEntite.setEnabled(false);
 				} else if (e.getSource() == btSave) {
 
 				} else if (e.getSource() == btPauseStart) {
 					if (etat) {
 						pause();
-
 					} else {
 						start();
 					}
+				} else if (e.getSource() == btValide) {
+					validerAction();
 				}
 			}
 		};
@@ -186,12 +194,14 @@ public class InterfaceGraphique implements Vue, Controle {
 		r2.addActionListener(listener);
 		btPauseStart.addActionListener(listener);
 		btSave.addActionListener(listener);
+		btValide.addActionListener(listener);
 
 		menuGestion.add(PTour);
 		menuGestion.add(PScore);
 		menuGestion.add(r1);
 		menuGestion.add(ListEntite);
 		menuGestion.add(r2);
+		menuGestion.add(btValide);
 		menuGestion.add(btSave);
 		menuGestion.add(btPauseStart);
 	}
@@ -214,7 +224,7 @@ public class InterfaceGraphique implements Vue, Controle {
 		btgr.add(r3);
 
 		// definition des listes déroulantes
-		final JComboBox<String> ListEnv = new JComboBox<String>();
+		ListEnv = new JComboBox<String>();
 		EnumEnvironnement[] env = EnumEnvironnement.values();
 		for (int i = 0; i < env.length; i++) {
 			ListEnv.addItem(env[i].name());
@@ -232,6 +242,7 @@ public class InterfaceGraphique implements Vue, Controle {
 		// définition des bouttons
 		final JButton BtStart = new JButton("Start");
 		final JButton BtCharge = new JButton("Charger une carte");
+		final JButton btValide = new JButton("Valider");
 
 		// défintion des action sur les bouttons
 		ActionListener listener = new ActionListener() {
@@ -241,18 +252,22 @@ public class InterfaceGraphique implements Vue, Controle {
 				if (e.getSource() == r1) {
 					ListEnv.setEnabled(true);
 					ListEntite.setEnabled(false);
+					action = 0;
 				} else if (e.getSource() == r2) {
 					ListEnv.setEnabled(false);
 					ListEntite.setEnabled(true);
+					action = 1;
 				} else if (e.getSource() == r3) {
 					ListEnv.setEnabled(false);
 					ListEntite.setEnabled(false);
+					action = 2;
 				} else if (e.getSource() == BtStart) {
 					start();
 					cardMenu.next(content);
-
 				} else if (e.getSource() == BtCharge) {
-					;
+
+				} else if (e.getSource() == btValide) {
+					validerAction();
 				}
 			}
 		};
@@ -262,6 +277,7 @@ public class InterfaceGraphique implements Vue, Controle {
 		r3.addActionListener(listener);
 		BtStart.addActionListener(listener);
 		BtCharge.addActionListener(listener);
+		btValide.addActionListener(listener);
 
 		// ajout des éléments au panelMenu
 		menuConfigue.add(r1);
@@ -269,6 +285,7 @@ public class InterfaceGraphique implements Vue, Controle {
 		menuConfigue.add(r2);
 		menuConfigue.add(ListEntite);
 		menuConfigue.add(r3);
+		menuConfigue.add(btValide);
 		menuConfigue.add(BtCharge);
 		menuConfigue.add(BtStart);
 	}
@@ -284,9 +301,9 @@ public class InterfaceGraphique implements Vue, Controle {
 	public void dessineMap(Map map) {
 		panelMap.removeAll();
 
-			panelCarte = new MyJMap(map, panelMap.getHeight(),
-					panelMap.getWidth());
-			panelMap.add(panelCarte);
+		panelCarte = new MyJMap(this, map, panelMap.getHeight(),
+				panelMap.getWidth());
+		panelMap.add(panelCarte);
 
 		fenetre.repaint();
 		panelMap.repaint();
@@ -303,17 +320,59 @@ public class InterfaceGraphique implements Vue, Controle {
 		JNbTour.setText("" + NbTour);
 	}
 
-	private void start()
-	{
+	private void start() {
 		btPauseStart.setText("Pause");
 		etat = true;
 		controleur.setPlay(etat);
+		selectedCord = null;
 	}
-	
-	private void pause()
-	{
+
+	private void pause() {
 		btPauseStart.setText("Start");
 		etat = false;
 		controleur.setPlay(etat);
+	}
+
+	protected void validerAction() {
+		if (selectedCord != null) {
+			switch (action) {
+			case 0: // modification de l'environnement
+			{
+				int choice = JOptionPane.showConfirmDialog(fenetre,
+						"Etes vous sur de modifier l'environnement de la case "
+								+ selectedCord, "Modification d'environnement",
+						JOptionPane.WARNING_MESSAGE,
+						JOptionPane.OK_CANCEL_OPTION);
+				System.out.println("choice "+choice);
+				if (choice == 0) {
+					EnumEnvironnement env = EnumEnvironnement
+							.valueOf((String) ListEnv.getSelectedItem());
+					controleur.modiferEnv(selectedCord, env);
+				}
+				break;
+			}
+			case 1: // ajout d'entité
+			{
+				break;
+			}
+			case 2: // suppression d'entité
+			{
+				break;
+			}
+			default:
+				JOptionPane.showMessageDialog(fenetre,
+						"Veuillez selctionnez une action", "Erreur",
+						JOptionPane.ERROR_MESSAGE);
+			}
+		} else {
+			JOptionPane.showMessageDialog(fenetre,
+					"Veuillez selctionnez une case", "Erreur",
+					JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	public void selectCase(Coordonnee cord) {
+		pause();
+		selectedCord = cord;
 	}
 }

@@ -25,10 +25,12 @@ public class MyJMap extends JPanel {
 	private int bordureLegende = 20;
 	private int tailleMenu = 200;
 	private List<Entite> lisEnt;
+	private InterfaceGraphique controleur;
 
-	public MyJMap(Map map, int height, int width) {
+	public MyJMap(InterfaceGraphique inter, Map map, int height, int width) {
 
 		super();
+		controleur = inter;
 		setSize((int) (height * 1.10), (int) ((width - tailleMenu) * 1.1));
 		setLocation(tailleMenu, 0);
 
@@ -48,6 +50,7 @@ public class MyJMap extends JPanel {
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				Coordonnee cord = MapToCord(e.getX(), e.getY());
+				controleur.selectCase(cord);
 				System.out.printf("\n mousse presed:  x: %d , y: %d \n",
 						cord.getX(), cord.getY());
 			}

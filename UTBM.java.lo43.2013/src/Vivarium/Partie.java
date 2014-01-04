@@ -11,13 +11,17 @@ public class Partie {
 	private int tempsDeJeux;
 	private int score;
 	private Map map;
-
+	private static Coordonnee cord;
+	private static EnumEnvironnement env;
+	
+	private static boolean modEnv;
 	private static boolean play;
 	
 	public Partie(Map map) {
 		this.map = map;
 		score = 0;
 		play = false;
+		modEnv =false;
 	}
 	
 	public void run()
@@ -48,12 +52,17 @@ public class Partie {
 					tempsDeJeux++; //on incrémente le nombre de tour jouer
 					vue.setNbTour(tempsDeJeux);
 				}
-				
+				if(modEnv)
+				{
+					map.setEnvironnement(cord, env);
+					
+					modEnv =false;
+				}
 				vue.dessineMap(map);
 
 			try {
 				new Thread();
-				Thread.sleep(100);
+				Thread.sleep(300);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -80,6 +89,12 @@ public class Partie {
 
 	public void ajouteEntite() {
 
+	}
+
+	public void modiferEnv(Coordonnee coordonne, EnumEnvironnement environnement) {
+		cord = coordonne;
+		env = environnement;
+		modEnv =true;
 	}
 
 }

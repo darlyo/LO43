@@ -1,5 +1,7 @@
 package Carte;
 
+import com.sun.xml.internal.bind.v2.runtime.RuntimeUtil.ToStringAdapter;
+
 public class Coordonnee {
 
 	private int x;
@@ -55,6 +57,11 @@ public Coordonnee() {
 							Math.pow((double)(nouveauPosition.x-this.x),2)+
 							Math.pow((double)(nouveauPosition.y-this.y),2)
 						);
+	}
+	
+	public String toString()
+	{
+		return "("+x+";"+y+")";
 	}
 
 }

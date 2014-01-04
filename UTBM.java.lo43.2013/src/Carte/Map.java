@@ -659,8 +659,9 @@ public class Map {
 	public Environnement getEnvironnement() {
 		return environnement;
 	}
-	public void setEnvironnement(Environnement environnement) {
-		this.environnement = environnement;
+	public void setEnvironnement(Coordonnee cord, EnumEnvironnement env) {
+		this.grilleDeJeu[cord.getX()][cord.getY()].setEnvironnement(env);
+		//this.environnement = environnement;
 	}
 }
 
