@@ -737,7 +737,7 @@ public class Map {
 	 * i == 0 permet de savoir si on a déjà récupéré les entités du fichier XML
 	 * @return la liste des entités en temps réel
 	 */
-	public List<Entite> listEntiteTempsReel(){
+	public static List<Entite> listEntiteTempsReel(){
 		if(i==0){
 			try {
 				listEntites = lireXML(fichier);
@@ -770,14 +770,9 @@ public class Map {
 	 * Main principale pour tester la map et l'interface graphique
 	 */
 	public static void main(String[] args) throws IOException {		
-		//listEntites= new ArrayList<Entite>();
 		
-		try {
-			listEntites = lireXML(fichier);
-			//ecrireXML();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
+		listEntites = listEntiteTempsReel();
 		taille = Integer.parseInt(racine.getChildText("taille"));
 		Map map = new Map(taille);
 		
