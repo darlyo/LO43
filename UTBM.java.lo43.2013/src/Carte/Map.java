@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -13,6 +14,7 @@ import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
+
 import Vivarium.Partie;
 import Entite.Entite;
 import Entite.Animaux.Chamois;
@@ -40,8 +42,10 @@ public class Map {
 	private Nourriture nourriture;
 	private Environnement environnement;
 	private static Coordonnee coordonnee;
-	public static List<Entite> listEntites;
+	public static List<Entite> listEntites = new ArrayList<Entite>();;
 	private int rayon;
+	private static String fichier = new String ("src/Carte/Map.xml");
+	private static int i = 0;
 	
 	/**
 	 * Constructeurs
@@ -50,6 +54,7 @@ public class Map {
 		System.out.println("----------------MAP--------------\n");
 		this.taille = taille;
 		grilleDeJeu = new Case[taille][taille];
+		
 		for(int j=0; j <taille; j++){
 			for(int k = 0; k<taille; k++){
 				//grilleDeJeu[j][k] = new Case();
@@ -699,7 +704,7 @@ public class Map {
 	}*/
 
 	/**
-	 * Permet d'afficher le XML sauvegarder
+	 * Permet d'afficher le XML sauvegardé
 	 */
 	static void affiche()
 	{
@@ -728,15 +733,44 @@ public class Map {
 	   catch (java.io.IOException e){}
 	}
 	
+	/**
+	 * i == 0 permet de savoir si on a déjà récupéré les entités du fichier XML
+	 * @return la liste des entités en temps réel
+	 */
+	public List<Entite> listEntiteTempsReel(){
+		if(i==0){
+			try {
+				listEntites = lireXML(fichier);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			i=1;
+		}
+		return listEntites;
+	}
 	
+	/**
+	 * Ajouter une entité à la liste d'entité de la map
+	 * @param entite
+	 */
+	public void ajoutEntite(Entite entite){
+		listEntites.add(entite);
+	}
+	
+	/**
+	 * Supprime une entité de la liste d'entité de la map
+	 * @param entite
+	 */
+	public void supprimeEntite(Entite entite){
+		listEntites.remove(entite);
+	}
 	
 	/**
 	 * Main principale pour tester la map et l'interface graphique
 	 */
-	public static void main(String[] args) throws IOException {
-		String fichier = new String ("src/Carte/Map.xml");
-		
-		listEntites= new ArrayList<Entite>();
+	public static void main(String[] args) throws IOException {		
+		//listEntites= new ArrayList<Entite>();
 		
 		try {
 			listEntites = lireXML(fichier);
