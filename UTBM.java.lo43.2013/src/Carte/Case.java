@@ -26,13 +26,17 @@ public class Case {
 		this.coordonnee.setY(y);
 	}
 
-	public Case(Coordonnee coordonnee, EnumEnvironnement environnement,
-			boolean vide) {
+	public Case(Coordonnee coordonnee, EnumEnvironnement environnement, boolean vide) {
 		this.coordonnee = coordonnee;
 		this.environnement = environnement;
 		this.vide = vide;
 	}
 
+	/**
+	 * 
+	 * @param square
+	 * @return true si la case est vide (qu'il n'y a pas d'entité dessus) et false si la case contient une entité
+	 */
 	public boolean estVide(Case square) {
 		return ((square.vide == true) ? true : false);
 	}

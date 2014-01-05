@@ -66,6 +66,7 @@ public class Map {
 		}
 	}
 	
+	
 	/**
 	 * Permet de parser le XML et de créer la map 
 	 */
@@ -202,6 +203,7 @@ public class Map {
 					System.out.println("Sexe : "+ renard.getSexe());
 					System.out.println("Coordonnée :"+ renard.getCoordonnee().getX() + " , " +renard.getCoordonnee().getY());
 				
+					//grilleDeJeu[renard.getCoordonnee().getX()][renard.getCoordonnee().getY()].setVide(false);
 					listEntites.add(renard);
 					System.out.println();
 				}
@@ -275,6 +277,7 @@ public class Map {
 					System.out.println("Sexe : "+ lapin.getSexe());
 					System.out.println("Coordonnée :"+ lapin.getCoordonnee().getX() + " , " + lapin.getCoordonnee().getY());
 					
+					//grilleDeJeu[lapin.getCoordonnee().getX()][lapin.getCoordonnee().getY()].setVide(false);
 					listEntites.add(lapin);
 					System.out.println();
 				}
@@ -347,6 +350,7 @@ public class Map {
 					System.out.println("Sexe : "+ chamois.getSexe());
 					System.out.println("Coordonnée :"+ chamois.getCoordonnee().getX() + " , " + chamois.getCoordonnee().getY());
 					
+					//grilleDeJeu[chamois.getCoordonnee().getX()][chamois.getCoordonnee().getY()].setVide(false);
 					listEntites.add(chamois);
 					System.out.println();
 				}
@@ -418,7 +422,8 @@ public class Map {
 					System.out.println("Age : "+ animal.getAge());
 					System.out.println("Sexe : "+ animal.getSexe());
 					System.out.println("Coordonnée :"+ animal.getCoordonnee().getX() + " , " + animal.getCoordonnee().getY());
-							
+					
+					//grilleDeJeu[animal.getCoordonnee().getX()][animal.getCoordonnee().getY()].setVide(false);
 					listEntites.add(animal);
 					System.out.println();
 				}
@@ -491,7 +496,8 @@ public class Map {
 					System.out.println("Age : "+ animal.getAge());
 					System.out.println("Sexe : "+ animal.getSexe());
 					System.out.println("Coordonnée :"+ animal.getCoordonnee().getX() + " , " + animal.getCoordonnee().getY());
-							
+					
+					//grilleDeJeu[animal.getCoordonnee().getX()][animal.getCoordonnee().getY()].setVide(false);
 					listEntites.add(animal);
 					System.out.println();
 				}
@@ -564,7 +570,8 @@ public class Map {
 					System.out.println("Age : "+ animal.getAge());
 					System.out.println("Sexe : "+ animal.getSexe());
 					System.out.println("Coordonnée :"+ animal.getCoordonnee().getX() + " , " + animal.getCoordonnee().getY());
-							
+					
+					//grilleDeJeu[animal.getCoordonnee().getX()][animal.getCoordonnee().getY()].setVide(false);
 					listEntites.add(animal);
 					System.out.println();
 				}
@@ -605,7 +612,8 @@ public class Map {
 					System.out.println("Quantite Now :"+ vegetal.getQuantiteNow());
 					System.out.println("Age : "+ vegetal.getAge());
 					System.out.println("Coordonnée :"+ vegetal.getCoordonnee().getX() + " , " + vegetal.getCoordonnee().getY());
-							
+					
+					//grilleDeJeu[vegetal.getCoordonnee().getX()][vegetal.getCoordonnee().getY()].setVide(false);
 					listEntites.add(vegetal);
 					System.out.println();
 				}
@@ -646,7 +654,8 @@ public class Map {
 					System.out.println("Quantite Now :"+ vegetal.getQuantiteNow());
 					System.out.println("Age : "+ vegetal.getAge());
 					System.out.println("Coordonnée :"+ vegetal.getCoordonnee().getX() + " , " + vegetal.getCoordonnee().getY());
-							
+					
+					//grilleDeJeu[vegetal.getCoordonnee().getX()][vegetal.getCoordonnee().getY()].setVide(false);
 					listEntites.add(vegetal);
 					System.out.println();
 				}
@@ -717,6 +726,7 @@ public class Map {
 	   catch (java.io.IOException e){}
 	}
 
+	
 	/**
 	 * Permet de sauvegarder la map dans un fichier XML
 	 * @param fichier
@@ -732,6 +742,7 @@ public class Map {
 	   }
 	   catch (java.io.IOException e){}
 	}
+	
 	
 	/**
 	 * i == 0 permet de savoir si on a déjà récupéré les entités du fichier XML
@@ -750,29 +761,47 @@ public class Map {
 		return listEntites;
 	}
 	
+	
 	/**
 	 * Ajouter une entité à la liste d'entité de la map
 	 * @param entite
 	 */
-	public void ajoutEntite(Entite entite){
+	public static void ajoutEntite(Entite entite){
 		listEntites.add(entite);
+		//grilleDeJeu[entite.getCoordonnee().getX()][entite.getCoordonnee().getY()].setVide(false);
 	}
+	
 	
 	/**
 	 * Supprime une entité de la liste d'entité de la map
 	 * @param entite
 	 */
-	public void supprimeEntite(Entite entite){
+	public static void supprimeEntite(Entite entite){
 		listEntites.remove(entite);
+		//grilleDeJeu[entite.getCoordonnee().getX()][entite.getCoordonnee().getY()].setVide(true);
 	}
+	
 	
 	/**
 	 * Main principale pour tester la map et l'interface graphique
 	 */
 	public static void main(String[] args) throws IOException {		
+		Entite lapin = new Lapin ();
+		lapin.setCoordonee(new Coordonnee(1,0));
 		
-		
+		//Chargement de la map
 		listEntites = listEntiteTempsReel();
+		
+		//Ajout d'une entité 
+		ajoutEntite(lapin);
+		
+		//supprimer une entité
+		//supprimeEntite(lapin);
+		
+		//Teste de la fonction perception
+		List<Entite> listePerception = new ArrayList<Entite>();
+		listePerception = perception(lapin.getCoordonnee(),1);
+		
 		taille = Integer.parseInt(racine.getChildText("taille"));
 		Map map = new Map(taille);
 		
@@ -805,11 +834,25 @@ public class Map {
 	}
 
 	//TODO à faire ! 
-	public List<Entite> perception(Coordonnee co, int rayon) {
-		List<Entite> listeEntite = new ArrayList<Entite>();
+	public static List<Entite> perception(Coordonnee co, int rayon) {
+		List<Entite> listeEntitePerception = new ArrayList<Entite>();
 		
-		return listeEntite;
-
+		for(int i = co.getX()-rayon; i <=co.getX()+rayon ; i++){
+			for(int j = co.getY() - rayon ; j <= co.getY()+rayon ; j++){
+				for(int h=0; h < listEntites.size() ; h++){
+					if(co.getX() == i && co.getY() == j){
+						//On ne prend pas en compte l'entité qui cherche au alentour
+					}else{
+						if(listEntites.get(h).getCoordonnee().getX() == i && listEntites.get(h).getCoordonnee().getY() == j){
+						listeEntitePerception.add(listEntites.get(h));
+					}
+					}
+					
+				}
+			}
+		}
+		System.out.println("\nListe d'entité avec la méthode perception : " + listeEntitePerception);
+		return listeEntitePerception;
 	}
 
 	
