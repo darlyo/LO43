@@ -50,7 +50,7 @@ public abstract class Entite {
 		return this.coordonee;
 	}
 	
-	public void setCoordonee(Coordonnee coord){
+	public void setCoordonnee(Coordonnee coord){
 		this.coordonee.setX(coord.getX());
 		this.coordonee.setY(coord.getY());
 	}
