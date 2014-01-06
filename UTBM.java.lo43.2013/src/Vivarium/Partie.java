@@ -1,7 +1,12 @@
 package Vivarium;
 
+import java.util.Iterator;
+import java.util.List;
+
 import Carte.Coordonnee;
 import Carte.Map;
+import Entite.Entite;
+import Entite.Animaux.Animal;
 import Enumeration.EnumEntite;
 import Enumeration.EnumEnvironnement;
 import GUI.InterfaceGraphique;
@@ -13,6 +18,7 @@ public class Partie {
 	private int score;
 	private Map map;
 	private boolean deletEnt;
+	private List<Entite> listEntites;
 
 	private static EnumEntite ent;
 	private static Coordonnee cord;
@@ -34,25 +40,32 @@ public class Partie {
 
 		vue.fenetre(this);
 
-		for (int i = 0; i < 20; i++)
-			map.getGrilleDeJeu()[5][i].setEnvironnement(EnumEnvironnement.eau);
-		for (int i = 0; i < 50; i++)
-			map.getGrilleDeJeu()[24][i]
-					.setEnvironnement(EnumEnvironnement.montagne);
+		listEntites = Map.listEntiteTempsReel();
 
-		map.getGrilleDeJeu()[1][1].setEnvironnement(EnumEnvironnement.montagne);
-		map.getGrilleDeJeu()[1][49]
-				.setEnvironnement(EnumEnvironnement.montagne);
-		map.getGrilleDeJeu()[49][49]
-				.setEnvironnement(EnumEnvironnement.montagne);
+		// Teste de la fonction perception
+		Map map = new Map();
 
 		vue.dessineMap(map);
+		vue.dessineEntite(Map.listEntiteTempsReel());
 
 		while (true) {
 			// si play on fait bouger les entiter en appliquer la methode live
 			if (play) {
 				tempsDeJeux++; // on incrémente le nombre de tour jouer
 				vue.setNbTour(tempsDeJeux);
+				
+				
+				listEntites = Map.listEntiteTempsReel();
+				Iterator<Entite> it = listEntites.iterator();
+				
+				for (int i =0; i< listEntites.size();i++)
+				{
+					Entite ent = listEntites.get(i);
+					System.out.println("ll : "+ent);
+					if(ent instanceof Animal)
+						ent.live(map);
+				}
+				vue.setScore(listEntites.size());
 			}
 			if (modEnv) {
 				map.setEnvironnement(cord, env);
@@ -69,6 +82,8 @@ public class Partie {
 				deletEnt = false;
 			}
 			vue.dessineMap(map);
+			vue.dessineEntite(listEntites);
+			
 
 			try {
 				new Thread();
@@ -83,7 +98,9 @@ public class Partie {
 
 	/**
 	 * Modifie l'etat de la partie en cours ou en pause
-	 * @param bool: etat désirer
+	 * 
+	 * @param bool
+	 *            : etat désirer
 	 */
 	public void setPlay(boolean bool) {
 		System.out.println("set play" + bool);

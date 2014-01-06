@@ -31,7 +31,10 @@ public abstract class Entite {
         }
         
         //methodes
-        public void delete() {}
+        public void delete() {
+        	Map.supprimeEntite(this);
+        	System.out.println("delete : "+ this);
+        }
         
         public int getValeurEnergetique() {
                 return valeurEnergetique;
@@ -53,7 +56,7 @@ public abstract class Entite {
                 return this.coordonee;
         }
         
-        public void setCoordonee(Coordonnee coord){
+        public void setCoordonnee(Coordonnee coord){
                 this.coordonee.setX(coord.getX());
                 this.coordonee.setY(coord.getY());
         }

@@ -1,6 +1,7 @@
 package Entite.Animaux;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import Carte.Coordonnee;
@@ -12,163 +13,178 @@ import Enumeration.EnumModeDeVie;
 import Enumeration.EnumSexe;
 import Enumeration.EnumStade;
 
+
 public class Chamois extends Animal implements Vegetarienable {
 	/**
 	 * @see Animaux.interface.Vegetarienable#manger(Vegetal)
 	 */
-
-	public Chamois() {
+	
+	public Chamois (){
 		super();
-		this.modeDeVie = EnumModeDeVie.terrestre;
+		this.modeDeVie=EnumModeDeVie.terrestre;	
 		this.valeurEnergetique = 50;
 		this.portee = 3;
 	}
-
-	public Chamois(int dureeVie, EnumModeDeVie modedevie, EnumSexe sexe,
-			int portee, int faim, int rayon, int fatigue, int age,
-			int valeurEnergetic, int x, int y) {
-		super(dureeVie, modedevie, sexe, portee, faim, rayon, fatigue, age,
-				valeurEnergetic, x, y);
+	
+	public Chamois(int dureeVie
+			,EnumModeDeVie modedevie
+			,EnumSexe sexe
+			,int portee
+			,int faim
+			,int rayon
+			,int fatigue
+			,int age
+			,int valeurEnergetic
+			,int x
+			,int y){	
+		super(dureeVie
+				,modedevie
+				,sexe
+				,portee
+				,faim
+				,rayon
+				,fatigue
+				,age
+				,valeurEnergetic
+				,x
+				,y);
 		this.modeDeVie = EnumModeDeVie.terrestre;
 		this.valeurEnergetique = 50;
 		this.portee = 3;
-
+		
 	}
-
-	public Chamois(int dureeVie, EnumModeDeVie modedevie, EnumSexe sexe,
-			int portee, int faim, int rayon, int fatigue, int age,
-			int valeurEnergetic, Coordonnee coordonnee) {
-		super(dureeVie, modedevie, sexe, portee, faim, rayon, fatigue, age,
-				valeurEnergetic, coordonnee);
-		this.modeDeVie = EnumModeDeVie.terrestre;
-		this.valeurEnergetique = 50; // valeurEnergetique entre 0 et 100
-		this.portee = 3; // nro max des enfants
+	
+	public Chamois(int dureeVie
+			,EnumModeDeVie modedevie
+			,EnumSexe sexe
+			,int portee
+			,int faim
+			,int rayon
+			,int fatigue
+			,int age
+			,int valeurEnergetic
+			,Coordonnee coordonnee)
+	{
+		super(dureeVie
+				,modedevie
+				,sexe
+				,portee
+				,faim
+				,rayon
+				,fatigue
+				,age
+				,valeurEnergetic
+				,coordonnee);
+		this.modeDeVie=EnumModeDeVie.terrestre;
+		this.valeurEnergetique = 50; //valeurEnergetique entre 0 et 100
+		this.portee = 3; //nro max des enfants
 	}
-
+	
 	public void manger(Vegetal vegetal) {
 		int quantiteaManger;
-		/*
-		 * On ne peut pas manger plus que la quantite disponible on va dir aussi
-		 * que les unités de faim, quantite et fatigue sont égales
-		 */
-		if (this.faim > vegetal.getQuantiteNow())
-			quantiteaManger = vegetal.getQuantiteNow();
+		/* On ne peut pas manger plus que la quantite disponible
+		 * on va dir aussi que les unitÃ©s 
+		 * de faim, quantite et fatigue sont Ã©gales*/
+		if (this.getFaim() > vegetal.getQuantiteNow())
+			 quantiteaManger= vegetal.getQuantiteNow();
 		else
-			quantiteaManger = this.faim;
-
+			quantiteaManger= this.getFaim();
+		
 		/* Reduce la quantite vegetal */
-		vegetal.setQuantiteNow(vegetal.getQuantiteNow() - quantiteaManger);
-
-		/* Après manger il a mois faim */
-		this.faim = this.faim - quantiteaManger;
-
-		/* Apres manger il a plus fatigue */
-		this.fatigue = this.fatigue + quantiteaManger;
-
+		vegetal.setQuantiteNow(vegetal.getQuantiteNow()-quantiteaManger);
+		
+		/* AprÃ¨s manger il a mois faim */
+		this.setFaim(this.getFaim() -quantiteaManger);
+		
+		/*Apres manger il a plus fatigue*/
+		this.setFatigue(this.getFatigue() + quantiteaManger);
+		
 	}
-
+	
 	@Override
-	protected void deplacement(Coordonnee nouveauPosition) {
-		// Distance entre deux points
-		double distance = this.coordonee.distance(nouveauPosition);
-		// Augmente la fatigue
-		this.fatigue = (int) (this.fatigue + distance);
-		this.coordonee = nouveauPosition;
-
-	}
-
-	@Override
-	protected List<Animal> reproduction(Coordonnee coord) // les enfants ont les
-															// meme coordonnees
+	protected List<Animal> reproduction() //les enfants ont le meme coordonne que les parents
 	{
-		// Nombre des enfants
-		int nombreEnfants = (int) (Math.random() * (portee));
-		// Créer des enfans
-		List<Animal> enfants = new ArrayList<Animal>();
-		for (int i = 0; i < nombreEnfants; i++) {
+		//Nombre des enfants
+		int nombreEnfants = (int) (Math.random()*(this.getPortee()));
+		//CrÃ©er des enfans
+		List<Animal> enfants = new ArrayList <Animal>();
+		for (int i= 0; i<nombreEnfants;i++){
 			enfants.add(new Chamois());
-			enfants.get(i).setCoordonee(coord);
+			enfants.get(i).setCoordonnee(this.getCoordonnee());
 		}
-		return enfants;
+		return enfants;				
 	}
 
 	@Override
 	public void live(Map map) {
-		// recuperer tout les entites prochaines (animaux ou vegetal)
-		List<Entite> entitesProchaines = this.perception(this.coordonee,
-				this.rayon, map);
-		Coordonnee nouveauPosition = new Coordonnee();
-		// L'animal a faim quand faim > = 80;
-		if (this.faim >= 80) {
-			// recherche le repas;
-			for (int i = 0; i < entitesProchaines.size(); i++) {
-				// si on veut manger un Vegetal
-				if (entitesProchaines.get(i) instanceof Vegetal) {
-					// recupere les coordonnee du Vegetal
-					nouveauPosition.setX(entitesProchaines.get(i)
-							.getCoordonnee().getX());
-					nouveauPosition.setY(entitesProchaines.get(i)
-							.getCoordonnee().getY());
-
-					this.deplacement(nouveauPosition);// l'animal se deplace
-														// jusqua le vegetal
-
-					this.manger((Vegetal) entitesProchaines.get(i));// manger le
-																	// vegetaux
-
-				}
-				// il a faim mais il n'y a pas de repas => mouvement a l'hazard
-				else {
-					nouveauPosition.setX((int) Math.random() * 5);
-					nouveauPosition.setY((int) Math.random() * 5);
-
-				}
-			}
-		} else // il nést pas faim
-		{
-			if (this.fatigue > 80)// A-t-il fatigue?
-			{
-				this.reposer(this.fatigue);// comme ca, fatigue arrive a 0 après
-											// de reposer
-			} else // s'el n'a pas faim et il n'est pas fatigue => il peut se
-					// reproduire?
-			if (this.stade == EnumStade.adulte) {
-				for (int i = 0; i < entitesProchaines.size(); i++) {
-					// recherche d'autre animaux
-					if (entitesProchaines.get(i) instanceof Animal) // il faut
-																	// chercher
-																	// le meme
-																	// classe
-																	// d'animaux
+		//recuperer tout les entites prochaines (animaux ou vegetal)
+				List<Entite> entitesProchaines = this.perception(this.getCoordonnee(), this.getRayon(), map);
+				Coordonnee nouveauPosition = new Coordonnee();
+				if (this.getFaim() >= 80 ) //L'animal a faim quand faim > = 80;
+				{		
+					//recherche le rÃ©pas;
+					for (int i = 0; i < entitesProchaines.size();i++)
 					{
-						// recupere les coordonnee d'animaux
-						nouveauPosition.setX(entitesProchaines.get(i)
-								.getCoordonnee().getX());
-						nouveauPosition.setY(entitesProchaines.get(i)
-								.getCoordonnee().getY());
-
-						this.deplacement(nouveauPosition);// se déplacer
-															// jusqu'au l'autre
-															// animaux
-
-						List<Animal> enfants = this
-								.reproduction(this.coordonee);// se reproduire
-						/*
-						 * cet liste des enfants il faut l'ajouter dans la liste
-						 * des animaux
-						 */
+						//comme il vegetarien, on cherche un vegetal
+						if(entitesProchaines.get(i) instanceof Vegetal)
+						{
+							//recupere les coordonnee du Vegetal
+							nouveauPosition = entitesProchaines.get(i).getCoordonnee();
+							if (nouveauPosition != this.getCoordonnee())
+								this.deplacement(nouveauPosition);//l'animal se deplace en direction au vegetal
+							else //la norriture et l'animal se trouvent dans le mÃªme case
+								this.manger((Vegetal) entitesProchaines.get(i));//manger le vegetaux
+						}
+						else //il a faim mais il n'y a pas de repas => mouvement a l'hazard
+							{
+								this.deplacementHasard();//Desplazamiento al hasard
+							}
 					}
-
 				}
-			}
-			/*
-			 * Il n'ai pas faim, il n'est pas fatigué, et il ne peux pas se
-			 * reproduire => movement a l'hazard
-			 */
-			else {
-				nouveauPosition.setX((int) Math.random() * 5);
-				nouveauPosition.setY((int) Math.random() * 5);
-			}
-		}
-	}
+				else //il n'a pas faim 
+					{
+						if (this.getFatigue() > 50) // A-t-il fatigue?
+						{
+							this.reposer(this.getFatigue());//comme ca, fatigue arrive Ã  0 aprÃ¨s de reposer
+						}
+						else //s'el n'a pas faim et il n'est pas fatigue => il peut se reproduire?
+							if (this.getStade() != EnumStade.jeune) //si l'animal est jeune il ne peut pas se reprodruire
+							{
+								for (int i = 0; i < entitesProchaines.size(); i++)
+								{
+									//recherche d'autre animaux, il faut chercher le meme sous classe d'animaux
+									if (entitesProchaines.get(i) instanceof Chamois)						
+									{
+										Chamois couple = (Chamois) entitesProchaines.get(i);
+										if (couple.getSexe() != this.getSexe() && couple.getStade()!= EnumStade.jeune)
+										{
+											//recupere les coordonnee d'animal
+											nouveauPosition = couple.getCoordonnee();
+											if (this.getCoordonnee() != nouveauPosition)
+											{
+												this.deplacement(nouveauPosition);//se dÃ©placer jusqu'au l'autre animaux
+											}
+											else 
+											{
+											List<Animal> enfants = this.reproduction();// se reproduire
+											//cet liste des enfants il faut l'ajouter dans la liste des animaux 
+											Iterator<Animal> it = enfants.iterator();
+											while (it.hasNext())
+											{
+												Entite entite = (Entite) it.next();
+												Map.ajoutEntite(entite);
+											}
+											}
+										}
+									}
+								}
+							}	 
+							else // Il n'ai pas faim, il n'est pas fatiguÃ©, et il ne peux pas se reproduire => movement a l'hazard
+								this.deplacementHasard();
+							
+					}
+					this.grandir();
+					if (this.getAge() > this.getDureeVie()) 
+						this.delete();
+				}
 }

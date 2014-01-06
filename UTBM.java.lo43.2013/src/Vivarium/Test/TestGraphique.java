@@ -14,7 +14,7 @@ public class TestGraphique {
 	 */
 	public static void main(String[] args) {
 
-		Map map = new Map(50);
+		Map map = new Map();
 		Partie partie = new Partie(map);
 		partie.run();
 	}

@@ -29,4 +29,6 @@ public interface Vue {
 	
 	public abstract void setNbTour(int tour);
 
+	public abstract void setScore(int size);
+
 }

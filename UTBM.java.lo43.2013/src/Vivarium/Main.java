@@ -1,15 +1,16 @@
 package Vivarium;
 
+import Carte.Map;
+
 public class Main {
 
 	public static final String NAME = "Small World";
 
-	public void newPartie() {
+	public static void main(String[] args) {
 
-	}
-
-	public void afficher() {
-
+		Map map = new Map();
+		Partie partie = new Partie(map);
+		partie.run();
 	}
 
 }

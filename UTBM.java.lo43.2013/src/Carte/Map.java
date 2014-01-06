@@ -7,15 +7,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
-import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
-import Vivarium.Partie;
 import Entite.Entite;
 import Entite.Animaux.Chamois;
 import Entite.Animaux.Lapin;
@@ -31,12 +28,13 @@ import Enumeration.EnumSexe;
 import Enumeration.EnumStade;
 import GUI.InterfaceGraphique;
 import GUI.Vue;
+import Vivarium.Partie;
 
 public class Map {
 	private static Document document;
 	private static Document documentSauv;
 	//private static Element racineSauv;
-	private static Element racine;
+	public static Element racine;
 	private static int taille;
 	protected static Case [][] grilleDeJeu;
 	private Nourriture nourriture;
@@ -50,9 +48,17 @@ public class Map {
 	/**
 	 * Constructeurs
 	 */
-	public Map(int taille){
+	public Map(){
 		System.out.println("----------------MAP--------------\n");
-		this.taille = taille;
+		
+		try {
+			lireXML(fichier);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		this.taille = Integer.parseInt(Map.racine.getChildText("taille"));
 		grilleDeJeu = new Case[taille][taille];
 		
 		for(int j=0; j <taille; j++){
@@ -187,7 +193,7 @@ public class Map {
 					}
 					int coordX = Integer.parseInt(ren.getAttributeValue("coordX"));
 					int coordY = Integer.parseInt(ren.getAttributeValue("coordY"));
-					renard.setCoordonee(new Coordonnee(coordX,coordY));
+					renard.setCoordonnee(new Coordonnee(coordX,coordY));
 					
 					
 					//Affichage des éléments
@@ -262,7 +268,7 @@ public class Map {
 					}else{
 						lapin.setSexe(EnumSexe.male);
 					}
-					lapin.setCoordonee(new Coordonnee(Integer.parseInt(lap.getAttributeValue("coordX")),Integer.parseInt(lap.getAttributeValue("coordY"))));
+					lapin.setCoordonnee(new Coordonnee(Integer.parseInt(lap.getAttributeValue("coordX")),Integer.parseInt(lap.getAttributeValue("coordY"))));
 					
 					//Affichage des éléments
 					System.out.println("Faim : "+lapin.getFaim());
@@ -335,7 +341,7 @@ public class Map {
 					}else{
 						chamois.setSexe(EnumSexe.male);
 					}
-					chamois.setCoordonee(new Coordonnee(Integer.parseInt(ch.getAttributeValue("coordX")),Integer.parseInt(ch.getAttributeValue("coordY"))));
+					chamois.setCoordonnee(new Coordonnee(Integer.parseInt(ch.getAttributeValue("coordX")),Integer.parseInt(ch.getAttributeValue("coordY"))));
 					
 					//Affichage des éléments
 					System.out.println("Faim : "+chamois.getFaim());
@@ -408,7 +414,7 @@ public class Map {
 					}else{
 						animal.setSexe(EnumSexe.male);
 					}
-					animal.setCoordonee(new Coordonnee(Integer.parseInt(ani.getAttributeValue("coordX")),Integer.parseInt(ani.getAttributeValue("coordY"))));
+					animal.setCoordonnee(new Coordonnee(Integer.parseInt(ani.getAttributeValue("coordX")),Integer.parseInt(ani.getAttributeValue("coordY"))));
 						
 					//Affichage des éléments
 					System.out.println("Faim : "+animal.getFaim());
@@ -482,7 +488,7 @@ public class Map {
 					}else{
 						animal.setSexe(EnumSexe.male);
 					}
-					animal.setCoordonee(new Coordonnee(Integer.parseInt(ani.getAttributeValue("coordX")),Integer.parseInt(ani.getAttributeValue("coordY"))));
+					animal.setCoordonnee(new Coordonnee(Integer.parseInt(ani.getAttributeValue("coordX")),Integer.parseInt(ani.getAttributeValue("coordY"))));
 						
 					//Affichage des éléments
 					System.out.println("Faim : "+animal.getFaim());
@@ -556,7 +562,7 @@ public class Map {
 					}else{
 						animal.setSexe(EnumSexe.male);
 					}
-					animal.setCoordonee(new Coordonnee(Integer.parseInt(ani.getAttributeValue("coordX")),Integer.parseInt(ani.getAttributeValue("coordY"))));
+					animal.setCoordonnee(new Coordonnee(Integer.parseInt(ani.getAttributeValue("coordX")),Integer.parseInt(ani.getAttributeValue("coordY"))));
 						
 					//Affichage des éléments
 					System.out.println("Faim : "+animal.getFaim());
@@ -603,7 +609,7 @@ public class Map {
 					vegetal.setValeurEnergetique(valeurEnergetique);
 				
 					vegetal.setAge(Integer.parseInt(veg.getAttributeValue("age")));
-					vegetal.setCoordonee(new Coordonnee(Integer.parseInt(veg.getAttributeValue("coordX")),Integer.parseInt(veg.getAttributeValue("coordY"))));
+					vegetal.setCoordonnee(new Coordonnee(Integer.parseInt(veg.getAttributeValue("coordX")),Integer.parseInt(veg.getAttributeValue("coordY"))));
 						
 					//Affichage des éléments
 					System.out.println("Cycle : "+vegetal.getCycle());
@@ -645,7 +651,7 @@ public class Map {
 					vegetal.setValeurEnergetique(valeurEnergetique);
 				
 					vegetal.setAge(Integer.parseInt(veg.getAttributeValue("age")));
-					vegetal.setCoordonee(new Coordonnee(Integer.parseInt(veg.getAttributeValue("coordX")),Integer.parseInt(veg.getAttributeValue("coordY"))));
+					vegetal.setCoordonnee(new Coordonnee(Integer.parseInt(veg.getAttributeValue("coordX")),Integer.parseInt(veg.getAttributeValue("coordY"))));
 						
 					//Affichage des éléments
 					System.out.println("Cycle : "+vegetal.getCycle());
@@ -787,7 +793,7 @@ public class Map {
 	 */
 	public static void main(String[] args) throws IOException {		
 		Entite lapin = new Lapin ();
-		lapin.setCoordonee(new Coordonnee(1,0));
+		lapin.setCoordonnee(new Coordonnee(1,0));
 		
 		//Chargement de la map
 		listEntites = listEntiteTempsReel();
@@ -799,11 +805,13 @@ public class Map {
 		//supprimeEntite(lapin);
 		
 		//Teste de la fonction perception
+		taille = Integer.parseInt(racine.getChildText("taille"));
+		Map map = new Map();
+		
 		List<Entite> listePerception = new ArrayList<Entite>();
 		listePerception = perception(lapin.getCoordonnee(),1);
 		
-		taille = Integer.parseInt(racine.getChildText("taille"));
-		Map map = new Map(taille);
+		
 		
 		Vue vue = new InterfaceGraphique();
 		vue.fenetre(new Partie(map));
@@ -826,9 +834,9 @@ public class Map {
 			while(it.hasNext())
 			{
 				Entite ent = it.next();
-				Coordonnee cord = ent.getCoordonnee();
-				cord.setCoordonnee((cord.getX()+1)%5, (cord.getY()+1)%5);
-				//ent.live(map);
+				//Coordonnee cord = ent.getCoordonnee();
+				//cord.setCoordonnee((cord.getX()+1)%10, (cord.getY()+1)%5);
+				ent.live(map);
 			}
 		}
 	}
@@ -859,7 +867,8 @@ public class Map {
 	/**
 	 * Getters et setters
 	 */
-	public int getTaille() {
+	public static int getTaille() {
+		taille = Integer.parseInt(Map.racine.getChildText("taille"));
 		return taille;
 	}
 	public Case[][] getGrilleDeJeu() {

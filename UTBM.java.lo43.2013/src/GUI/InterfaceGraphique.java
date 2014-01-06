@@ -320,6 +320,8 @@ public class InterfaceGraphique implements Vue, Controle {
 		NbTour = tour;
 		JNbTour.setText("" + NbTour);
 	}
+	
+	
 
 	private void start() {
 		btPauseStart.setText("Pause");
@@ -384,5 +386,10 @@ public class InterfaceGraphique implements Vue, Controle {
 	public void selectCase(Coordonnee cord) {
 		pause();
 		selectedCord = cord;
+	}
+
+	@Override
+	public void setScore(int size) {
+		JScore.setText("" + size*10);
 	}
 }
