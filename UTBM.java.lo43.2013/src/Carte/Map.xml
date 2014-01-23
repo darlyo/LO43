@@ -11,7 +11,7 @@
 			<renard id="1" coordX="0" coordY="0" age="1" faim="0" fatigue="0" stade="jeune" sexe="male"></renard>
 			<renard id="2" coordX="2" coordY="0" age="1" faim="0" fatigue="0" stade="jeune" sexe="femelle"></renard>
 		</renards>
-		<lapins portee="3" rayon="5" valeurEnergetique="5" dureeVie="100" modeDeVie="terrestre">
+		<lapins portee="2" rayon="5" valeurEnergetique="5" dureeVie="80" modeDeVie="terrestre">
 			<lapin id="1" coordX="0" coordY="1" age="50" faim="0" fatigue="0" stade="adulte" sexe="femelle"></lapin>
 			<lapin id="2" coordX="0" coordY="1" age="0" faim="0" fatigue="0" stade="adulte" sexe="femelle"></lapin>
 			<lapin id="3" coordX="0" coordY="1" age="0" faim="0" fatigue="0" stade="adulte" sexe="femelle"></lapin>

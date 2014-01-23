@@ -48,6 +48,7 @@ public class InterfaceGraphique implements Vue, Controle {
 	private int action = -1;
 	private JComboBox<String> ListEnv;
 	private JComboBox<String> ListEntite;
+	private JComboBox<String> ListEntite1;
 
 	private static Partie controleur;
 
@@ -232,13 +233,13 @@ public class InterfaceGraphique implements Vue, Controle {
 		}
 		ListEnv.setEnabled(false);
 
-		ListEntite = new JComboBox<String>();
-		ListEntite.setPreferredSize(new Dimension(100, 30));
+		ListEntite1 = new JComboBox<String>();
+		ListEntite1.setPreferredSize(new Dimension(100, 30));
 		EnumEntite[] entite = EnumEntite.values();
 		for (int i = 0; i < entite.length; i++) {
-			ListEntite.addItem(entite[i].name());
+			ListEntite1.addItem(entite[i].name());
 		}
-		ListEntite.setEnabled(false);
+		ListEntite1.setEnabled(false);
 
 		// définition des bouttons
 		final JButton BtStart = new JButton("Start");
@@ -252,19 +253,20 @@ public class InterfaceGraphique implements Vue, Controle {
 			public void actionPerformed(ActionEvent e) {
 				if (e.getSource() == r1) {
 					ListEnv.setEnabled(true);
-					ListEntite.setEnabled(false);
+					ListEntite1.setEnabled(false);
 					action = 0;
 				} else if (e.getSource() == r2) {
 					ListEnv.setEnabled(false);
-					ListEntite.setEnabled(true);
+					ListEntite1.setEnabled(true);
 					action = 1;
 				} else if (e.getSource() == r3) {
 					ListEnv.setEnabled(false);
-					ListEntite.setEnabled(false);
+					ListEntite1.setEnabled(false);
 					action = 2;
 				} else if (e.getSource() == BtStart) {
 					start();
 					cardMenu.next(content);
+					ListEntite1 = null;
 				} else if (e.getSource() == BtCharge) {
 
 				} else if (e.getSource() == btValide) {
@@ -284,7 +286,7 @@ public class InterfaceGraphique implements Vue, Controle {
 		menuConfigue.add(r1);
 		menuConfigue.add(ListEnv);
 		menuConfigue.add(r2);
-		menuConfigue.add(ListEntite);
+		menuConfigue.add(ListEntite1);
 		menuConfigue.add(r3);
 		menuConfigue.add(btValide);
 		menuConfigue.add(BtCharge);
@@ -320,8 +322,6 @@ public class InterfaceGraphique implements Vue, Controle {
 		NbTour = tour;
 		JNbTour.setText("" + NbTour);
 	}
-	
-	
 
 	private void start() {
 		btPauseStart.setText("Pause");
@@ -361,9 +361,15 @@ public class InterfaceGraphique implements Vue, Controle {
 						JOptionPane.WARNING_MESSAGE,
 						JOptionPane.OK_CANCEL_OPTION);
 				if (choice == 0) {
-					EnumEntite entite = EnumEntite
-							.valueOf((String) ListEntite.getSelectedItem());
-					controleur.ajouteEntite(selectedCord, entite);
+					if (ListEntite1 == null) {
+						EnumEntite entite = EnumEntite
+								.valueOf((String) ListEntite.getSelectedItem());
+						controleur.ajouteEntite(selectedCord, entite);
+					} else {
+						EnumEntite entite = EnumEntite
+								.valueOf((String) ListEntite.getSelectedItem());
+						controleur.ajouteEntite(selectedCord, entite);
+					}
 				}
 				break;
 			}
@@ -390,6 +396,6 @@ public class InterfaceGraphique implements Vue, Controle {
 
 	@Override
 	public void setScore(int size) {
-		JScore.setText("" + size*10);
+		JScore.setText("" + size * 10);
 	}
 }

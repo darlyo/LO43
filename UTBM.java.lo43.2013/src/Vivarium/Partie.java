@@ -7,6 +7,14 @@ import Carte.Coordonnee;
 import Carte.Map;
 import Entite.Entite;
 import Entite.Animaux.Animal;
+import Entite.Animaux.Chamois;
+import Entite.Animaux.Lapin;
+import Entite.Animaux.Loup;
+import Entite.Animaux.Mouton;
+import Entite.Animaux.Renard;
+import Entite.Animaux.Sanglier;
+import Entite.Vegetaux.Arbre;
+import Entite.Vegetaux.Herbe;
 import Enumeration.EnumEntite;
 import Enumeration.EnumEnvironnement;
 import GUI.InterfaceGraphique;
@@ -20,7 +28,7 @@ public class Partie {
 	private boolean deletEnt;
 	private List<Entite> listEntites;
 
-	private static EnumEntite ent;
+	private static Entite ent;
 	private static Coordonnee cord;
 	private static EnumEnvironnement env;
 
@@ -73,7 +81,7 @@ public class Partie {
 			}
 			if (addEnt) {
 				// ajout de lentité a la liste d'entité sur cord
-
+				Map.ajoutEntite(ent);
 				addEnt = false;
 			}
 			if (deletEnt) {
@@ -121,7 +129,27 @@ public class Partie {
 
 		addEnt = true;
 		cord = selectedCord;
-		ent = entite;
+		switch(entite)
+		{
+		case Lapin:
+			ent = new Lapin();
+		case Loup:
+			ent= new Loup();
+		case Chamois: 
+			ent = new Chamois();
+		case Renard: 
+			ent = new Renard();
+		case Sanglier:
+			ent = new Sanglier();
+		case Mouton:
+			ent = new Mouton();
+		case Arbre:
+			ent = new Arbre();
+		case Herbe: 
+			ent = new Herbe();
+		default:
+			ent.setCoordonnee(selectedCord);
+		}
 		return 1;
 	}
 
